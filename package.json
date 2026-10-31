@@ -1,0 +1,15 @@
+{
+  "name": "project-collaboration-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "An evidence-linked project workspace — interactive product prototype R1",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "node tests/domain.test.js",
+    "check": "node --check src/app.js && node --check src/domain.js && npm test && npm run build",
+    "preview": "node scripts/dev.mjs --dist"
+  }
+}

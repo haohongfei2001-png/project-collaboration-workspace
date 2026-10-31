@@ -1,0 +1,91 @@
+{
+  "recordedAt": "2026-10-31T13:40:14.968Z",
+  "method": "Visible browser actions and DOM observations through CUA; no direct application-state injection",
+  "desktop": {
+    "clientHeight": 936,
+    "clientWidth": 1363,
+    "scrollWidth": 1363
+  },
+  "completedFixtureTaskChecks": [
+    {
+      "task": "FB-03",
+      "result": "已验收",
+      "row": "FB-03\n反馈工作台交互方案\n已验收\n言\n沈言\n10月31日"
+    },
+    {
+      "task": "FB-04",
+      "result": "已验收",
+      "row": "FB-04\n反馈与回应 API\n已验收\n序\n陈序\n11月2日"
+    },
+    {
+      "task": "FB-05",
+      "result": "已验收",
+      "row": "FB-05\n前端反馈收件箱\n已验收\n屿\n周屿\n11月3日"
+    },
+    {
+      "task": "FB-06",
+      "result": "已验收",
+      "row": "FB-06\n成员与权限校验\n已验收\n序\n陈序\n11月3日"
+    },
+    {
+      "task": "FB-07",
+      "result": "已验收",
+      "row": "FB-07\n反馈回应时间线\n已验收\n屿\n周屿\n11月4日"
+    },
+    {
+      "task": "FB-08",
+      "result": "已验收",
+      "row": "FB-08\n编写交付验收用例\n已验收\n宁\n许宁\n11月2日"
+    },
+    {
+      "task": "FB-09",
+      "result": "已验收",
+      "row": "FB-09\n端到端回归验收\n已验收\n宁\n许宁\n11月5日"
+    },
+    {
+      "task": "FB-10",
+      "result": "已验收",
+      "row": "FB-10\n试点交付与交接\n已验收\n澈\n林澈\n11月6日"
+    }
+  ],
+  "standalone": {
+    "externalScripts": 0,
+    "externalStyles": 0,
+    "inlineScripts": 1,
+    "resetAndSearchPassed": true,
+    "escapeRestoredFocus": true,
+    "modalTabCyclePassed": true
+  },
+  "applicationLogsInLast500": [],
+  "excludedLogs": "chrome-extension:// metadata errors were not application code errors",
+  "responsiveObserved": [
+    {
+      "width": 390,
+      "height": 844,
+      "htmlScrollWidth": 390,
+      "flows": [
+        "navigation drawer",
+        "task create with assignee and resource",
+        "full-screen task",
+        "task-scoped AI"
+      ]
+    },
+    {
+      "width": 768,
+      "height": 1024,
+      "htmlScrollWidth": 768,
+      "mainResourceClientWidth": 580,
+      "mainResourceScrollWidth": 580
+    },
+    {
+      "width": 1280,
+      "height": 900,
+      "htmlScrollWidth": 1280
+    }
+  ],
+  "limits": [
+    "Chromium cloud browser only",
+    "iframe widths do not simulate touch, virtual keyboard or actual mobile device",
+    "standalone loaded over local HTTP; file URL storage differs by browser"
+  ]
+}

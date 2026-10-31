@@ -1,0 +1,35 @@
+name: Prototype validation
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [design/prototype-r1-20261031]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: prototype-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  prototype:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts
+      - run: npm run check
+      - uses: actions/upload-artifact@v6
+        with:
+          name: project-workspace-r1
+          path: dist/
+          if-no-files-found: error
+          retention-days: 14
