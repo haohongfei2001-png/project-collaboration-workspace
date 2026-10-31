@@ -29,7 +29,7 @@ jobs:
       - run: npm run check
       - uses: actions/upload-artifact@v6
         with:
-          name: project-workspace-personal-v1
+          name: project-workspace-watch-v1
           path: dist/
           if-no-files-found: error
           retention-days: 14

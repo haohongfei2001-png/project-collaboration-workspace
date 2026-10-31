@@ -1,10 +1,12 @@
 import { mkdir, rm, readFile, writeFile, copyFile } from 'node:fs/promises';
 import { createHash } from 'node:crypto';
 import { Script } from 'node:vm';
+import { composeWatchData } from './compose-watch-data.mjs';
 
+await composeWatchData();
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist/src', { recursive: true });
-const paths=['index.html','legacy.html','src/personal.js','src/personal.css','src/personal-domain.js','src/github-sync.js','src/github-snapshot.js','src/app.js','src/styles.css','src/domain.js'];
+const paths=['index.html','personal-v1.html','legacy.html','src/watch.js','src/watch.css','src/watch-domain.js','src/watch-sync.js','src/watch-data.js','src/personal.js','src/personal.css','src/personal-domain.js','src/github-sync.js','src/github-snapshot.js','src/app.js','src/styles.css','src/domain.js'];
 for (const path of paths) await copyFile(path, `dist/${path}`);
 async function standalone({htmlPath,cssPath,entry,sources,name}) {
   const [html,css,...modules]=await Promise.all([htmlPath,cssPath,...sources].map(p=>readFile(p,'utf8')));
@@ -15,8 +17,9 @@ async function standalone({htmlPath,cssPath,entry,sources,name}) {
   await writeFile(`dist/${name}.html`,document);
   return {file:name+'.html',bytes:Buffer.byteLength(document),sha256:createHash('sha256').update(document).digest('hex')};
 }
-const personal=await standalone({htmlPath:'index.html',cssPath:'src/personal.css',entry:'src/personal.js',sources:['src/personal-domain.js','src/github-sync.js','src/github-snapshot.js','src/personal.js'],name:'Project-Workspace-Personal-V1'});
+const watch=await standalone({htmlPath:'index.html',cssPath:'src/watch.css',entry:'src/watch.js',sources:['src/watch-domain.js','src/watch-sync.js','src/watch-data.js','src/watch.js'],name:'Project-Workspace-Watch-V1'});
+const personal=await standalone({htmlPath:'personal-v1.html',cssPath:'src/personal.css',entry:'src/personal.js',sources:['src/personal-domain.js','src/github-sync.js','src/github-snapshot.js','src/personal.js'],name:'Project-Workspace-Personal-V1'});
 const legacy=await standalone({htmlPath:'legacy.html',cssPath:'src/styles.css',entry:'src/app.js',sources:['src/domain.js','src/app.js'],name:'Project-Workspace-R1'});
-const manifest={version:'0.2.0',runtimeDependencies:0,personal,legacy,network:'Optional public GitHub GET requests only; app and notes work without network.'};
+const manifest={version:'0.3.0',runtimeDependencies:0,watch,personal,legacy,network:'Optional public GitHub GET requests only; reviewed project evidence, notes and decisions remain available offline.'};
 await writeFile('dist/build-manifest.json',JSON.stringify(manifest,null,2)+'\n');
 console.log(JSON.stringify(manifest,null,2));
