@@ -1,0 +1,379 @@
+{
+  "format": "project-workspace-personal-v1",
+  "exportedAt": "2026-10-31T15:16:53.184Z",
+  "state": {
+    "version": 2,
+    "activeProjectId": "project-1793459029760-0xmpa9iv9tsl",
+    "projects": [
+      {
+        "id": "workspace",
+        "title": "项目工作台",
+        "goal": "打开就知道产品做到哪、我该做什么。",
+        "repo": "haohongfei2001-png/project-collaboration-workspace",
+        "features": [
+          {
+            "id": "project-work",
+            "title": "安排下一步",
+            "description": "把想做的功能和下一步放在同一个地方。",
+            "icon": "grid",
+            "prNumbers": [
+              1
+            ],
+            "criteria": [
+              "创建一个自己的项目",
+              "加入功能并保存下一步"
+            ],
+            "inScope": true,
+            "manualStatus": "planned",
+            "verification": null
+          },
+          {
+            "id": "sources",
+            "title": "保存想法与资料",
+            "description": "想法和参考资料随项目保存，需要时随手找到。",
+            "icon": "folder",
+            "prNumbers": [
+              1
+            ],
+            "criteria": [
+              "保存一条资料链接",
+              "重新打开仍能找到"
+            ],
+            "inScope": true,
+            "manualStatus": "planned",
+            "verification": null
+          },
+          {
+            "id": "understanding",
+            "title": "看清项目状态",
+            "description": "看懂现在能做什么、还差什么，以及原因。",
+            "icon": "spark",
+            "prNumbers": [
+              1
+            ],
+            "criteria": [
+              "知道当前能做什么",
+              "找到一个明确的下一步"
+            ],
+            "inScope": true,
+            "manualStatus": "planned",
+            "verification": null
+          },
+          {
+            "id": "github",
+            "title": "跟进开发进展",
+            "description": "自动跟进公开仓库，看看上次之后有什么变化。",
+            "icon": "github",
+            "prNumbers": [
+              1
+            ],
+            "criteria": [
+              "连接一个公开仓库",
+              "同步后看到实际 PR 与检查结果",
+              "失败时保留上次状态并说明原因"
+            ],
+            "inScope": true,
+            "manualStatus": "planned",
+            "verification": null
+          }
+        ],
+        "tasks": [
+          {
+            "id": "first-try",
+            "title": "用自己的项目试一次，看状态说明是否真的有帮助",
+            "done": false,
+            "featureId": "understanding",
+            "createdAt": "2026-10-31T15:02:48.437Z"
+          }
+        ],
+        "notes": [
+          {
+            "id": "scope-note",
+            "title": "第一版要解决的事",
+            "text": "先让我自己每天愿意打开；团队协作以后再做。GitHub 提供开发事实，我在这里看产品状态和下一步。",
+            "url": "",
+            "createdAt": "2026-10-31T15:02:48.437Z"
+          }
+        ],
+        "focus": "还差什么？",
+        "snapshot": {
+          "repo": "haohongfei2001-png/project-collaboration-workspace",
+          "fetchedAt": "2026-10-31T15:10:01.501Z",
+          "source": "github-public-api",
+          "repository": {
+            "fullName": "haohongfei2001-png/project-collaboration-workspace",
+            "defaultBranch": "main",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace",
+            "description": "A unified workspace for project planning, execution, knowledge, and human–AI collaboration.",
+            "pushedAt": "2026-10-31T13:43:28Z",
+            "updatedAt": "2026-10-31T12:39:12Z"
+          },
+          "pullRequests": [
+            {
+              "number": 1,
+              "title": "R1：项目协作工作台高保真原型、证据驱动验收与受权 AI 设计",
+              "state": "open",
+              "draft": false,
+              "merged": false,
+              "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+              "branch": "design/prototype-r1-20261031",
+              "base": "main",
+              "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1",
+              "updatedAt": "2026-10-31T13:44:05Z",
+              "mergedAt": null,
+              "check": {
+                "state": "success",
+                "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+                "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206902507",
+                "runId": 41206902507,
+                "conclusion": "success",
+                "coverage": "recent-actions-workflows",
+                "runs": [
+                  {
+                    "id": 41206902507,
+                    "name": "Prototype validation",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206902507"
+                  }
+                ]
+              }
+            }
+          ],
+          "warnings": [],
+          "complete": true,
+          "rateLimit": {
+            "remaining": 57,
+            "resetAt": "2026-10-31T16:10:01.000Z",
+            "retryAfterSeconds": null
+          },
+          "coverage": {
+            "pullRequests": 1,
+            "workflowRuns": 2,
+            "sourceCodeRead": false
+          },
+          "previousFetchedAt": "2026-10-31T15:03:43.572Z"
+        },
+        "previousSnapshot": {
+          "repo": "haohongfei2001-png/project-collaboration-workspace",
+          "fetchedAt": "2026-10-31T15:03:43.572Z",
+          "source": "github-public-api",
+          "repository": {
+            "fullName": "haohongfei2001-png/project-collaboration-workspace",
+            "defaultBranch": "main",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace",
+            "description": "A unified workspace for project planning, execution, knowledge, and human–AI collaboration.",
+            "pushedAt": "2026-10-31T13:43:28Z",
+            "updatedAt": "2026-10-31T12:39:12Z"
+          },
+          "pullRequests": [
+            {
+              "number": 1,
+              "title": "R1：项目协作工作台高保真原型、证据驱动验收与受权 AI 设计",
+              "state": "open",
+              "draft": false,
+              "merged": false,
+              "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+              "branch": "design/prototype-r1-20261031",
+              "base": "main",
+              "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1",
+              "updatedAt": "2026-10-31T13:44:05Z",
+              "mergedAt": null,
+              "check": {
+                "state": "success",
+                "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+                "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206902507",
+                "runId": 41206902507,
+                "conclusion": "success",
+                "coverage": "recent-actions-workflows",
+                "runs": [
+                  {
+                    "id": 41206902507,
+                    "name": "Prototype validation",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206902507"
+                  }
+                ]
+              }
+            }
+          ],
+          "warnings": [],
+          "complete": true,
+          "rateLimit": {
+            "remaining": 56,
+            "resetAt": "2026-10-31T15:59:24.000Z",
+            "retryAfterSeconds": null
+          },
+          "coverage": {
+            "pullRequests": 1,
+            "workflowRuns": 2,
+            "sourceCodeRead": false
+          },
+          "previousFetchedAt": "2026-10-31T15:03:10.149Z"
+        },
+        "lastSeenSnapshot": {
+          "repo": "haohongfei2001-png/project-collaboration-workspace",
+          "fetchedAt": "2026-10-31T15:10:01.501Z",
+          "source": "github-public-api",
+          "repository": {
+            "fullName": "haohongfei2001-png/project-collaboration-workspace",
+            "defaultBranch": "main",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace",
+            "description": "A unified workspace for project planning, execution, knowledge, and human–AI collaboration.",
+            "pushedAt": "2026-10-31T13:43:28Z",
+            "updatedAt": "2026-10-31T12:39:12Z"
+          },
+          "pullRequests": [
+            {
+              "number": 1,
+              "title": "R1：项目协作工作台高保真原型、证据驱动验收与受权 AI 设计",
+              "state": "open",
+              "draft": false,
+              "merged": false,
+              "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+              "branch": "design/prototype-r1-20261031",
+              "base": "main",
+              "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1",
+              "updatedAt": "2026-10-31T13:44:05Z",
+              "mergedAt": null,
+              "check": {
+                "state": "success",
+                "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+                "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206902507",
+                "runId": 41206902507,
+                "conclusion": "success",
+                "coverage": "recent-actions-workflows",
+                "runs": [
+                  {
+                    "id": 41206902507,
+                    "name": "Prototype validation",
+                    "status": "completed",
+                    "conclusion": "success",
+                    "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206902507"
+                  }
+                ]
+              }
+            }
+          ],
+          "warnings": [],
+          "complete": true,
+          "rateLimit": {
+            "remaining": 57,
+            "resetAt": "2026-10-31T16:10:01.000Z",
+            "retryAfterSeconds": null
+          },
+          "coverage": {
+            "pullRequests": 1,
+            "workflowRuns": 2,
+            "sourceCodeRead": false
+          },
+          "previousFetchedAt": "2026-10-31T15:03:43.572Z"
+        },
+        "autoSync": false,
+        "history": [
+          {
+            "id": "change-mvwj5wmt-1",
+            "at": "2026-10-31T15:02:48.437Z",
+            "title": "GitHub 状态更新",
+            "detail": "已读入仓库状态"
+          }
+        ],
+        "createdAt": "2026-10-31T15:02:48.437Z",
+        "lastSeenAt": "2026-10-31T15:10:25.829Z"
+      },
+      {
+        "id": "project-1793459029760-0xmpa9iv9tsl",
+        "title": "我的阅读清单",
+        "goal": "随手保存参考资料，回来时知道下一步做什么。",
+        "repo": "",
+        "features": [
+          {
+            "id": "feature-1793459058320-nhznftrkib",
+            "title": "保存一份参考资料",
+            "description": "随手存下资料链接，刷新后也能找到。",
+            "icon": "grid",
+            "prNumbers": [],
+            "criteria": [
+              "保存一条带链接的笔记",
+              "刷新页面后仍可打开这份笔记"
+            ],
+            "inScope": true,
+            "manualStatus": "building",
+            "verification": {
+              "passed": true,
+              "note": "浏览器测试：已保存公开资料链接，刷新后仍能打开内容和原始链接。",
+              "at": "2026-10-31T15:05:26.389Z",
+              "evidenceKey": "{\"repo\":\"\",\"refs\":[]}"
+            }
+          },
+          {
+            "id": "feature-1793459617812-mjv2d16shd9",
+            "title": "给资料加标签",
+            "description": "",
+            "icon": "refresh",
+            "prNumbers": [],
+            "criteria": [],
+            "inScope": true,
+            "manualStatus": "planned",
+            "verification": null
+          }
+        ],
+        "tasks": [
+          {
+            "id": "task-mvwjio5z-2",
+            "title": "确认手机上的卡片说明是否清楚",
+            "done": false,
+            "featureId": null,
+            "createdAt": "2026-10-31T15:12:43.991Z",
+            "updatedAt": "2026-10-31T15:13:09.667Z"
+          },
+          {
+            "id": "task-mvwj8xbw-4",
+            "title": "检查刷新后资料是否还在",
+            "done": true,
+            "featureId": "feature-1793459058320-nhznftrkib",
+            "createdAt": "2026-10-31T15:05:09.308Z",
+            "completedAt": "2026-10-31T15:07:15.731Z"
+          }
+        ],
+        "notes": [
+          {
+            "id": "note-mvwj8do6-3",
+            "title": "公开仓库同步边界",
+            "text": "手机端已补充：公开 GitHub 读取有额度限制。失败时保留上次状态，继续处理自己的项目。跨页面编辑检查：此句应保留。",
+            "url": "https://docs.github.com/en/rest/using-the-rest-api/rate-limits-for-the-rest-api",
+            "createdAt": "2026-10-31T15:04:43.830Z",
+            "updatedAt": "2026-10-31T15:12:37.617Z"
+          }
+        ],
+        "focus": "能用了吗？",
+        "snapshot": null,
+        "previousSnapshot": null,
+        "lastSeenSnapshot": null,
+        "autoSync": false,
+        "history": [
+          {
+            "id": "change-mvwjjtp0-2",
+            "at": "2026-10-31T15:13:37.812Z",
+            "title": "加入功能：给资料加标签",
+            "detail": ""
+          },
+          {
+            "id": "change-mvwj9aid-2",
+            "at": "2026-10-31T15:05:26.389Z",
+            "title": "确认可用：保存一份参考资料",
+            "detail": "浏览器测试：已保存公开资料链接，刷新后仍能打开内容和原始链接。"
+          },
+          {
+            "id": "change-mvwj7tzl-2",
+            "at": "2026-10-31T15:04:18.321Z",
+            "title": "加入功能：保存一份参考资料",
+            "detail": ""
+          }
+        ],
+        "createdAt": "2026-10-31T15:03:49.760Z"
+      }
+    ]
+  }
+}

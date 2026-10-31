@@ -1,0 +1,60 @@
+{
+  "checkedAt": "2026-10-31T15:19:25.715Z",
+  "timeZone": "Asia/Shanghai",
+  "method": "Actual browser UI; no injected application state",
+  "widths": [
+    {
+      "size": "390×844",
+      "clientWidth": 390,
+      "scrollWidth": 390
+    },
+    {
+      "size": "768×1024",
+      "clientWidth": 768,
+      "scrollWidth": 768
+    },
+    {
+      "size": "1280×900",
+      "clientWidth": 1280,
+      "scrollWidth": 1280
+    },
+    {
+      "size": "1363×936",
+      "clientWidth": 1363,
+      "scrollWidth": 1363
+    }
+  ],
+  "github": {
+    "publicApiSucceeded": true,
+    "initialManualRead": "2026-10-31 23:03 Asia/Shanghai",
+    "automaticRead": "2026-10-31 23:10 Asia/Shanghai",
+    "automaticReadTimestamp": "2026-10-31T15:10:01.501Z",
+    "autoDisabledAfterTest": true
+  },
+  "flows": {
+    "projectCreation": true,
+    "featureCreationWithOnlyName": true,
+    "noteCreationAndRefresh": true,
+    "noteEditOnMobile": true,
+    "taskCreateCompleteEdit": true,
+    "experienceProgressZeroToOne": true,
+    "scopeGrowthOneOfTwo": true,
+    "focusChangesHomepage": true,
+    "sourceCitations": true,
+    "markSeenClearsChanges": true,
+    "secondTabEditsAndDraftPreserved": true
+  },
+  "standalone": {
+    "externalScripts": 0,
+    "externalStyles": 0,
+    "escapeFocusRestored": true,
+    "modalTabCycle": true,
+    "transport": "local HTTP"
+  },
+  "limitations": [
+    "No full file-protocol compatibility test",
+    "No real phone device test",
+    "Rules-based answers; no LLM",
+    "No server authorization or multi-user concurrency guarantee"
+  ]
+}

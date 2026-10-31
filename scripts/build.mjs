@@ -4,16 +4,19 @@ import { Script } from 'node:vm';
 
 await rm('dist', { recursive: true, force: true });
 await mkdir('dist/src', { recursive: true });
-for (const path of ['index.html', 'src/app.js', 'src/styles.css', 'src/domain.js']) await copyFile(path, `dist/${path}`);
-const [html, css, domain, app] = await Promise.all(['index.html', 'src/styles.css', 'src/domain.js', 'src/app.js'].map(p => readFile(p, 'utf8')));
-// A second, standalone build lets reviewers open the prototype without a server.
-// All code is authored in this repository. No runtime CDN, external font or API.
-const inlineDomain = domain.replace(/^export\s+(?=(?:function|const|let|class)\b)/gm, '').replace(/^export\s*\{[^}]*\};?\s*$/gm, '');
-const inlineApp = app.replace(/^import\s+[\s\S]*?from\s+['"]\.\/domain\.js['"];?\s*/m, '');
-const code = `(function(){\n${inlineDomain}\n${inlineApp}\n})();`.replace(/<\/script/gi, '<\\/script');
-new Script(code, { filename: 'Project-Workspace-R1.inline.js' });
-const standalone = html.replace('<link rel="stylesheet" href="/src/styles.css" />', `<style>${css}</style>`).replace('<script type="module" src="/src/app.js"></script>', `<script>${code}</script>`);
-await writeFile('dist/Project-Workspace-R1.html', standalone);
-const manifest = { version: '0.1.0', runtimeDependencies: 0, standaloneBytes: Buffer.byteLength(standalone), sha256: createHash('sha256').update(standalone).digest('hex') };
-await writeFile('dist/build-manifest.json', JSON.stringify(manifest, null, 2) + '\n');
-console.log(JSON.stringify(manifest, null, 2));
+const paths=['index.html','legacy.html','src/personal.js','src/personal.css','src/personal-domain.js','src/github-sync.js','src/github-snapshot.js','src/app.js','src/styles.css','src/domain.js'];
+for (const path of paths) await copyFile(path, `dist/${path}`);
+async function standalone({htmlPath,cssPath,entry,sources,name}) {
+  const [html,css,...modules]=await Promise.all([htmlPath,cssPath,...sources].map(p=>readFile(p,'utf8')));
+  const inline=modules.map(source=>source.replace(/^import\s+[^;]+;\s*$/gm,'').replace(/^export\s+(?=(?:async\s+)?(?:function|const|let|class)\b)/gm,'')).join('\n');
+  const code=`(function(){\n${inline}\n})();`.replace(/<\/script/gi,'<\\/script');
+  new Script(code,{filename:name+'.inline.js'});
+  const document=html.replace(`<link rel="stylesheet" href="/${cssPath}" />`,`<style>${css}</style>`).replace(`<script type="module" src="/${entry}"></script>`,`<script>${code}</script>`);
+  await writeFile(`dist/${name}.html`,document);
+  return {file:name+'.html',bytes:Buffer.byteLength(document),sha256:createHash('sha256').update(document).digest('hex')};
+}
+const personal=await standalone({htmlPath:'index.html',cssPath:'src/personal.css',entry:'src/personal.js',sources:['src/personal-domain.js','src/github-sync.js','src/github-snapshot.js','src/personal.js'],name:'Project-Workspace-Personal-V1'});
+const legacy=await standalone({htmlPath:'legacy.html',cssPath:'src/styles.css',entry:'src/app.js',sources:['src/domain.js','src/app.js'],name:'Project-Workspace-R1'});
+const manifest={version:'0.2.0',runtimeDependencies:0,personal,legacy,network:'Optional public GitHub GET requests only; app and notes work without network.'};
+await writeFile('dist/build-manifest.json',JSON.stringify(manifest,null,2)+'\n');
+console.log(JSON.stringify(manifest,null,2));
