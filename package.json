@@ -1,0 +1,29 @@
+{
+  "name": "project-collaboration-workspace",
+  "version": "0.4.0",
+  "private": true,
+  "type": "module",
+  "description": "A personal project dashboard with real GitHub evidence, development history, plan comparison and selected-project monitoring",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "dev": "node scripts/dev.mjs",
+    "build": "node scripts/build.mjs",
+    "test": "npm run test:legacy && npm run test:r2",
+    "check": "node scripts/r2/check.mjs && npm test && npm run build",
+    "preview": "node scripts/dev.mjs --dist",
+    "test:legacy": "node tests/domain.test.js && node tests/personal.test.js && node tests/watch.test.js",
+    "test:r2": "node tests/r2-github.test.js && node tests/r2-analysis.test.js && node tests/r2-ui.test.js && node tests/r2-verification.test.js && node tests/r2-db-config.test.js && node tests/r2-server.test.js && node tests/r2-ingress.test.js && node tests/r2-recovery.test.js",
+    "db:migrate": "node scripts/r2/migrate.mjs",
+    "worker": "node scripts/r2/worker.mjs",
+    "evaluate:ai": "node scripts/r2/evaluate-ai.mjs"
+  },
+  "dependencies": {
+    "@vercel/functions": "3.10.5",
+    "pg": "8.23.1"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.14"
+  }
+}

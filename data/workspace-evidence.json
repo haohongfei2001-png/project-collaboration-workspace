@@ -1,0 +1,263 @@
+{
+  "projects": [
+    {
+      "id": "workspace",
+      "name": "项目工作台",
+      "repo": "haohongfei2001-png/project-collaboration-workspace",
+      "observedAt": "2026-10-31T18:39:31.347Z",
+      "sourceRef": "design/prototype-r1-20261031",
+      "headSha": "f8280807345d82df1da8b6efec9af7e62968a0c2",
+      "trackedPr": 1,
+      "planPath": "docs/personal-v1.md",
+      "watching": false,
+      "icon": {
+        "kind": "initials",
+        "text": "W"
+      },
+      "phase": {
+        "key": "prototype",
+        "label": "原型迭代",
+        "sourceUrl": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1"
+      },
+      "currentSummary": "个人版原型已交付，当前候选还在评审中。",
+      "currentWork": "完善项目卡片、开发历史与选定项目的持续跟进。",
+      "current": {
+        "done": [
+          "个人项目、待办和资料可以实际操作",
+          "公开 GitHub 读取与前台同步已接通",
+          "55 项本地测试与远端 CI 通过"
+        ],
+        "blocked": [],
+        "next": "完善项目卡片、开发历史与选定项目的持续跟进。",
+        "sources": [
+          {
+            "label": "当前原型 PR",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1"
+          },
+          {
+            "label": "已验证的提交",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/commit/f8280807345d82df1da8b6efec9af7e62968a0c2"
+          }
+        ]
+      },
+      "plan": {
+        "title": "个人工作台 · 第一版",
+        "scopeLabel": "当前原型重点",
+        "ref": "f8280807345d82df1da8b6efec9af7e62968a0c2",
+        "sourceUrl": "https://github.com/haohongfei2001-png/project-collaboration-workspace/blob/f8280807345d82df1da8b6efec9af7e62968a0c2/docs/personal-v1.md",
+        "scopeComplete": false,
+        "items": [
+          {
+            "id": "workspace-personal",
+            "title": "个人项目、待办与资料",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1"
+          },
+          {
+            "id": "workspace-github",
+            "title": "公开 GitHub 只读同步",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1"
+          },
+          {
+            "id": "workspace-cards",
+            "title": "紧凑卡片与开发历史",
+            "status": "active",
+            "sourceUrl": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1"
+          },
+          {
+            "id": "workspace-understanding",
+            "title": "真实模型理解与本人日用验证",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/project-collaboration-workspace/blob/f8280807345d82df1da8b6efec9af7e62968a0c2/docs/personal-v1.md"
+          }
+        ]
+      },
+      "previousPlans": [
+        {
+          "title": "团队协作原型 R1",
+          "date": "2026-10-31T13:44:05Z",
+          "status": "superseded",
+          "sourceUrl": "https://github.com/haohongfei2001-png/project-collaboration-workspace/commit/3f8134effa55a078a9955c6d16fa6b6db3930830",
+          "done": [
+            "团队任务、方案比较、验收的模拟闭环"
+          ],
+          "remaining": [
+            "产品优先级转向个人使用"
+          ]
+        }
+      ],
+      "rounds": [
+        {
+          "id": "workspace-personal-v1",
+          "title": "先做个人工作台，接入真实公开仓库",
+          "date": "2026-10-31T18:11:02Z",
+          "headSha": "f8280807345d82df1da8b6efec9af7e62968a0c2",
+          "status": "review",
+          "done": [
+            "创建项目、编辑资料、安排待办",
+            "真实读取公开 GitHub；55 项测试通过"
+          ],
+          "failed": [],
+          "next": [
+            "根据反馈重新设计项目卡片与开发历史"
+          ],
+          "sources": [
+            {
+              "label": "PR #1",
+              "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1"
+            },
+            {
+              "label": "CI",
+              "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41227991260"
+            }
+          ]
+        },
+        {
+          "id": "workspace-r1",
+          "title": "协作原型完成首条端到端流程",
+          "date": "2026-10-31T13:44:05Z",
+          "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+          "status": "completed",
+          "done": [
+            "任务、资料、方案采用、验收可交互"
+          ],
+          "failed": [
+            "团队功能优先，未先解决个人日用价值"
+          ],
+          "next": [
+            "按个人使用重新确定产品入口"
+          ],
+          "sources": [
+            {
+              "label": "历史提交",
+              "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/commit/3f8134effa55a078a9955c6d16fa6b6db3930830"
+            }
+          ]
+        }
+      ],
+      "attention": [],
+      "workflows": [
+        {
+          "id": 41227991260,
+          "workflowId": 402768826,
+          "name": "Prototype validation",
+          "headSha": "f8280807345d82df1da8b6efec9af7e62968a0c2",
+          "status": "completed",
+          "conclusion": "success",
+          "event": "pull_request",
+          "createdAt": "2026-10-31T18:09:21Z",
+          "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41227991260"
+        },
+        {
+          "id": 41227986448,
+          "workflowId": 402768826,
+          "name": "Prototype validation",
+          "headSha": "f8280807345d82df1da8b6efec9af7e62968a0c2",
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "createdAt": "2026-10-31T18:09:17Z",
+          "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41227986448"
+        },
+        {
+          "id": 41206902507,
+          "workflowId": 402768826,
+          "name": "Prototype validation",
+          "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+          "status": "completed",
+          "conclusion": "success",
+          "event": "pull_request",
+          "createdAt": "2026-10-31T13:44:08Z",
+          "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206902507"
+        },
+        {
+          "id": 41206861232,
+          "workflowId": 402768826,
+          "name": "Prototype validation",
+          "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+          "status": "completed",
+          "conclusion": "success",
+          "event": "push",
+          "createdAt": "2026-10-31T13:43:34Z",
+          "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206861232"
+        }
+      ],
+      "snapshot": {
+        "repo": "haohongfei2001-png/project-collaboration-workspace",
+        "source": "github-reviewed-snapshot",
+        "fetchedAt": "2026-10-31T18:39:31.347Z",
+        "repository": {
+          "fullName": "haohongfei2001-png/project-collaboration-workspace",
+          "defaultBranch": "main",
+          "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace"
+        },
+        "pullRequests": [
+          {
+            "number": 1,
+            "title": "feat: 个人优先的卡片工作台与真实 GitHub 状态同步",
+            "state": "open",
+            "draft": false,
+            "merged": false,
+            "mergedAt": null,
+            "headSha": "f8280807345d82df1da8b6efec9af7e62968a0c2",
+            "branch": "design/prototype-r1-20261031",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1",
+            "updatedAt": "2026-10-31T18:11:02Z"
+          }
+        ],
+        "workflowRuns": [
+          {
+            "id": 41227991260,
+            "workflowId": 402768826,
+            "name": "Prototype validation",
+            "headSha": "f8280807345d82df1da8b6efec9af7e62968a0c2",
+            "status": "completed",
+            "conclusion": "success",
+            "event": "pull_request",
+            "createdAt": "2026-10-31T18:09:21Z",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41227991260"
+          },
+          {
+            "id": 41227986448,
+            "workflowId": 402768826,
+            "name": "Prototype validation",
+            "headSha": "f8280807345d82df1da8b6efec9af7e62968a0c2",
+            "status": "completed",
+            "conclusion": "success",
+            "event": "push",
+            "createdAt": "2026-10-31T18:09:17Z",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41227986448"
+          },
+          {
+            "id": 41206902507,
+            "workflowId": 402768826,
+            "name": "Prototype validation",
+            "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+            "status": "completed",
+            "conclusion": "success",
+            "event": "pull_request",
+            "createdAt": "2026-10-31T13:44:08Z",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206902507"
+          },
+          {
+            "id": 41206861232,
+            "workflowId": 402768826,
+            "name": "Prototype validation",
+            "headSha": "3f8134effa55a078a9955c6d16fa6b6db3930830",
+            "status": "completed",
+            "conclusion": "success",
+            "event": "push",
+            "createdAt": "2026-10-31T13:43:34Z",
+            "url": "https://github.com/haohongfei2001-png/project-collaboration-workspace/actions/runs/41206861232"
+          }
+        ],
+        "commits": [],
+        "issues": [],
+        "comments": [],
+        "warnings": []
+      }
+    }
+  ]
+}

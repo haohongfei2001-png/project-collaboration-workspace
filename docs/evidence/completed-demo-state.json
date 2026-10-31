@@ -1,0 +1,1644 @@
+{
+  "prototype": "R1 · 全部为模拟数据",
+  "exportedAt": "2026-10-31T13:37:57.891Z",
+  "state": {
+    "schemaVersion": 1,
+    "revision": 18,
+    "clock": "2026-10-31T02:17:00.000Z",
+    "project": {
+      "id": "feedback",
+      "code": "FB",
+      "name": "客户反馈闭环",
+      "goal": "让每条反馈都有明确负责人、处理进展和可追溯的回应。",
+      "successMetric": "演示目标：有效反馈在 2 个工作日内明确负责人",
+      "dueDate": "2026-11-06",
+      "status": "delivered",
+      "ownerId": "owner",
+      "scope": "反馈收集、责任分配、处理跟进、回应记录；不包含自动发送客户消息。",
+      "createdAt": "2026-10-26T01:00:00.000Z",
+      "deliveredAt": "2026-10-31T02:17:00.000Z"
+    },
+    "members": [
+      {
+        "id": "owner",
+        "name": "林澈",
+        "role": "owner",
+        "roleLabel": "产品负责人",
+        "initial": "澈",
+        "color": "#7367c6"
+      },
+      {
+        "id": "designer",
+        "name": "沈言",
+        "role": "designer",
+        "roleLabel": "产品设计师",
+        "initial": "言",
+        "color": "#c38367"
+      },
+      {
+        "id": "frontend",
+        "name": "周屿",
+        "role": "frontend",
+        "roleLabel": "前端工程师",
+        "initial": "屿",
+        "color": "#6386b9"
+      },
+      {
+        "id": "backend",
+        "name": "陈序",
+        "role": "backend",
+        "roleLabel": "后端工程师",
+        "initial": "序",
+        "color": "#5a9988"
+      },
+      {
+        "id": "qa",
+        "name": "许宁",
+        "role": "qa",
+        "roleLabel": "测试与交付",
+        "initial": "宁",
+        "color": "#ad8a48"
+      },
+      {
+        "id": "viewer",
+        "name": "顾乔",
+        "role": "viewer",
+        "roleLabel": "观察者",
+        "initial": "乔",
+        "color": "#8a8e98"
+      }
+    ],
+    "agents": [
+      {
+        "id": "observer",
+        "name": "观察助手",
+        "role": "agent",
+        "roleLabel": "只读项目观察",
+        "initial": "观",
+        "color": "#879993",
+        "allowedResourceIds": [
+          "r-project",
+          "r-requirements",
+          "r-flow",
+          "r-design",
+          "r-pr",
+          "r-qa"
+        ],
+        "canDraft": false
+      },
+      {
+        "id": "planner",
+        "name": "规划助手",
+        "role": "agent",
+        "roleLabel": "需求拆分草案",
+        "initial": "规",
+        "color": "#8e83b4",
+        "allowedResourceIds": [
+          "r-project",
+          "r-requirements",
+          "r-flow",
+          "r-design"
+        ],
+        "canDraft": true
+      }
+    ],
+    "milestones": [
+      {
+        "id": "m1",
+        "title": "需求对齐",
+        "name": "需求对齐",
+        "dueDate": "2026-10-30",
+        "description": "明确范围、流程与验收依据"
+      },
+      {
+        "id": "m2",
+        "title": "设计与实现",
+        "name": "设计与实现",
+        "dueDate": "2026-11-04",
+        "description": "采用交互方案，完成闭环能力"
+      },
+      {
+        "id": "m3",
+        "title": "验收与交付",
+        "name": "验收与交付",
+        "dueDate": "2026-11-06",
+        "description": "验证端到端流程并交接试点"
+      }
+    ],
+    "tasks": [
+      {
+        "id": "FB-01",
+        "title": "明确试点范围与成功标准",
+        "milestoneId": "m1",
+        "assigneeId": "owner",
+        "status": "accepted",
+        "dependencies": [],
+        "description": "以产品负责人分配反馈为首个场景，明确两工作日负责人目标及首期边界。",
+        "dueDate": "2026-10-29",
+        "parentId": null,
+        "priority": "medium",
+        "criteria": [
+          {
+            "id": "FB-01-c1",
+            "text": "试点目标及不做范围有记录"
+          },
+          {
+            "id": "FB-01-c2",
+            "text": "成功标准可被实际验证"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:00:00.000Z",
+        "version": 1,
+        "manualBlockReason": ""
+      },
+      {
+        "id": "FB-02",
+        "title": "梳理反馈处理流程",
+        "milestoneId": "m1",
+        "assigneeId": "owner",
+        "status": "accepted",
+        "dependencies": [],
+        "description": "统一从反馈进入、指派、处理到回应的状态流，标明异常与退出路径。",
+        "dueDate": "2026-10-30",
+        "parentId": null,
+        "priority": "medium",
+        "criteria": [
+          {
+            "id": "FB-02-c1",
+            "text": "流程覆盖指派与回应"
+          },
+          {
+            "id": "FB-02-c2",
+            "text": "观察者权限边界明确"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-flow",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:00:00.000Z",
+        "version": 1,
+        "manualBlockReason": ""
+      },
+      {
+        "id": "FB-00",
+        "title": "反馈闭环实现",
+        "milestoneId": "m2",
+        "assigneeId": "owner",
+        "status": "in_progress",
+        "dependencies": [],
+        "description": "组织设计、前后端与权限实现。此行为工作分解父项，不重复计入验收完成度。",
+        "dueDate": "2026-11-04",
+        "parentId": null,
+        "priority": "medium",
+        "criteria": [
+          {
+            "id": "FB-00-c1",
+            "text": "子任务分别完成验收"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:00:00.000Z",
+        "version": 1,
+        "manualBlockReason": ""
+      },
+      {
+        "id": "FB-03",
+        "title": "反馈工作台交互方案",
+        "milestoneId": "m2",
+        "assigneeId": "designer",
+        "status": "accepted",
+        "dependencies": [],
+        "description": "对比看板与收件箱两种方案，保留选择理由并固定正式采用版本。",
+        "dueDate": "2026-10-31",
+        "parentId": "FB-00",
+        "priority": "high",
+        "criteria": [
+          {
+            "id": "FB-03-c1",
+            "text": "负责人完成方案采用并记录原因"
+          },
+          {
+            "id": "FB-03-c2",
+            "text": "关键交互与异常态覆盖完整"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-design",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:03:00.000Z",
+        "version": 3,
+        "manualBlockReason": "",
+        "reviewReason": ""
+      },
+      {
+        "id": "FB-04",
+        "title": "反馈与回应 API",
+        "milestoneId": "m2",
+        "assigneeId": "backend",
+        "status": "accepted",
+        "dependencies": [
+          {
+            "taskId": "FB-02",
+            "gate": "accepted"
+          }
+        ],
+        "description": "实现反馈创建、指派和回应 API。PR 合并后进入待验收，需核对业务标准。",
+        "dueDate": "2026-11-02",
+        "parentId": "FB-00",
+        "priority": "high",
+        "criteria": [
+          {
+            "id": "FB-04-c1",
+            "text": "PR #42 已合并且检查通过"
+          },
+          {
+            "id": "FB-04-c2",
+            "text": "反馈与回应保存路径有验收证据"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-pr",
+            "pinnedVersion": "merged@2"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:04:00.000Z",
+        "version": 3,
+        "manualBlockReason": "",
+        "reviewReason": ""
+      },
+      {
+        "id": "FB-05",
+        "title": "前端反馈收件箱",
+        "milestoneId": "m2",
+        "assigneeId": "frontend",
+        "status": "accepted",
+        "dependencies": [
+          {
+            "taskId": "FB-03",
+            "gate": "adopted"
+          }
+        ],
+        "description": "按正式采用的设计实现反馈列表、详情与负责人指派，保留当前上下文。",
+        "dueDate": "2026-11-03",
+        "parentId": "FB-00",
+        "priority": "high",
+        "criteria": [
+          {
+            "id": "FB-05-c1",
+            "text": "采用版本有来源依据"
+          },
+          {
+            "id": "FB-05-c2",
+            "text": "筛选、详情与指派流程可完成"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-design",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:06:00.000Z",
+        "version": 3,
+        "manualBlockReason": "",
+        "reviewReason": ""
+      },
+      {
+        "id": "FB-06",
+        "title": "成员与权限校验",
+        "milestoneId": "m2",
+        "assigneeId": "backend",
+        "status": "accepted",
+        "dependencies": [
+          {
+            "taskId": "FB-04",
+            "gate": "accepted"
+          }
+        ],
+        "description": "在服务端校验负责人、工程师与观察者的操作权限；不能只隐藏按钮。",
+        "dueDate": "2026-11-03",
+        "parentId": "FB-00",
+        "priority": "medium",
+        "criteria": [
+          {
+            "id": "FB-06-c1",
+            "text": "观察者写入请求被拒绝"
+          },
+          {
+            "id": "FB-06-c2",
+            "text": "越权修改请求被拒绝并留下审计"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:08:00.000Z",
+        "version": 3,
+        "manualBlockReason": "",
+        "reviewReason": ""
+      },
+      {
+        "id": "FB-07",
+        "title": "反馈回应时间线",
+        "milestoneId": "m2",
+        "assigneeId": "frontend",
+        "status": "accepted",
+        "dependencies": [
+          {
+            "taskId": "FB-05",
+            "gate": "accepted"
+          }
+        ],
+        "description": "呈现每条反馈的指派、状态和回应历史，明确操作者与时间。",
+        "dueDate": "2026-11-04",
+        "parentId": "FB-00",
+        "priority": "medium",
+        "criteria": [
+          {
+            "id": "FB-07-c1",
+            "text": "回应按实际发生时间排序"
+          },
+          {
+            "id": "FB-07-c2",
+            "text": "历史记录能定位到源反馈"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:10:00.000Z",
+        "version": 3,
+        "manualBlockReason": "",
+        "reviewReason": ""
+      },
+      {
+        "id": "FB-08",
+        "title": "编写交付验收用例",
+        "milestoneId": "m3",
+        "assigneeId": "qa",
+        "status": "accepted",
+        "dependencies": [
+          {
+            "taskId": "FB-02",
+            "gate": "accepted"
+          }
+        ],
+        "description": "编写正常闭环和权限拒绝、缺失负责人等反例，提供可复现步骤。",
+        "dueDate": "2026-11-02",
+        "parentId": null,
+        "priority": "medium",
+        "criteria": [
+          {
+            "id": "FB-08-c1",
+            "text": "覆盖正常闭环"
+          },
+          {
+            "id": "FB-08-c2",
+            "text": "覆盖权限拒绝与缺失负责人"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-qa",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:12:00.000Z",
+        "version": 3,
+        "manualBlockReason": "",
+        "reviewReason": ""
+      },
+      {
+        "id": "FB-09",
+        "title": "端到端回归验收",
+        "milestoneId": "m3",
+        "assigneeId": "qa",
+        "status": "accepted",
+        "dependencies": [
+          {
+            "taskId": "FB-04",
+            "gate": "accepted"
+          },
+          {
+            "taskId": "FB-05",
+            "gate": "accepted"
+          },
+          {
+            "taskId": "FB-06",
+            "gate": "accepted"
+          },
+          {
+            "taskId": "FB-07",
+            "gate": "accepted"
+          },
+          {
+            "taskId": "FB-08",
+            "gate": "accepted"
+          }
+        ],
+        "description": "以产品、工程师、观察者三种角色完成真实闭环回归，提交逐项结果。",
+        "dueDate": "2026-11-05",
+        "parentId": null,
+        "priority": "high",
+        "criteria": [
+          {
+            "id": "FB-09-c1",
+            "text": "核心路径全部通过"
+          },
+          {
+            "id": "FB-09-c2",
+            "text": "权限与异常反例全部通过"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-qa",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:14:00.000Z",
+        "version": 3,
+        "manualBlockReason": "",
+        "reviewReason": ""
+      },
+      {
+        "id": "FB-10",
+        "title": "试点交付与交接",
+        "milestoneId": "m3",
+        "assigneeId": "owner",
+        "status": "accepted",
+        "dependencies": [
+          {
+            "taskId": "FB-09",
+            "gate": "accepted"
+          }
+        ],
+        "description": "整理采用版本、验收结果、已知限制及下一阶段计划，形成正式交付记录。",
+        "dueDate": "2026-11-06",
+        "parentId": null,
+        "priority": "medium",
+        "criteria": [
+          {
+            "id": "FB-10-c1",
+            "text": "验收结果与采用版本完整"
+          },
+          {
+            "id": "FB-10-c2",
+            "text": "已知限制与交接责任人明确"
+          }
+        ],
+        "resourceLinks": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-qa",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "updatedAt": "2026-10-31T02:16:00.000Z",
+        "version": 3,
+        "manualBlockReason": "",
+        "reviewReason": ""
+      }
+    ],
+    "resources": [
+      {
+        "id": "r-project",
+        "title": "客户反馈闭环 · 项目目标",
+        "provider": "workspace",
+        "kind": "brief",
+        "version": "v1",
+        "content": "为小型软件团队建立反馈收集、明确负责人、处理跟进与回应的完整闭环。试点目标：每条有效反馈在 2 个工作日内明确负责人；这是演示目标，并非已经取得的业务成果。首期不包含自动向客户发送回应。",
+        "available": true,
+        "allowedActors": [
+          "owner",
+          "designer",
+          "frontend",
+          "backend",
+          "qa",
+          "viewer"
+        ],
+        "updatedAt": "2026-10-31T02:00:00.000Z",
+        "syncedAt": "2026-10-31T02:00:00.000Z",
+        "simulated": true,
+        "sourceSequence": 1,
+        "history": [
+          {
+            "version": "v1",
+            "content": "为小型软件团队建立反馈收集、明确负责人、处理跟进与回应的完整闭环。试点目标：每条有效反馈在 2 个工作日内明确负责人；这是演示目标，并非已经取得的业务成果。首期不包含自动向客户发送回应。",
+            "updatedAt": "2026-10-31T02:00:00.000Z"
+          }
+        ]
+      },
+      {
+        "id": "r-requirements",
+        "title": "客户反馈闭环 · 需求说明",
+        "provider": "drive",
+        "kind": "document",
+        "version": "v2",
+        "content": "范围：集中收集反馈；按状态筛选；每条反馈有唯一负责人；记录反馈与处理回应。角色：产品负责人可指派，工程师更新自己的处理，观察者只读。验收：指派记录可追溯；未指派反馈能被发现；回应进入时间线。首期不自动发送客户消息。",
+        "available": true,
+        "allowedActors": [
+          "owner",
+          "designer",
+          "frontend",
+          "backend",
+          "qa",
+          "viewer"
+        ],
+        "updatedAt": "2026-10-31T02:00:00.000Z",
+        "syncedAt": "2026-10-31T02:00:00.000Z",
+        "simulated": true,
+        "sourceSequence": 1,
+        "history": [
+          {
+            "version": "v2",
+            "content": "范围：集中收集反馈；按状态筛选；每条反馈有唯一负责人；记录反馈与处理回应。角色：产品负责人可指派，工程师更新自己的处理，观察者只读。验收：指派记录可追溯；未指派反馈能被发现；回应进入时间线。首期不自动发送客户消息。",
+            "updatedAt": "2026-10-31T02:00:00.000Z"
+          }
+        ],
+        "fileName": "反馈闭环需求说明",
+        "externalId": "demo-drive-requirements",
+        "demoScenario": "feedback"
+      },
+      {
+        "id": "r-flow",
+        "title": "反馈从进入到回应 · 用户流程",
+        "provider": "drive",
+        "kind": "document",
+        "version": "v1",
+        "content": "客户反馈进入待分配队列 → 产品负责人指派 → 工程师处理 → 负责人审核回应 → 形成可追溯的处理记录。未知负责人不能被标记为已处理。",
+        "available": true,
+        "allowedActors": [
+          "owner",
+          "designer",
+          "frontend",
+          "backend",
+          "qa",
+          "viewer"
+        ],
+        "updatedAt": "2026-10-31T02:00:00.000Z",
+        "syncedAt": "2026-10-31T02:00:00.000Z",
+        "simulated": true,
+        "sourceSequence": 1,
+        "history": [
+          {
+            "version": "v1",
+            "content": "客户反馈进入待分配队列 → 产品负责人指派 → 工程师处理 → 负责人审核回应 → 形成可追溯的处理记录。未知负责人不能被标记为已处理。",
+            "updatedAt": "2026-10-31T02:00:00.000Z"
+          }
+        ],
+        "externalId": "demo-drive-flow"
+      },
+      {
+        "id": "r-design",
+        "title": "反馈工作台 · 交互方案",
+        "provider": "drive",
+        "kind": "design",
+        "version": "v2",
+        "content": "方案 A：按状态分列的看板，适合熟悉流程的执行成员。方案 B：收件箱与固定上下文栏，便于负责人连续分配、审阅和追溯。两者保留相同状态模型；本次须明确采用版本并说明理由。",
+        "available": true,
+        "allowedActors": [
+          "owner",
+          "designer",
+          "frontend",
+          "backend",
+          "qa",
+          "viewer"
+        ],
+        "updatedAt": "2026-10-31T02:00:00.000Z",
+        "syncedAt": "2026-10-31T02:00:00.000Z",
+        "simulated": true,
+        "sourceSequence": 1,
+        "history": [
+          {
+            "version": "v2",
+            "content": "方案 A：按状态分列的看板，适合熟悉流程的执行成员。方案 B：收件箱与固定上下文栏，便于负责人连续分配、审阅和追溯。两者保留相同状态模型；本次须明确采用版本并说明理由。",
+            "updatedAt": "2026-10-31T02:00:00.000Z"
+          }
+        ],
+        "externalId": "demo-drive-design",
+        "demoScenario": "feedback"
+      },
+      {
+        "id": "r-pr",
+        "title": "#42 · 反馈与回应 API",
+        "provider": "github",
+        "kind": "pull_request",
+        "version": "merged@2",
+        "content": "演示 PR #42 已合并，代码检查通过。API 实现进入待验收；仍需核对反馈与回应保存路径及业务验收标准。",
+        "available": true,
+        "allowedActors": [
+          "owner",
+          "designer",
+          "frontend",
+          "backend",
+          "qa",
+          "viewer"
+        ],
+        "updatedAt": "2026-10-31T02:02:00.000Z",
+        "syncedAt": "2026-10-31T02:02:00.000Z",
+        "simulated": true,
+        "sourceSequence": 2,
+        "history": [
+          {
+            "version": "open@1",
+            "content": "PR #42 已打开：实现反馈创建、负责人分配及回应记录接口。代码评审中，尚未合并；测试检查已通过不能替代业务验收。",
+            "updatedAt": "2026-10-31T02:00:00.000Z"
+          },
+          {
+            "version": "merged@2",
+            "content": "演示 PR #42 已合并，代码检查通过。API 实现进入待验收；仍需核对反馈与回应保存路径及业务验收标准。",
+            "updatedAt": "2026-10-31T02:02:00.000Z"
+          }
+        ],
+        "externalId": "demo/repo/pull/42",
+        "number": 42,
+        "state": "merged",
+        "checks": "passed",
+        "authorId": "backend",
+        "headSha": "demo-42-head-v1",
+        "demoScenario": "feedback",
+        "mergeSha": "demo-42-merge-sha"
+      },
+      {
+        "id": "r-qa",
+        "title": "反馈闭环 · 验收清单",
+        "provider": "drive",
+        "kind": "document",
+        "version": "v1",
+        "content": "验收路径：收集反馈 → 指派负责人 → 更新处理状态 → 保存回应 → 查询历史。权限反例：观察者无法修改；工程师无法修改他人任务；未经审核不视为正式交付。",
+        "available": true,
+        "allowedActors": [
+          "owner",
+          "designer",
+          "frontend",
+          "backend",
+          "qa",
+          "viewer"
+        ],
+        "updatedAt": "2026-10-31T02:00:00.000Z",
+        "syncedAt": "2026-10-31T02:00:00.000Z",
+        "simulated": true,
+        "sourceSequence": 1,
+        "history": [
+          {
+            "version": "v1",
+            "content": "验收路径：收集反馈 → 指派负责人 → 更新处理状态 → 保存回应 → 查询历史。权限反例：观察者无法修改；工程师无法修改他人任务；未经审核不视为正式交付。",
+            "updatedAt": "2026-10-31T02:00:00.000Z"
+          }
+        ],
+        "externalId": "demo-drive-qa"
+      },
+      {
+        "id": "r-budget",
+        "title": "试点预算与供应商报价",
+        "provider": "drive",
+        "kind": "restricted",
+        "version": "v1",
+        "content": "仅负责人可读取的虚构预算资料：试点预算上限 18000 元，供应商方案暂未批准。本内容不应进入任何演示 AI 的上下文。",
+        "available": true,
+        "allowedActors": [
+          "owner"
+        ],
+        "updatedAt": "2026-10-31T02:00:00.000Z",
+        "syncedAt": "2026-10-31T02:00:00.000Z",
+        "simulated": true,
+        "sourceSequence": 1,
+        "history": [
+          {
+            "version": "v1",
+            "content": "仅负责人可读取的虚构预算资料：试点预算上限 18000 元，供应商方案暂未批准。本内容不应进入任何演示 AI 的上下文。",
+            "updatedAt": "2026-10-31T02:00:00.000Z"
+          }
+        ],
+        "externalId": "demo-drive-budget",
+        "restricted": true
+      }
+    ],
+    "proposals": [
+      {
+        "id": "proposal-a",
+        "taskId": "FB-03",
+        "title": "方案 A · 流程看板",
+        "version": "v2",
+        "status": "retained",
+        "authorId": "designer",
+        "summary": "按处理状态分列，让执行成员直观看到工作阶段。",
+        "tradeoffs": [
+          "阶段分布清楚",
+          "跨列查找反馈需要更多移动",
+          "长内容与关联资料需要展开"
+        ],
+        "resourceId": "r-design",
+        "submittedAt": "2026-10-31T02:00:00.000Z"
+      },
+      {
+        "id": "proposal-b",
+        "taskId": "FB-03",
+        "title": "方案 B · 上下文收件箱",
+        "version": "v2",
+        "status": "adopted",
+        "authorId": "designer",
+        "summary": "列表与详情并排，负责人可连续查看、分配和回应。",
+        "tradeoffs": [
+          "连续处理时保留上下文",
+          "指派与资料在同一位置",
+          "阶段全貌通过筛选补充"
+        ],
+        "resourceId": "r-design",
+        "submittedAt": "2026-10-31T02:00:00.000Z",
+        "adoptedVersion": "v2"
+      }
+    ],
+    "decisions": [
+      {
+        "id": "decision-2",
+        "taskId": "FB-03",
+        "proposalId": "proposal-b",
+        "adoptedVersion": "v2",
+        "resourceId": "r-design",
+        "reason": "连续分诊时需要同时看到责任人与资料，采用 B v2，并保留 A 作为阶段全貌的备选。",
+        "actorId": "owner",
+        "decidedBy": "owner",
+        "at": "2026-10-31T02:01:00.000Z",
+        "decidedAt": "2026-10-31T02:01:00.000Z",
+        "replacesDecisionId": null
+      }
+    ],
+    "submissions": [
+      {
+        "id": "submission-16",
+        "taskId": "FB-10",
+        "authorId": "owner",
+        "status": "accepted",
+        "note": "原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-qa",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "decisionRefs": [],
+        "submittedAt": "2026-10-31T02:15:00.000Z",
+        "taskVersion": 2
+      },
+      {
+        "id": "submission-14",
+        "taskId": "FB-09",
+        "authorId": "owner",
+        "status": "accepted",
+        "note": "原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-qa",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "decisionRefs": [],
+        "submittedAt": "2026-10-31T02:13:00.000Z",
+        "taskVersion": 2
+      },
+      {
+        "id": "submission-12",
+        "taskId": "FB-08",
+        "authorId": "owner",
+        "status": "accepted",
+        "note": "原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-qa",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "decisionRefs": [],
+        "submittedAt": "2026-10-31T02:11:00.000Z",
+        "taskVersion": 2
+      },
+      {
+        "id": "submission-10",
+        "taskId": "FB-07",
+        "authorId": "owner",
+        "status": "accepted",
+        "note": "原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "decisionRefs": [],
+        "submittedAt": "2026-10-31T02:09:00.000Z",
+        "taskVersion": 2
+      },
+      {
+        "id": "submission-8",
+        "taskId": "FB-06",
+        "authorId": "owner",
+        "status": "accepted",
+        "note": "原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "decisionRefs": [],
+        "submittedAt": "2026-10-31T02:07:00.000Z",
+        "taskVersion": 2
+      },
+      {
+        "id": "submission-6",
+        "taskId": "FB-05",
+        "authorId": "owner",
+        "status": "accepted",
+        "note": "原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-design",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "decisionRefs": [
+          {
+            "decisionId": "decision-2",
+            "taskId": "FB-03",
+            "proposalId": "proposal-b",
+            "adoptedVersion": "v2"
+          }
+        ],
+        "submittedAt": "2026-10-31T02:05:00.000Z",
+        "taskVersion": 2
+      },
+      {
+        "id": "submission-gh-3",
+        "taskId": "FB-04",
+        "authorId": "backend",
+        "status": "accepted",
+        "note": "演示同步：PR #42 已合并。只进入待验收，不替代业务验收。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-pr",
+            "pinnedVersion": "merged@2"
+          }
+        ],
+        "submittedAt": "2026-10-31T02:02:00.000Z",
+        "taskVersion": 2
+      },
+      {
+        "id": "submission-seed-1",
+        "taskId": "FB-01",
+        "authorId": "owner",
+        "status": "accepted",
+        "note": "提交范围与流程定义。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "submittedAt": "2026-10-31T02:00:00.000Z",
+        "taskVersion": 1
+      },
+      {
+        "id": "submission-seed-2",
+        "taskId": "FB-02",
+        "authorId": "owner",
+        "status": "accepted",
+        "note": "提交范围与流程定义。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-flow",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "submittedAt": "2026-10-31T02:00:00.000Z",
+        "taskVersion": 1
+      },
+      {
+        "id": "submission-design-v2",
+        "taskId": "FB-03",
+        "authorId": "designer",
+        "status": "accepted",
+        "note": "已提交两套可比较的 v2 方案，请负责人选择采用并独立验收。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-design",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "submittedAt": "2026-10-31T02:00:00.000Z",
+        "taskVersion": 1
+      }
+    ],
+    "acceptances": [
+      {
+        "id": "acceptance-17",
+        "taskId": "FB-10",
+        "submissionId": "submission-16",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:16:00.000Z",
+        "criteriaIds": [
+          "FB-10-c1",
+          "FB-10-c2"
+        ],
+        "note": "原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-qa",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "decisionRefs": [],
+        "taskVersion": 3,
+        "result": "accepted"
+      },
+      {
+        "id": "acceptance-15",
+        "taskId": "FB-09",
+        "submissionId": "submission-14",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:14:00.000Z",
+        "criteriaIds": [
+          "FB-09-c1",
+          "FB-09-c2"
+        ],
+        "note": "原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-qa",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "decisionRefs": [],
+        "taskVersion": 3,
+        "result": "accepted"
+      },
+      {
+        "id": "acceptance-13",
+        "taskId": "FB-08",
+        "submissionId": "submission-12",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:12:00.000Z",
+        "criteriaIds": [
+          "FB-08-c1",
+          "FB-08-c2"
+        ],
+        "note": "原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-qa",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "decisionRefs": [],
+        "taskVersion": 3,
+        "result": "accepted"
+      },
+      {
+        "id": "acceptance-11",
+        "taskId": "FB-07",
+        "submissionId": "submission-10",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:10:00.000Z",
+        "criteriaIds": [
+          "FB-07-c1",
+          "FB-07-c2"
+        ],
+        "note": "原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "decisionRefs": [],
+        "taskVersion": 3,
+        "result": "accepted"
+      },
+      {
+        "id": "acceptance-9",
+        "taskId": "FB-06",
+        "submissionId": "submission-8",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:08:00.000Z",
+        "criteriaIds": [
+          "FB-06-c1",
+          "FB-06-c2"
+        ],
+        "note": "原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "decisionRefs": [],
+        "taskVersion": 3,
+        "result": "accepted"
+      },
+      {
+        "id": "acceptance-7",
+        "taskId": "FB-05",
+        "submissionId": "submission-6",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:06:00.000Z",
+        "criteriaIds": [
+          "FB-05-c1",
+          "FB-05-c2"
+        ],
+        "note": "原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-design",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "decisionRefs": [
+          {
+            "decisionId": "decision-2",
+            "taskId": "FB-03",
+            "proposalId": "proposal-b",
+            "adoptedVersion": "v2"
+          }
+        ],
+        "taskVersion": 3,
+        "result": "accepted"
+      },
+      {
+        "id": "acceptance-5",
+        "taskId": "FB-04",
+        "submissionId": "submission-gh-3",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:04:00.000Z",
+        "criteriaIds": [
+          "FB-04-c1",
+          "FB-04-c2"
+        ],
+        "note": "原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-pr",
+            "pinnedVersion": "merged@2"
+          }
+        ],
+        "decisionRefs": [],
+        "taskVersion": 3,
+        "result": "accepted"
+      },
+      {
+        "id": "acceptance-4",
+        "taskId": "FB-03",
+        "submissionId": "submission-design-v2",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:03:00.000Z",
+        "criteriaIds": [
+          "FB-03-c1",
+          "FB-03-c2"
+        ],
+        "note": "原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-design",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "decisionRefs": [
+          {
+            "decisionId": "decision-2",
+            "taskId": "FB-03",
+            "proposalId": "proposal-b",
+            "adoptedVersion": "v2"
+          }
+        ],
+        "taskVersion": 3,
+        "result": "accepted"
+      },
+      {
+        "id": "accept-seed-1",
+        "taskId": "FB-01",
+        "submissionId": "submission-seed-1",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:00:00.000Z",
+        "criteriaIds": [
+          "FB-01-c1",
+          "FB-01-c2"
+        ],
+        "note": "演示记录：已核对范围、流程及验收依据。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          }
+        ],
+        "taskVersion": 1,
+        "result": "accepted"
+      },
+      {
+        "id": "accept-seed-2",
+        "taskId": "FB-02",
+        "submissionId": "submission-seed-2",
+        "reviewerId": "owner",
+        "reviewedBy": "owner",
+        "reviewedAt": "2026-10-31T02:00:00.000Z",
+        "criteriaIds": [
+          "FB-02-c1",
+          "FB-02-c2"
+        ],
+        "note": "演示记录：已核对范围、流程及验收依据。",
+        "evidenceRefs": [
+          {
+            "resourceId": "r-requirements",
+            "pinnedVersion": "v2"
+          },
+          {
+            "resourceId": "r-flow",
+            "pinnedVersion": "v1"
+          }
+        ],
+        "taskVersion": 1,
+        "result": "accepted"
+      }
+    ],
+    "audit": [
+      {
+        "id": "event-18-21",
+        "actorId": "owner",
+        "action": "project.delivered",
+        "targetId": "feedback",
+        "detail": "项目正式交付：本轮原型演示交付：10 项叶子任务均完成独立验收，采用设计 B v2，PR #42 合并证据与需求 v2 已关联。保留备选方案、贡献人与验收记录。",
+        "at": "2026-10-31T02:17:00.000Z"
+      },
+      {
+        "id": "event-17-20",
+        "actorId": "owner",
+        "action": "task.accepted",
+        "targetId": "FB-10",
+        "detail": "逐项验收通过：原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "at": "2026-10-31T02:16:00.000Z"
+      },
+      {
+        "id": "event-16-19",
+        "actorId": "owner",
+        "action": "task.submitted",
+        "targetId": "FB-10",
+        "detail": "提交成果，等待独立验收：原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "at": "2026-10-31T02:15:00.000Z"
+      },
+      {
+        "id": "event-15-18",
+        "actorId": "owner",
+        "action": "task.accepted",
+        "targetId": "FB-09",
+        "detail": "逐项验收通过：原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "at": "2026-10-31T02:14:00.000Z"
+      },
+      {
+        "id": "event-14-17",
+        "actorId": "owner",
+        "action": "task.submitted",
+        "targetId": "FB-09",
+        "detail": "提交成果，等待独立验收：原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "at": "2026-10-31T02:13:00.000Z"
+      },
+      {
+        "id": "event-13-16",
+        "actorId": "owner",
+        "action": "task.accepted",
+        "targetId": "FB-08",
+        "detail": "逐项验收通过：原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "at": "2026-10-31T02:12:00.000Z"
+      },
+      {
+        "id": "event-12-15",
+        "actorId": "owner",
+        "action": "task.submitted",
+        "targetId": "FB-08",
+        "detail": "提交成果，等待独立验收：原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "at": "2026-10-31T02:11:00.000Z"
+      },
+      {
+        "id": "event-11-14",
+        "actorId": "owner",
+        "action": "task.accepted",
+        "targetId": "FB-07",
+        "detail": "逐项验收通过：原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "at": "2026-10-31T02:10:00.000Z"
+      },
+      {
+        "id": "event-10-13",
+        "actorId": "owner",
+        "action": "task.submitted",
+        "targetId": "FB-07",
+        "detail": "提交成果，等待独立验收：原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "at": "2026-10-31T02:09:00.000Z"
+      },
+      {
+        "id": "event-9-12",
+        "actorId": "owner",
+        "action": "task.accepted",
+        "targetId": "FB-06",
+        "detail": "逐项验收通过：原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "at": "2026-10-31T02:08:00.000Z"
+      },
+      {
+        "id": "event-8-11",
+        "actorId": "owner",
+        "action": "task.submitted",
+        "targetId": "FB-06",
+        "detail": "提交成果，等待独立验收：原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "at": "2026-10-31T02:07:00.000Z"
+      },
+      {
+        "id": "event-7-10",
+        "actorId": "owner",
+        "action": "task.accepted",
+        "targetId": "FB-05",
+        "detail": "逐项验收通过：原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "at": "2026-10-31T02:06:00.000Z"
+      },
+      {
+        "id": "event-6-9",
+        "actorId": "owner",
+        "action": "task.submitted",
+        "targetId": "FB-05",
+        "detail": "提交成果，等待独立验收：原型演示：提交本项示例成果与固定资料，验证负责人逐项验收流程。",
+        "at": "2026-10-31T02:05:00.000Z"
+      },
+      {
+        "id": "event-5-8",
+        "actorId": "owner",
+        "action": "task.accepted",
+        "targetId": "FB-04",
+        "detail": "逐项验收通过：原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "at": "2026-10-31T02:04:00.000Z"
+      },
+      {
+        "id": "event-4-7",
+        "actorId": "owner",
+        "action": "task.accepted",
+        "targetId": "FB-03",
+        "detail": "逐项验收通过：原型演示：核对本项验收条件及示例资料的固定版本，验证验收记录和依赖解锁。",
+        "at": "2026-10-31T02:03:00.000Z"
+      },
+      {
+        "id": "event-3-6",
+        "actorId": "owner",
+        "action": "github.synced",
+        "targetId": "FB-04",
+        "detail": "模拟 GitHub 同步：PR #42 已合并，API 任务进入待验收。",
+        "at": "2026-10-31T02:02:00.000Z",
+        "source": "github",
+        "eventId": "gh-merge-42",
+        "simulated": true
+      },
+      {
+        "id": "event-2-5",
+        "actorId": "owner",
+        "action": "proposal.adopted",
+        "targetId": "FB-03",
+        "detail": "采用「方案 B · 上下文收件箱」v2：连续分诊时需要同时看到责任人与资料，采用 B v2，并保留 A 作为阶段全貌的备选。。验收仍需单独完成。",
+        "at": "2026-10-31T02:01:00.000Z",
+        "decisionId": "decision-2"
+      },
+      {
+        "id": "seed-event-4",
+        "actorId": "designer",
+        "action": "proposal.submitted",
+        "targetId": "FB-03",
+        "detail": "提交交互方案 A 与 B，当前均为 v2，等待采用。",
+        "at": "2026-10-31T01:40:00.000Z"
+      },
+      {
+        "id": "seed-event-3",
+        "actorId": "backend",
+        "action": "github.linked",
+        "targetId": "FB-04",
+        "detail": "关联演示 PR #42；代码评审中。",
+        "at": "2026-10-30T08:30:00.000Z"
+      },
+      {
+        "id": "seed-event-2",
+        "actorId": "owner",
+        "action": "task.accepted",
+        "targetId": "FB-02",
+        "detail": "验收反馈处理流程；需求对齐里程碑完成。",
+        "at": "2026-10-30T04:20:00.000Z"
+      },
+      {
+        "id": "seed-event-1",
+        "actorId": "owner",
+        "action": "project.created",
+        "targetId": "feedback",
+        "detail": "创建项目，明确目标、首期范围与交付责任。",
+        "at": "2026-10-26T01:00:00.000Z"
+      }
+    ],
+    "processedEvents": [
+      "gh-merge-42"
+    ],
+    "appliedPlans": [],
+    "deliveries": [
+      {
+        "id": "delivery-18",
+        "actorId": "owner",
+        "at": "2026-10-31T02:17:00.000Z",
+        "note": "本轮原型演示交付：10 项叶子任务均完成独立验收，采用设计 B v2，PR #42 合并证据与需求 v2 已关联。保留备选方案、贡献人与验收记录。",
+        "taskIds": [
+          "FB-01",
+          "FB-02",
+          "FB-03",
+          "FB-04",
+          "FB-05",
+          "FB-06",
+          "FB-07",
+          "FB-08",
+          "FB-09",
+          "FB-10"
+        ],
+        "acceptanceIds": [
+          "accept-seed-1",
+          "accept-seed-2",
+          "acceptance-4",
+          "acceptance-5",
+          "acceptance-7",
+          "acceptance-9",
+          "acceptance-11",
+          "acceptance-13",
+          "acceptance-15",
+          "acceptance-17"
+        ],
+        "manifest": [
+          {
+            "taskId": "FB-01",
+            "taskVersion": 1,
+            "acceptanceId": "accept-seed-1",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              }
+            ],
+            "decisionRefs": []
+          },
+          {
+            "taskId": "FB-02",
+            "taskVersion": 1,
+            "acceptanceId": "accept-seed-2",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              },
+              {
+                "resourceId": "r-flow",
+                "pinnedVersion": "v1"
+              }
+            ],
+            "decisionRefs": []
+          },
+          {
+            "taskId": "FB-03",
+            "taskVersion": 3,
+            "acceptanceId": "acceptance-4",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              },
+              {
+                "resourceId": "r-design",
+                "pinnedVersion": "v2"
+              }
+            ],
+            "decisionRefs": [
+              {
+                "decisionId": "decision-2",
+                "taskId": "FB-03",
+                "proposalId": "proposal-b",
+                "adoptedVersion": "v2"
+              }
+            ]
+          },
+          {
+            "taskId": "FB-04",
+            "taskVersion": 3,
+            "acceptanceId": "acceptance-5",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              },
+              {
+                "resourceId": "r-pr",
+                "pinnedVersion": "merged@2"
+              }
+            ],
+            "decisionRefs": []
+          },
+          {
+            "taskId": "FB-05",
+            "taskVersion": 3,
+            "acceptanceId": "acceptance-7",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              },
+              {
+                "resourceId": "r-design",
+                "pinnedVersion": "v2"
+              }
+            ],
+            "decisionRefs": [
+              {
+                "decisionId": "decision-2",
+                "taskId": "FB-03",
+                "proposalId": "proposal-b",
+                "adoptedVersion": "v2"
+              }
+            ]
+          },
+          {
+            "taskId": "FB-06",
+            "taskVersion": 3,
+            "acceptanceId": "acceptance-9",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              }
+            ],
+            "decisionRefs": []
+          },
+          {
+            "taskId": "FB-07",
+            "taskVersion": 3,
+            "acceptanceId": "acceptance-11",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              }
+            ],
+            "decisionRefs": []
+          },
+          {
+            "taskId": "FB-08",
+            "taskVersion": 3,
+            "acceptanceId": "acceptance-13",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              },
+              {
+                "resourceId": "r-qa",
+                "pinnedVersion": "v1"
+              }
+            ],
+            "decisionRefs": []
+          },
+          {
+            "taskId": "FB-09",
+            "taskVersion": 3,
+            "acceptanceId": "acceptance-15",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              },
+              {
+                "resourceId": "r-qa",
+                "pinnedVersion": "v1"
+              }
+            ],
+            "decisionRefs": []
+          },
+          {
+            "taskId": "FB-10",
+            "taskVersion": 3,
+            "acceptanceId": "acceptance-17",
+            "evidenceRefs": [
+              {
+                "resourceId": "r-requirements",
+                "pinnedVersion": "v2"
+              },
+              {
+                "resourceId": "r-qa",
+                "pinnedVersion": "v1"
+              }
+            ],
+            "decisionRefs": []
+          }
+        ],
+        "decisionIds": [
+          "decision-2"
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,625 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-31T18:28:52Z",
+  "timeZone": "Asia/Shanghai",
+  "source": "connected-github-read",
+  "authoredSummary": true,
+  "scope": "只读核对两仓库的当前 refs、PR、同 SHA Actions 与限定计划/状态/评论；摘要由本轮研究整理，不是已部署模型持续推断。",
+  "projects": [
+    {
+      "id": "riftlet",
+      "title": "Riftlet",
+      "repo": "haohongfei2001-png/Riftlet",
+      "visibility": "public",
+      "icon": {
+        "path": "assets/apps/riftlet.svg",
+        "kind": "source-asset",
+        "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/blob/307335f6f1511fc49d57275ab19cf9c55496ba5a/favicon.svg",
+        "ref": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+        "sha": "0b3bd76e4db66be4eaff53c3274121c6da866b82"
+      },
+      "observedAt": "2026-10-31T18:28:52Z",
+      "sourceRef": "main",
+      "headSha": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+      "primaryPullNumber": 27,
+      "phase": {
+        "key": "validation",
+        "label": "实机验收",
+        "basis": "工程与 R2.1 已合并；当前仅推进真实使用验证和阻断修复。",
+        "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/pull/27"
+      },
+      "progress": {
+        "percent": null,
+        "completed": null,
+        "total": null,
+        "label": "工程已集成 · 实机未完成",
+        "reason": "没有可证明完整产品范围的统一任务分母；CI、合并和真实可用性不能混算。"
+      },
+      "current": {
+        "headline": "工程已合入，冷首击还没有完成实机复验",
+        "done": [
+          "Chrome 进程身份修复已合入 main",
+          "R2.1 视觉已冻结",
+          "当前 main 的 Native、Feedback、官网工作流通过"
+        ],
+        "blocked": [
+          "专用聊天跳回 Home，冷首击与选区保留复验未运行"
+        ],
+        "next": "先取得稳定的专用聊天，再复验冷首击和选区保留。",
+        "needsUserDecision": false,
+        "decisionReason": "来源没有要求此刻批准发布；生产准入仍关闭是边界，不是待办审批。",
+        "sources": [
+          {
+            "label": "最新工程与实机回执",
+            "url": "https://github.com/haohongfei2001-png/Riftlet/pull/27",
+            "ref": "307335f6f1511fc49d57275ab19cf9c55496ba5a"
+          },
+          {
+            "label": "最终实机清单",
+            "url": "https://github.com/haohongfei2001-png/Riftlet/blob/307335f6f1511fc49d57275ab19cf9c55496ba5a/docs/R21_UI_FREEZE_AND_MAC_ACCEPTANCE.md",
+            "ref": "307335f6f1511fc49d57275ab19cf9c55496ba5a"
+          }
+        ]
+      },
+      "alerts": [
+        {
+          "id": "riftlet-device-blocked",
+          "kind": "blocked",
+          "title": "冷首击复验尚未开始",
+          "detail": "专用聊天导航跳回 Home；未启动候选 App、未点击截图，原因未确定。",
+          "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/pull/27",
+          "sourceRef": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+          "sourceUpdatedAt": "2026-10-31T15:48:22Z",
+          "requiresUserAction": false
+        },
+        {
+          "id": "riftlet-selection-pending",
+          "kind": "unverified",
+          "title": "选区保留仍待复验",
+          "detail": "历史选区失败保留；当前候选尚未产生新的实机通过证据。",
+          "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/pull/27",
+          "sourceRef": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+          "requiresUserAction": false
+        }
+      ],
+      "plan": {
+        "title": "完成统一 App 的最终实机验收",
+        "scopeLabel": "当前收尾计划；不是完整产品进度分母",
+        "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/blob/307335f6f1511fc49d57275ab19cf9c55496ba5a/docs/R21_UI_FREEZE_AND_MAC_ACCEPTANCE.md",
+        "ref": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+        "items": [
+          {
+            "id": "r-build",
+            "title": "统一 App 与 R2.1 集成",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/pull/26"
+          },
+          {
+            "id": "r-identity",
+            "title": "Chrome 进程身份与旧未决操作锁修复",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/pull/27"
+          },
+          {
+            "id": "r-cold",
+            "title": "稳定聊天里的自然冷首击",
+            "status": "blocked",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/pull/27"
+          },
+          {
+            "id": "r-selection",
+            "title": "原草稿和选区保持",
+            "status": "blocked",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/pull/27"
+          },
+          {
+            "id": "r-feedback",
+            "title": "原生反馈到云端的完整链路",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/blob/307335f6f1511fc49d57275ab19cf9c55496ba5a/docs/R21_UI_FREEZE_AND_MAC_ACCEPTANCE.md"
+          },
+          {
+            "id": "r-environment",
+            "title": "实际多屏、权限和物理输入",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/blob/307335f6f1511fc49d57275ab19cf9c55496ba5a/docs/R21_UI_FREEZE_AND_MAC_ACCEPTANCE.md"
+          }
+        ],
+        "selectionBasis": "实际 main 的最终实机验收清单，加上最新 PR #27 的修复和实机结果。"
+      },
+      "previousPlan": {
+        "title": "R2.1 外观集成与 UI 冻结",
+        "status": "completed",
+        "date": "2026-10-31T11:18:06Z",
+        "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/pull/26",
+        "ref": "60eaaef64848fc5535580e4fcb65e45f3f41e814",
+        "done": [
+          "纸片式微图与连续预览正式集成",
+          "修复退出动画被布局刷新抵消的问题",
+          "完成双架构构建与包核验"
+        ],
+        "remaining": [
+          "真实使用与物理输入另行验收"
+        ]
+      },
+      "rounds": [
+        {
+          "id": "r27",
+          "title": "修复 Chrome 身份与未决操作锁",
+          "date": "2026-10-31T15:48:22Z",
+          "ref": "main",
+          "headSha": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+          "status": "merged",
+          "done": [
+            "Chrome 启动时间缺失时仍可识别同一进程",
+            "旧 UNKNOWN 操作不会被新的会话格式绕过",
+            "当前 main 的必要工作流通过"
+          ],
+          "failed": [
+            "实机专用聊天跳回 Home；本轮未进入冷首击复验"
+          ],
+          "next": [
+            "稳定专用聊天后复验冷首击、草稿选区"
+          ],
+          "sources": [
+            {
+              "label": "PR #27",
+              "url": "https://github.com/haohongfei2001-png/Riftlet/pull/27",
+              "ref": "307335f6f1511fc49d57275ab19cf9c55496ba5a"
+            }
+          ]
+        },
+        {
+          "id": "r26",
+          "title": "R2.1 正式集成，冻结当前 UI",
+          "date": "2026-10-31T11:18:06Z",
+          "ref": "main",
+          "headSha": "60eaaef64848fc5535580e4fcb65e45f3f41e814",
+          "status": "merged",
+          "done": [
+            "纸片微图、稳定暖预览进入正式 App",
+            "退出过程中刷新布局不再让图像回到裂缝",
+            "双架构构建及来源检查通过"
+          ],
+          "failed": [
+            "首次组合回归发现退出平移被抵消，已在本轮修复"
+          ],
+          "next": [
+            "完成最终实机使用清单"
+          ],
+          "sources": [
+            {
+              "label": "PR #26",
+              "url": "https://github.com/haohongfei2001-png/Riftlet/pull/26",
+              "ref": "60eaaef64848fc5535580e4fcb65e45f3f41e814"
+            }
+          ]
+        },
+        {
+          "id": "r25",
+          "title": "正式工程迁入 main",
+          "date": "2026-10-31T10:01:34Z",
+          "ref": "main",
+          "headSha": "749f3ae81b8a75a9462506bfeb3d3cf2796ed154",
+          "status": "merged",
+          "done": [
+            "统一 App 与主线治理正式合并",
+            "Native、Feedback 与官网分别验证"
+          ],
+          "failed": [],
+          "next": [
+            "集成独立 R2.1 候选"
+          ],
+          "sources": [
+            {
+              "label": "PR #25",
+              "url": "https://github.com/haohongfei2001-png/Riftlet/pull/25",
+              "ref": "749f3ae81b8a75a9462506bfeb3d3cf2796ed154"
+            }
+          ]
+        },
+        {
+          "id": "r23",
+          "title": "R2 原生配置与分页",
+          "date": "2026-10-31T07:16:16Z",
+          "ref": "PR #23",
+          "headSha": "4c92f6e639538bc7f3b1e06cf71fb07086add278",
+          "status": "merged",
+          "done": [
+            "位置、遮挡、分页和原图查看可配置",
+            "原生和反馈执行测试通过"
+          ],
+          "failed": [
+            "当时来源准入未更新，工作流整体失败；后续正式集成已通过"
+          ],
+          "next": [],
+          "sources": [
+            {
+              "label": "PR #23（历史）",
+              "url": "https://github.com/haohongfei2001-png/Riftlet/pull/23",
+              "ref": "4c92f6e639538bc7f3b1e06cf71fb07086add278"
+            }
+          ]
+        }
+      ],
+      "workflows": [
+        {
+          "id": 41214944880,
+          "name": "pages build and deployment",
+          "headSha": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/haohongfei2001-png/Riftlet/actions/runs/41214944880"
+        },
+        {
+          "id": 41214945392,
+          "name": "Feedback v0.1",
+          "headSha": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/haohongfei2001-png/Riftlet/actions/runs/41214945392"
+        },
+        {
+          "id": 41214945466,
+          "name": "Native foundation",
+          "headSha": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/haohongfei2001-png/Riftlet/actions/runs/41214945466"
+        }
+      ],
+      "evidenceLimitations": [
+        "当前没有整体百分比的可靠分母。",
+        "普通生产上传、安全重试和公开发行保持关闭。",
+        "历史失败仅在相应新证据成立时解除，最新 CI 成功不替代真实验收。"
+      ],
+      "currentSummary": "工程已合入，冷首击还没有完成实机复验",
+      "currentWork": "先取得稳定的专用聊天，再复验冷首击和选区保留。",
+      "previousPlans": [
+        {
+          "title": "R2.1 外观集成与 UI 冻结",
+          "status": "completed",
+          "date": "2026-10-31T11:18:06Z",
+          "sourceUrl": "https://github.com/haohongfei2001-png/Riftlet/pull/26",
+          "ref": "60eaaef64848fc5535580e4fcb65e45f3f41e814",
+          "done": [
+            "纸片式微图与连续预览正式集成",
+            "修复退出动画被布局刷新抵消的问题",
+            "完成双架构构建与包核验"
+          ],
+          "remaining": [
+            "真实使用与物理输入另行验收"
+          ]
+        }
+      ],
+      "trackedPr": null,
+      "planPath": "docs/R21_UI_FREEZE_AND_MAC_ACCEPTANCE.md",
+      "statusPath": "docs/EXECUTION_BOARD.md"
+    },
+    {
+      "id": "vaiwl",
+      "title": "VAIWL",
+      "repo": "haohongfei2001-png/Virtual-AI-Workspace-Layer",
+      "visibility": "public",
+      "icon": {
+        "kind": "initials",
+        "text": "V",
+        "reason": "当前生产构建 manifest 无 icons；批准原型没有独立 App 标识。工作台占位不代表正式品牌。",
+        "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/blob/5593e02eb81b1fc8fda3a12dc945d0280cf67d60/extension/build.mjs",
+        "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60"
+      },
+      "observedAt": "2026-10-31T18:28:52Z",
+      "sourceRef": "codex/vaiwl-free-first-20261013",
+      "headSha": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+      "primaryPullNumber": 16,
+      "phase": {
+        "key": "repair",
+        "label": "实机修复",
+        "basis": "离线 CI 已通过；最新实机回执确认 Project 增强面失败。",
+        "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6547186156"
+      },
+      "progress": {
+        "percent": null,
+        "completed": null,
+        "total": null,
+        "label": "普通聊天可展开 · Project 待修复",
+        "reason": "Free 与 Pro 有不同候选和验证范围；不能把 42/42、44/44 检查成功当作产品完成率。"
+      },
+      "current": {
+        "headline": "普通聊天能打开工作区，Project 页面仍打不开",
+        "done": [
+          "普通聊天的真实四格点击成功展开工作区",
+          "当前 Free 42/42 CI 通过",
+          "独立 Free + Pro 统一候选已完成工程集成"
+        ],
+        "blocked": [
+          "Project 页面没有增强工作区和返回入口",
+          "当前拒绝阶段尚未完整记录"
+        ],
+        "next": "先修复 Project 专属入口和拒绝阶段诊断，再做一次定向实机复验。",
+        "needsUserDecision": false,
+        "decisionReason": "最新派工要求远程负责人直接修复，不以重复审批代替开发。",
+        "sources": [
+          {
+            "label": "当前工程阻断",
+            "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6547186156",
+            "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60"
+          },
+          {
+            "label": "诊断接线差额",
+            "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6547191328",
+            "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60"
+          },
+          {
+            "label": "Mac 实际结果",
+            "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6546368431",
+            "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60"
+          }
+        ]
+      },
+      "alerts": [
+        {
+          "id": "v-project",
+          "kind": "blocked",
+          "title": "Project 页面增强面未出现",
+          "detail": "原生项目和成员列表存在，但 frame=0、返回入口=0；根因尚未确定。",
+          "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6547186156",
+          "sourceRef": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+          "sourceUpdatedAt": "2026-10-31T18:05:54Z",
+          "requiresUserAction": false
+        },
+        {
+          "id": "v-private",
+          "kind": "confirmation",
+          "title": "旧私人资产恢复需本人确认",
+          "detail": "仅恢复自己的旧资料时需要本人确认；这不会阻塞远程修复。",
+          "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/blob/5593e02eb81b1fc8fda3a12dc945d0280cf67d60/docs/AUTHORITY.md",
+          "sourceRef": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+          "requiresUserAction": true,
+          "actionType": "local-confirmation",
+          "conditional": true
+        }
+      ],
+      "plan": {
+        "title": "先修复 Project，再集中完成个人日用验收",
+        "scopeLabel": "当前关键路径；不是完整产品进度分母",
+        "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6547186156",
+        "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+        "items": [
+          {
+            "id": "v-ci",
+            "title": "Free 当前候选统一 CI",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/actions/runs/41210280508"
+          },
+          {
+            "id": "v-chat",
+            "title": "普通聊天真实四格展开",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6546368431"
+          },
+          {
+            "id": "v-project",
+            "title": "Project 页面增强面",
+            "status": "blocked",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6547186156"
+          },
+          {
+            "id": "v-diagnostic",
+            "title": "接通当前拒绝阶段诊断",
+            "status": "active",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6547191328"
+          },
+          {
+            "id": "v-return",
+            "title": "完整阅读往返、输入与工具",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6546368431"
+          },
+          {
+            "id": "v-source",
+            "title": "正向 NONE 与新片段生产来源",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6546368431"
+          },
+          {
+            "id": "v-assets",
+            "title": "本人旧资产确认与持续日用",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/blob/5593e02eb81b1fc8fda3a12dc945d0280cf67d60/docs/AUTHORITY.md"
+          }
+        ],
+        "selectionBasis": "正式计划的当前任务由更新更晚的 PR 评论细化；此摘要不修改原计划。"
+      },
+      "previousPlan": {
+        "title": "统一候选冻结后进行 Mac 集中验收",
+        "status": "superseded-by-findings",
+        "date": "2026-10-31T14:54:49Z",
+        "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6545003635",
+        "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+        "done": [
+          "同 ID 更新与来源核验",
+          "普通聊天四格展开"
+        ],
+        "remaining": [
+          "Project 入口实机暴露阻断，先回到定向修复"
+        ]
+      },
+      "parallelCandidate": {
+        "title": "Free + Pro R1 统一候选",
+        "pullNumber": 24,
+        "headSha": "976487fab544baaefcd490460c98cd9dc26385df",
+        "phase": "独立候选，未合并",
+        "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/24",
+        "checks": "44/44 jobs 通过",
+        "limits": "真实 ChatGPT、本人 Mac 和真实模型能力仍须独立验收"
+      },
+      "rounds": [
+        {
+          "id": "v-project-block",
+          "title": "Project 实机阻断转入定向修复",
+          "date": "2026-10-31T18:06:21Z",
+          "ref": "PR #16",
+          "headSha": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+          "status": "blocked",
+          "done": [
+            "确认普通聊天展开有真实正例",
+            "确认 Project 原生页面与成员关系存在"
+          ],
+          "failed": [
+            "Project 增强面与返回入口没有出现",
+            "现有诊断没有提供具体拒绝阶段"
+          ],
+          "next": [
+            "复现 Project 专属入口问题",
+            "补齐有限、无正文的当前拒绝阶段"
+          ],
+          "sources": [
+            {
+              "label": "工程任务",
+              "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6547186156",
+              "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60"
+            },
+            {
+              "label": "诊断差额",
+              "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6547191328",
+              "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60"
+            }
+          ]
+        },
+        {
+          "id": "v-mac",
+          "title": "原 Mac 同 ID 更新与有限验收",
+          "date": "2026-10-31T16:54:33Z",
+          "ref": "PR #16",
+          "headSha": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+          "status": "partial",
+          "done": [
+            "同 ID 更新与备份核验",
+            "普通聊天真实四格点击展开"
+          ],
+          "failed": [
+            "Project 页面增强面失败"
+          ],
+          "next": [
+            "完整返回往返仍未运行",
+            "NONE 归属仍未知；工具取消只部分验证"
+          ],
+          "sources": [
+            {
+              "label": "Mac 接续验收",
+              "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6546368431",
+              "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60"
+            }
+          ]
+        },
+        {
+          "id": "v-unified",
+          "title": "Free + Pro R1 工程接线完成",
+          "date": "2026-10-31T15:51:51Z",
+          "ref": "PR #24（独立候选）",
+          "headSha": "976487fab544baaefcd490460c98cd9dc26385df",
+          "status": "review",
+          "done": [
+            "人工主题、标题、Series 和统一备份接入 Free",
+            "统一工程与继承 Free 共 44/44 jobs 通过"
+          ],
+          "failed": [],
+          "next": [
+            "真实宿主、本人 Mac 与模型质量仍需验证"
+          ],
+          "sources": [
+            {
+              "label": "统一候选 #24",
+              "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/24",
+              "ref": "976487fab544baaefcd490460c98cd9dc26385df"
+            }
+          ]
+        },
+        {
+          "id": "v-clock",
+          "title": "修复合法观察被小数时钟误拒绝",
+          "date": "2026-10-31T14:45:38Z",
+          "ref": "PR #16",
+          "headSha": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+          "status": "completed",
+          "done": [
+            "修复合法六秒观察在发送前被误拒绝",
+            "新候选正式 CI 42/42 通过"
+          ],
+          "failed": [
+            "上一候选正式旅程 41/42；旧失败保留"
+          ],
+          "next": [
+            "转入真实 Mac 验收"
+          ],
+          "sources": [
+            {
+              "label": "当前 CI",
+              "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/actions/runs/41210280508",
+              "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60"
+            },
+            {
+              "label": "状态依据",
+              "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/blob/5593e02eb81b1fc8fda3a12dc945d0280cf67d60/docs/STATUS.md",
+              "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60"
+            }
+          ]
+        }
+      ],
+      "workflows": [
+        {
+          "id": 41210280508,
+          "name": "Free offline Host slices (not release acceptance)",
+          "headSha": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/actions/runs/41210280508"
+        },
+        {
+          "id": 41215418356,
+          "name": "Unified R1 inherited Free offline matrix (not live acceptance)",
+          "headSha": "976487fab544baaefcd490460c98cd9dc26385df",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/actions/runs/41215418356"
+        },
+        {
+          "id": 41215418359,
+          "name": "VAIWL unified Free + Pro R1 candidate",
+          "headSha": "976487fab544baaefcd490460c98cd9dc26385df",
+          "status": "completed",
+          "conclusion": "success",
+          "url": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/actions/runs/41215418359"
+        }
+      ],
+      "evidenceLimitations": [
+        "最后两条评论比源码 STATUS 更新，监控不能只读默认分支 README。",
+        "缺少新增提交不能推出开发者停止工作。",
+        "旧私人资产确认是条件性本人操作，不应制造为当前开发的必选审批。",
+        "真实来源、完整阅读往返、新片段捕获与定位仍未全部完成。"
+      ],
+      "currentSummary": "普通聊天能打开工作区，Project 页面仍打不开",
+      "currentWork": "先修复 Project 专属入口和拒绝阶段诊断，再做一次定向实机复验。",
+      "previousPlans": [
+        {
+          "title": "统一候选冻结后进行 Mac 集中验收",
+          "status": "superseded-by-findings",
+          "date": "2026-10-31T14:54:49Z",
+          "sourceUrl": "https://github.com/haohongfei2001-png/Virtual-AI-Workspace-Layer/pull/16#issuecomment-6545003635",
+          "ref": "5593e02eb81b1fc8fda3a12dc945d0280cf67d60",
+          "done": [
+            "同 ID 更新与来源核验",
+            "普通聊天四格展开"
+          ],
+          "remaining": [
+            "Project 入口实机暴露阻断，先回到定向修复"
+          ]
+        }
+      ],
+      "trackedPr": 16,
+      "planPath": "docs/DEVELOPMENT_PLAN.md",
+      "statusPath": "docs/STATUS.md"
+    }
+  ]
+}

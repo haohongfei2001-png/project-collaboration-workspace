@@ -1,0 +1,2205 @@
+{
+  "schemaVersion": 1,
+  "observedAt": "2026-10-31T18:30:33Z",
+  "source": "Actual read-only connected GitHub retrieval",
+  "privacy": "Only public repositories; no private repository content or credentials included.",
+  "projects": [
+    {
+      "id": "paia",
+      "name": "PAIA",
+      "repo": "haohongfei2001-png/paia",
+      "icon": "assets/apps/paia.svg",
+      "iconKind": "repository-asset",
+      "iconSource": "https://github.com/haohongfei2001-png/paia/blob/52c589efa27534cf84b7a7daf8712bc90635c2b4/design/brand/soft-blue-p-20261021/source/app-icon.svg",
+      "observedAt": "2026-10-31T18:30:33Z",
+      "sourceRef": "main",
+      "sourceSha": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+      "planPath": "extension/docs/consumer-product-v1/STATUS.md",
+      "trackedPr": null,
+      "phase": {
+        "label": "内测迭代",
+        "sourceUrl": "https://github.com/haohongfei2001-png/paia/blob/52c589efa27534cf84b7a7daf8712bc90635c2b4/README.md",
+        "ref": "52c589efa27534cf84b7a7daf8712bc90635c2b4"
+      },
+      "currentSummary": "官网已恢复到上一版；扩展仍在内测迭代。",
+      "currentWork": "跟进扩展接线与完整验收，保留当前官网。",
+      "progress": {
+        "kind": "unknown",
+        "value": null,
+        "label": "整体进度未量化",
+        "reason": "现有计划包含多个开发方向，没有当前整体完成分母。"
+      },
+      "plan": {
+        "title": "Consumer Product v1 · 当前重点",
+        "sourceUrl": "https://github.com/haohongfei2001-png/paia/blob/52c589efa27534cf84b7a7daf8712bc90635c2b4/extension/docs/consumer-product-v1/STATUS.md",
+        "ref": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+        "scopeLabel": "计划摘录 · 非整体完成比例",
+        "completeScope": false,
+        "items": [
+          {
+            "id": "paia-r3",
+            "title": "R3 悬浮界面方案采用",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia/blob/52c589efa27534cf84b7a7daf8712bc90635c2b4/extension/docs/consumer-product-v1/AUTHORITY.md"
+          },
+          {
+            "id": "paia-maintenance",
+            "title": "整理、维护与 Context 接线",
+            "status": "active",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia/pull/313"
+          },
+          {
+            "id": "paia-service",
+            "title": "真实身份、模型与服务资格",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia/blob/52c589efa27534cf84b7a7daf8712bc90635c2b4/extension/docs/consumer-product-v1/STATUS.md"
+          },
+          {
+            "id": "paia-acceptance",
+            "title": "完整产品与实机验收",
+            "status": "unknown",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia/blob/52c589efa27534cf84b7a7daf8712bc90635c2b4/extension/docs/consumer-product-v1/STATUS.md"
+          }
+        ]
+      },
+      "previousPlans": [
+        {
+          "title": "Atelier 17 官网方案",
+          "date": "2026-10-30T13:34:54Z",
+          "status": "reverted",
+          "sourceUrl": "https://github.com/haohongfei2001-png/paia/pull/331",
+          "summary": "双栏首页与产品预览已合入，随后按最新 main 提交回退到 Atelier 16。"
+        }
+      ],
+      "rounds": [
+        {
+          "id": "paia-restore",
+          "title": "官网恢复到上一版",
+          "date": "2026-10-30T14:59:14Z",
+          "headSha": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+          "status": "merged",
+          "done": [
+            "恢复中英文 Atelier 16 首页",
+            "保留 HTTP 503 回读修复"
+          ],
+          "failed": [],
+          "next": [
+            "扩展开发不受这次官网回退影响"
+          ],
+          "sources": [
+            {
+              "label": "回退提交",
+              "url": "https://github.com/haohongfei2001-png/paia/commit/52c589efa27534cf84b7a7daf8712bc90635c2b4"
+            },
+            {
+              "label": "该提交网站检查",
+              "url": "https://github.com/haohongfei2001-png/paia/actions/runs/41076548646"
+            }
+          ]
+        },
+        {
+          "id": "paia-readback",
+          "title": "修复官网验证的临时网络失败",
+          "date": "2026-10-30T13:52:18Z",
+          "headSha": "47e42e194db8cd087e4f3bf22cb5cce3a9145b0d",
+          "status": "merged",
+          "done": [
+            "对同一个 HTTP 503 请求有限重试",
+            "最终网站与线上回读检查通过"
+          ],
+          "failed": [
+            "此前两次回读遇到 HTTP 503；原失败保留"
+          ],
+          "next": [],
+          "sources": [
+            {
+              "label": "PR #332",
+              "url": "https://github.com/haohongfei2001-png/paia/pull/332"
+            }
+          ]
+        },
+        {
+          "id": "paia-redesign",
+          "title": "新版首页设计与发布",
+          "date": "2026-10-30T13:34:55Z",
+          "headSha": "0facb35078c5bdb6b2026ab1367a42afc1a3bd92",
+          "status": "reverted",
+          "done": [
+            "完成中英文首页、预览页签和移动布局"
+          ],
+          "failed": [
+            "发布后的回读曾失败，后由 #332 修复",
+            "该版已被后续回退替换"
+          ],
+          "next": [],
+          "sources": [
+            {
+              "label": "PR #331",
+              "url": "https://github.com/haohongfei2001-png/paia/pull/331"
+            }
+          ]
+        }
+      ],
+      "attention": [],
+      "limitations": [
+        "官网 CI 成功不等于扩展或真实模型资格通过。",
+        "计划文件顶部日期早于近期官网提交；整体进度不从 PR 数量推算。"
+      ],
+      "github": {
+        "source": "github-connector-read",
+        "fetchedAt": "2026-10-31T18:30:33Z",
+        "mainSha": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+        "repository": {
+          "fullName": "haohongfei2001-png/paia",
+          "defaultBranch": "main",
+          "url": "https://github.com/haohongfei2001-png/paia",
+          "pushedAt": "2026-10-30T14:59:30Z",
+          "private": false
+        },
+        "pullRequests": [
+          {
+            "number": 332,
+            "title": "Keep live readback strict while retrying transient HTTP 503",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "fdd661ab68f22bb7876f964107a79accfc3edd24",
+            "branch": "fix/paia-readback-transient-503-20261030",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/332",
+            "updatedAt": "2026-10-30T14:03:52Z",
+            "mergedAt": "2026-10-30T13:52:18Z",
+            "body": "## Why\nThe Atelier 17 website is deployed and the full website suite passes. Two production readback attempts stopped on transient HTTP 503 responses at different static files: the first after 119 exact matches, the second after 36 exact matches (before status.html). Neither found a byte mismatch. A single transient response currently stops the entire read-only verification, and its error record omits the failing URL.\n\n## Change\nAdd a small HTTP opener that retries only HTTP 503, on the same request, up to three total attempts with 2-second and 4-second delays. Every attempt records the exact public URL, status and attempt number. Exhausted or other errors still fail and include the URL. Error responses are closed before retry.\n\nThe existing expected-404-page policy, response-size limit, final-host assertion, exact-byte comparison, complete asset list and all public browser checks remain unchanged. No visitor page, asset, frozen baseline or workflow changes.\n\n## Verification\n- Five deterministic standard-library unit tests cover recovery after one/two 503s, strict exhaustion, immediate failure for other statuses/network errors, and readable expected 404 responses. No external requests or sleeps in these tests.\n- The existing website suite now runs the unit tests as a required early gate.\n- Static suite: 5,990 checks, zero failures; all 59 generated files match; diff check passes.\n- Hosted browser CI and a new production readback will run through the unchanged workflow.\n\nThis is a verification reliability follow-up to #331, not a claim that the origin/CDN cause of HTTP 503 has been identified.\n\n## Final result\nMerged as `47e42e194db8cd087e4f3bf22cb5cce3a9145b0d`. [Pages deployment](https://github.com/haohongfei2001-png/paia/actions/runs/41066850366) and the [final PAIA Website run](https://github.com/haohongfei2001-png/paia/actions/runs/41066851811) are completed/success. The full website suite passed 10,485 checks; strict production file and browser readback passed 1,521 checks with no failures. An earlier live attempt demonstrated a real 503 recovery on `og-zh.png` on the second attempt; the final successful job preserves all original comparisons and browser assertions."
+          },
+          {
+            "number": 331,
+            "title": "Refine PAIA homepage: lighter composition, readable product stories, purposeful interactions",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "3f6976be7cd68c7da711541a21077b778ff9ae12",
+            "branch": "design/paia-craft-refinement-20261030",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/331",
+            "updatedAt": "2026-10-30T14:03:51Z",
+            "mergedAt": "2026-10-30T13:34:55Z",
+            "body": "## Why\nThe existing homepage delayed the product behind repeated editorial sections and large perspective stages. This redesign makes PAIA feel more precise and welcoming while showing what the product actually does sooner.\n\n## What changes\n- Rebuild the Chinese and English homepage around a calm two-column hero, real fictional input examples, and three accessible product-preview tabs.\n- Replace the large scroll/perspective Thought Library stage with a flat, continuous reading surface; preserve all four source inputs, three topics, nine chapters and both full reader entries.\n- Refine typography, spacing, cool blue/lavender surfaces, navigation, mobile layouts and restrained entrance motion; respect reduced motion and forced colors.\n- Keep the original Context and six-row R3 components. Context remains default-off and independently scoped. Explicit reuse appends to the complete existing example draft; nothing is sent.\n- Load only the base stylesheet plus the new Atelier 17 layer on home; leave interior/demo pages, extension code, approved R3 components and frozen evidence unchanged.\n\n## Verification\n- `python website/build.py --check`: all 59 generated files match.\n- `PYTHONPATH=/tmp/paia-website-test-deps python website/test.py --static-only`: 5,989 checks, zero failures. Full hosted browser CI passed: 10,484 checks in this design PR; 10,485 after the follow-up verification gate in #332.\n- Node syntax and `git diff --check` pass.\n- Actual browser review: desktop Chinese hero, Thought Library, Context editing and independent permission switches; R3 expansion and draft preservation; Chinese 390/320 and English 390 responsive layouts. All observed widths remain within the page.\n- Added focused Atelier 17 browser coverage for tabs/keyboard, readability, no overflow, Context scope, complete draft preservation and pointer hit testing, reduced motion, forced colors and no-JS content. Original frozen baselines are retained.\n\n## Review images\n![Desktop homepage](https://raw.githubusercontent.com/haohongfei2001-png/paia/3f6976be7cd68c7da711541a21077b778ff9ae12/website/receipts/atelier17-20261030/desktop-zh.jpg)\n![Mobile layouts](https://raw.githubusercontent.com/haohongfei2001-png/paia/3f6976be7cd68c7da711541a21077b778ff9ae12/website/receipts/atelier17-20261030/mobile-layouts.jpg)\n\nPublishing follows the existing website CI and GitHub Pages workflow. The store listing remains unavailable; calls to action lead to the real product demo rather than claiming an install is ready.\n\n## Final published verification\n- Published main revision: `47e42e194db8cd087e4f3bf22cb5cce3a9145b0d` (includes the readback reliability follow-up #332).\n- [GitHub Pages deployment](https://github.com/haohongfei2001-png/paia/actions/runs/41066850366): success.\n- [Final PAIA Website run](https://github.com/haohongfei2001-png/paia/actions/runs/41066851811): completed/success. Full website suite: 10,485 checks, zero failures. Strict production file and browser verification: `live_pass: true`, 1,521 checks, zero failures.\n- Both public homepages were opened and the `atelier17-20261030` release identity was confirmed. The English preview interaction was also used on the live site.\n- Homepage CSS requests: 6 → 2; uncompressed stylesheet source: 244,733 → 159,315 bytes (34.9% smaller). Presentation script: 12,067 → 5,856 bytes. These are source-payload comparisons, not a measured page-load speed claim.\n\nThe Atelier 17 document is the pre-publication design and validation note; this section records the subsequent completed deployment and production verification. Initial live attempts encountered transient HTTP responses; no assertion, byte comparison, viewport, protected baseline or browser gate was removed."
+          },
+          {
+            "number": 330,
+            "title": "website: optical PAIA presentation with layered native-scroll depth",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "368520b2054c50e31cac93728ca355f3d92985db",
+            "branch": "website/prism-art-direction-20261024",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/330",
+            "updatedAt": "2026-10-24T12:55:07Z",
+            "mergedAt": "2026-10-24T12:52:17Z",
+            "body": "## Owner request\nReplace the small-paper/bulletin-board visual direction with a large, precise optical presentation: clear glass edges, fine original linework, meaningful 3D depth and native scroll motion. Keep current copy and the approved hero/Context/brand/story elements. Update the official site, not another isolated study.\n\n## Implementation\n- Build from current main `6d5470a71cfb8d7be692a2a6744a19d0f7086f1e`; do not overwrite another checkout or roll back V15.\n- Retire the homepage's runtime Shadow DOM replacement. The actual visual source is now server-delivered paired static HTML, with a new immutable JS/CSS entry.\n- Thought Library uses rear glass, fine rim, topic rail and full reading plane at different CSS 3D depths. Passive native scroll changes the camera and layer spacing. No wheel capture, infinite animation or text rewriting.\n- Archive becomes one exact, clear surface, not colored scraps. Reuse/edit details use the same material language.\n- All core copy, three topic/nine chapter directory, two complete original inputs, timestamps and word identity stay. Existing Context quartet, independent default-off access, R3 six-row board and private-space artwork remain.\n- Small screens and reduced motion show full stationary content. Explicit pause retains a readable object. No remote font, data call, storage, account grant or message sending.\n\n## Verification and preservation\n149 existing deployed assets/non-home outputs locked to baseline, plus exact approved fragments/text. Interactive demo, help/contact/legal/release pages, extension, installation manifest and CI workflow unchanged. New test dispatch applies only to the new homepage; previous release tests remain in place. Original demo/IME/caret/permission/consent tests still run.\n\nGenerator check: 59 matching files. Static suite passed. Actual Chinese/English screenshots and scroll samples reviewed; targeted checks cover 320/390/768/1024/1440/1920 widths and current demo behavior. Full CI and exact public readback are still release gates. A first targeted run had an unreproduced initialization timeout; the independent narrow-width reproduction and clean full rerun are separately recorded, not relabelled.\n\nSee `website/atelier/PRISM16.md`. Browser assertions are not aesthetic certification, physical-device tests or installed-extension acceptance.\n"
+          },
+          {
+            "number": 329,
+            "title": "website: finish V15 publication with a version-specific entry",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "55d0f3bdead626c8db5d56de8a528d55914944da",
+            "branch": "website/folio15-release-20261024",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/329",
+            "updatedAt": "2026-10-24T12:22:11Z",
+            "mergedAt": "2026-10-24T12:18:13Z",
+            "body": "Continuation of the owner-requested V15 correction, not a new design. PR #328 is already deployed, and an independent actual-public browser run verified its visible Thought folio in Chinese/English at 1440/390/320 with 228 checks. However, the HTML still referenced presentation13.js?v=20261024-v13 despite changed runtime bytes, while the response permits max-age=600. This could leave returning visitors on old code and cannot be ruled out by cold-browser checks. This patch copies the already verified entry byte-for-byte to presentation15.js?v=20261024-v15, updates both canonical locale templates and all three generated home outputs, marks the deployed release correctly and adds explicit entry checks. No art/CSS/content/product behavior changes; old entry is retained for already-cached documents. Existing static locks and demo/IME/permission/contact suites stay. Build check: 59 files. Static suite: 5,926 passing. A seeded legacy-cache browser run is being collected before merge; exact PR CI and final public readback are required. Publishing policy now records runtime-version and cache validation rather than asking visitors to hard-refresh."
+          },
+          {
+            "number": 328,
+            "title": "website: repair V14 spatial whitespace and rebuild Thought Library V15",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "c39733eeef6b78655dfe138c3c77bf3f4542f93b",
+            "branch": "website/atelier-v15-rebuild-20261024",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/328",
+            "updatedAt": "2026-10-24T09:55:20Z",
+            "mergedAt": "2026-10-24T09:55:20Z",
+            "body": "Owner said V14 still looks poor and requires every change to be published. Actual public visual review exposed a ~3,100px Thought section with severe empty-scrolling and tiny content. V15 replaces only the Thought visual owner with a normally-flowing editorial folio: a single cohesive translucent shell, substantial readable matte chapter, non-card typographic three-topic index, restrained hairlines and proportionate native-scroll perspective. Mobile stacks a compact three-topic row above full text; reduced motion is static. Exact source data and chronological entries are cloned from the existing pre-rendered V13 fallback. Original homepage hero, four Context cards and independent permission switches, R3 floating UI, privacy art, demo, contact/consent, extension code and installation availability are untouched. 5,920 static and 212 targeted desktop/mobile English/Chinese browser assertions passed; previous initial full-site attempt stopped on an intermittent unrelated zh demo image check, which independently rechecked clean. Full PR CI and public readback are publication gates; no design-quality superlative is claimed. Details: website/atelier/REVISION_V15.md."
+          },
+          {
+            "number": 327,
+            "title": "website: publish approved spatial Thought Library on the official home",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "a00a3d52c6dc563d6e09ae33e2d86c51ff2f9b24",
+            "branch": "website/spatial-official-home-20261024",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/327",
+            "updatedAt": "2026-10-24T09:16:09Z",
+            "mergedAt": "2026-10-24T09:16:09Z",
+            "body": "Owner explicitly requested: **上线，每次修改都上线**. Promote the latest large perspective/glass Thought Library from the separate study into the existing official Chinese/English homepages, preserving all other accepted sections and real product boundaries.\n\nImplementation: existing shell loads a scoped spatial module at #thoughts. Two fixed same-origin static GETs reuse the approved study HTML/CSS, while all headings, directory names and complete entries come from the original locale's homepage. No fetched code execution. Shadow DOM isolates material CSS. No iframe or scroll interception. Original V13 HTML remains the readable no-JS/network fallback; runtime data-spatial14=ready identifies the actual spatial scene. Existing generated files remain exact. The old Thought timer is excluded; archive/reuse retain their owners.\n\nTests: original static locks and all independent demo/IME/permission/consent/support guards retained. New rendered-home checks explicitly inspect visible Shadow DOM, actual section-offset scroll/reverse, unchanged text and node identities, read view, reduced motion, Context choices and authentic R3. CI and public readback are required, not yet claimed. Local authorized Mac became unresponsive, so this branch is managed through the connected GitHub API without exposing credentials or changing workflows.\n\nPublication preference is recorded in website/PUBLISHING.md. No extension, user data, permissions, install availability, contact transport or workflow changes."
+          },
+          {
+            "number": 326,
+            "title": "design: spatial glass Thought Library preview, homepage unchanged",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "eb8b18a348b8ac1e2bf2d4522ee101b96e70213d",
+            "branch": "design/thought-spatial-20261024",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/326",
+            "updatedAt": "2026-10-24T08:28:45Z",
+            "mergedAt": "2026-10-24T08:25:28Z",
+            "body": "Owner-directed design response to the rejected paper/pinboard study. Add only an unlinked noindex preview at /design/thought-space/: one large perspective glass chassis, coherent fine-line art and lighting, scroll-driven camera/structure changes, clear front-facing reading state. Retain existing PAIA logo, headline, three topic/chapter names and complete fictional reading content. No official homepage, demo, prior asset, font file, product runtime, workflow, account, permission, form or installation manifest change. Native scroll, explicit view controls, static/reduced-motion/no-JS alternatives. 151 local Chromium preview checks passed over six viewports. Existing 59-file source-generation check also passed. This path does not trigger the homepage-specific CI filter; no claim of a new whole-site CI run. Actual public-byte and browser readback will follow Pages deployment. Not a new official design approval or product release."
+          },
+          {
+            "number": 325,
+            "title": "website: V13 product-world narrative and art direction",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "e117a57ef5e54dbe9e7ed9da72e4e0f5f750af5b",
+            "branch": "website/atelier-v13-product-world-20261024",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/325",
+            "updatedAt": "2026-10-24T05:13:25Z",
+            "mergedAt": "2026-10-24T05:10:06Z",
+            "body": "## Owner-directed V13 product presentation\nThe owner asked to rebuild the core art direction and narrative, not keep polishing isolated utilities. Continue the accepted brand assets and publish on the existing official website after verification.\n\n- Archive now presents a personal collection of actual fictional sent expressions. Search becomes a compact supporting proof, not the entire product story.\n- Thought Library combines three genuine topic/section directories with one complete real sample Section (Product / The first step). Full content, original times, newest-first order, no source/sidebar badges, no search or fictional summary system. Its link reaches the matching existing demo Section.\n- Preserve the approved hero, colored words, manifesto, Context quartet, privacy orbit, logo and closing story. Context only gains a small narrative bridge.\n- Consolidate reuse, editing and privacy into one smaller everyday detail ensemble. Remove the redundant full-page daily scenario rather than giving small affordances equal narrative weight.\n- Differentiate framed Archive and open Library compositions; use one palette/type/edge/depth language. Required content is present without animation or interaction.\n- Retain the actual R3 implementation, independent permissions, finite subject-aware motion, pause/replay, reduced-motion and manual-takeover protections. One replay action at rest.\n\n## Scope and evidence\nBaseline `c7fcea4ce777c5426090bdefeadb629426bde9c5`; isolated website worktree. Only homepage code/assets/docs and generated home outputs change. All prior assets, V12 demo, interior pages, product runtime, workflow, installation availability and contact/consent are locked byte-for-byte. No new provider/transport/storage/real grants.\n\n- Exact generation: 59 files.\n- Static suite: 5,902 PASS.\n- Local HTTP targeted tests: 438 assertions PASS across both languages and five widths, including complete fixture identity, navigation targets, existing demo IME/editing/permissions, motion identity, R3 and no-JS content.\n- Actual desktop/mobile screenshots reviewed. JS syntax and whitespace checks pass.\n- Complete PR CI and post-publication exact-byte/browser checks remain separate gates.\n\nSee `website/atelier/PRODUCT_WORLD_V13.md`. Tests do not establish subjective design quality, real-user response, physical-device/field performance or installed-extension readiness.\n"
+          },
+          {
+            "number": 313,
+            "title": "Wire bounded Organize and preserve independent Maintenance progress",
+            "state": "open",
+            "draft": false,
+            "merged": false,
+            "headSha": "02144bccf5e0e0b6842aaa4e7c6958cedecdfde1",
+            "branch": "codex/organize-handoff-validation-20261022",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/313",
+            "updatedAt": "2026-10-23T00:25:19Z",
+            "mergedAt": null,
+            "body": "This batch restores the exact verified Organize handoff and connects its original action source and Chrome sender in the production worker. It repairs native cold-start/module-worker ownership, idle Maintenance material expiry, and the confirmed partial-excerpt bug: independently authorized Topic publication and its ACK now survive missing Context field authority. Context still reads no new Entry prose, writes nothing and emits no ACK without its own grant. Source/revocation/human/transaction fences remain.\n\nOriginal precise baseline: `6be0cc3db19ce9d7d12afbd61be0c93e0dceb5dc`. Main checked at `4349189451821db1e408a669cee5b64b140844f6`; its three added paths do not overlap. This branch does not change PR312, Settings or version files, enable services, or merge main.\n\nNine recoverable commits preserve the handoff and each independent successor. Latest runtime `e16cfd55`; test-only native byte-bound successor `2947b587`; evidence head `22bd30f19b3d5ecb8074b334d7e3ae019f6bbb7e`. [Overall handoff](https://github.com/haohongfei2001-png/paia/blob/22bd30f19b3d5ecb8074b334d7e3ae019f6bbb7e/extension/docs/consumer-product-v1/implementation/CONTEXT-TOPIC-ORGANIZE-CONTINUATION-20261022.md), [latest detailed report](https://github.com/haohongfei2001-png/paia/blob/22bd30f19b3d5ecb8074b334d7e3ae019f6bbb7e/extension/docs/consumer-product-v1/implementation/MAINTENANCE-PARTIAL-TOPIC-20261022.md), and [machine-readable hashes/logs](https://github.com/haohongfei2001-png/paia/blob/22bd30f19b3d5ecb8074b334d7e3ae019f6bbb7e/extension/docs/consumer-product-v1/implementation/evidence/organize-20261022/partial-topic-validation.json) identify exact bases, changed files, trees, versions, failures and remaining dependencies.\n\nExecuted validation:\n- Latest complete local Unit **11670/11670**, zero failures/skips; Source **21218 guards / 607 runtime resources**, development privacy/permission/network audit PASS.\n- Complete signed-response/post-Topic/expiry files **88/88**. UPDATE and NO_CHANGE preserve Topic-only ACK, existing Context, original financial settlement and one physical request.\n- Actual headless Chrome Source/release complete Maintenance **184/184**, including new partial-excerpt success, source/human/revoke/graph late refusal, full native rollback and storage-only continuation.\n- Actual original Organize metadata read bound **4096** then refusal, Source/release **2/2**. Final material-byte cases **2/2**: actual field/template debit crosses the unchanged **2,097,152-byte** limit, retires the action and creates zero provider call/job/candidate/ACK. These are direct native owner checks, not another UI journey.\n- Earlier exact Organize UI/worker native **22/22** covers real sender/IndexedDB, edit/Undo, Stop/close/invalidation, real 30-second expiry and separate 35-second HTTP abort. Earlier adapter/privacy **161/161** and release evidence retain their original identities.\n\nNode22.23.4 / Python3.12.14 / Playwright1.63.0 / Chrome155.0.8059.85; fresh headless profiles, original harness, synthetic data/transports and external-network denial. No credentials, paid model, production, installation or human-content overwrite.\n\nPreserved failures: prior idle-expiry full Unit **11669/11670** had one detached-promotion STALE_BASE; the unmodified file passed89/89, ten bounded reproductions passed, and this changed-runtime full passes, but its cause remains unestablished. Initial partial-excerpt tests and native retry expectations, interrupted run and byte-meter omission are explicitly retained in the report. No original runtime limit/assertion was weakened.\n\nCI: prior `8aa47383` Candidate Gate [39730246210](https://github.com/haohongfei2001-png/paia/actions/runs/39730246210) PASS. Latest head `22bd30f1`: Candidate Gate [39732623674](https://github.com/haohongfei2001-png/paia/actions/runs/39732623674) **PASS**, all four unit shards/contracts/privacy/release; Prompt Foundation [39732623594](https://github.com/haohongfei2001-png/paia/actions/runs/39732623594) **PA"
+          },
+          {
+            "number": 312,
+            "title": "Preserve latest Settings selection during pending restore (0.55.9)",
+            "state": "open",
+            "draft": false,
+            "merged": false,
+            "headSha": "7cd62ab4faf2940db7d3b57822e72c6e249a24e5",
+            "branch": "fix/settings-restore-intent-v0559-20261022",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/312",
+            "updatedAt": "2026-10-22T14:52:17Z",
+            "mergedAt": null,
+            "body": "## Fix\nPreserve a newer admitted Settings group action while an older reload/history restore is awaiting the original reads. Retire only stale group/position restoration and its generic late scroll; preserve navigation currentness, original leave/read guards, saved return ownership and ordinary restoration.\n\n## Scope\nExactly eight files: four UI owners, one new deterministic regression file, additive cases in the existing Settings browser test, and the two version files (0.55.9). All existing native assertions, budgets, brand assets, prior Settings/Prompt fixes and other main blobs are preserved. No workflow, dependency, permission, provider or semantic-lab changes; no parallel development batch is included.\n\n## Evidence and limits\nThe original owner reproduces the stale overwrite on both historical baseline and main4349189. This establishes the defect, not the exact interleaving of the hosted Source visibility failure in Full39716997779.\n\n177 deterministic controls passed on the exact reviewed runtime/test blobs. Final version admission3/3, package20858, development audit and release20794/617 resources passed. Independent code/package review found no remaining blocker after correcting two assumptions only in the newly added browser helper; the pre-existing native test prefix remains byte-identical.\n\nChanged-head real Source/release browser and Full checks are pending. Local browser execution remains unrun; no performance, live-provider or exact-main qualification is claimed. Merge only after the complete original gates pass, then certify the actual merged main independently.\n\nPAIA_FULL_CERTIFICATION"
+          },
+          {
+            "number": 310,
+            "title": "PAIA 官网重新设计：表达、原文与自主开放（第三版）",
+            "state": "open",
+            "draft": true,
+            "merged": false,
+            "headSha": "360c15b75941c14a2eebe5dd39480d080b123551",
+            "branch": "design/paia-website-flagship-20261021",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/310",
+            "updatedAt": "2026-10-21T03:55:41Z",
+            "mergedAt": null,
+            "body": "## 为什么重做\n\n前两版没有建立足够清楚的产品识别：首屏偏向泛化口号与大窗口，页面节奏和移动端阅读也没有达到审阅要求。第三版重新组织首页与关键内页，让个人表达、原文来源、继续思考和自主开放直接出现在可操作的页面中。\n\n## 本次设计与实现\n\n- 首页采用不对称构图：品牌说明与可读、可编辑的表达并置。原始来源和工作文字分层；切换记录时来源日期同步更新。\n- Input Archive、Thought Library 和 AI Context 使用各自适合的空间；Prompt Reuse 保持独立作用。思想库采用展开阅读，Context 保留四类内容的独立控制。\n- How It Works 压缩重复导语，把实际表达提前到首屏；使用场景采用可展开的连续叙述；文章保持长文阅读结构。\n- About 完整保留创作者原画，保留“是否投递、想表达什么均未知”的故事边界。\n- 重新调整中英文字体、层级、留白、对比度与窄屏比例。移动端 Context 使用紧凑的四行控制，并明确打开详情的入口。\n- 保留全部现有路由、语言切换、下载/Beta/联系入口、隐私与法律页面。修改 Python 生成源、共享组件与样式，并重新生成网站文件。\n- 提供包含全部页面、字体、图像与交互的单文件离线预览，以及可维护的网站源码包。\n\n## 产品边界\n\n原始输入保持不可变，工作文字可以修改。采集、处理、外部读取、云同步仍是独立权限；Context 四类内容不冒充四项产品权限。编辑不自动授权，子项不打开父级，总访问暂停保留选择。Prompt Reuse 不覆盖已有草稿、不自动发送。未配置商店地址时安装按钮保持不可用。\n\n仅修改网站及网站验证/打包资料，没有修改扩展程序、数据库或真实产品权限实现。未合并，未部署生产。\n\n## 验证（本次提交）\n\n- 提交：`360c15b75941c14a2eebe5dd39480d080b123551`\n- [GitHub Actions #100](https://github.com/haohongfei2001-png/paia/actions/runs/39540954250)：**5,705 checks，0 failed，成功**。真实 Chromium 143 网站流程；合成数据；未实际提交联系表单；不等于扩展程序或生产服务认证。\n- 本地生成一致性：59 个生成文件一致；静态检查 3,990 项通过；三个网站脚本的语法检查通过。\n- 实际浏览器审阅：桌面及 390px 中文页面；320px/390px 英文首页；首页、How、About、Demo、使用场景、文章、隐私、下载与联系流程。检查搜索、编辑保留原文、空间切换、Topic 阅读、Context 父子控制、Prompt 插入、移动菜单和语言切换。\n- 对最终单文件预览重新验证跨页导航、语言切换、浏览器后退、编辑原文分离、Context 控制和离线表单校验。离线包不实际发送联系信息。\n- 手机证据来自真实浏览器的响应式视口，并非实体手机测试。\n- 预览 SHA-256：`38895e7f094f3c639e5e826bac8e1b20cdf69eb5526fd3c257763d1a37a43fc7`\n\n五套指定设计 Skill 已实际阅读，并用于版式、精简、视觉审查、交互与可访问性检查；未声称执行环境中不可用的 Impeccable CLI 检测。研究范围、设计取舍及人工审阅证据见 `website/README.md` 与 `website/FLAGSHIP_REVIEW.md`。完整历史聊天与部分历史设计文件不可访问，未冒充完整研究。\n\n本 PR 保持 Draft，供设计审阅与后续整合。"
+          },
+          {
+            "number": 297,
+            "title": "design(prompt): v1.2 horizontal double-card R1 runnable refinement",
+            "state": "open",
+            "draft": true,
+            "merged": false,
+            "headSha": "7e5322d2241fd13112751a5170d3902179e00081",
+            "branch": "design/float-ui-1.2-polish-20261018",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/297",
+            "updatedAt": "2026-10-18T03:33:02Z",
+            "mergedAt": null,
+            "body": "## Owner-requested independent design refinement\n\nOne selected, runnable refinement of PAIA-FLOAT-UI-1.2, not a new concept family or a production takeover.\n\nHead: `7e5322d2241fd13112751a5170d3902179e00081`  \nBase: `34f5188d52ada449b99ac88fb6451db8dabcea6f`  \nRoot tree: `feaedd8f29dfc24d94d2448528bef32cd7820284`  \nRefinement subtree: `5d72b58df3528cc15c42c9fb862f5c7f9c85b114` — independently calculated from all 22 delivered source/asset/report bytes and matched to GitHub.\n\n**Only 22 new files** under `extension/docs/consumer-product-v1/design/narrow-input-board-v4/refinement-2026-10-18/`. No canonical plan, STATUS, production Prompt file, PR295 code, CI, version, website or installation change. Do not merge this as a claim of installed v1.2 fidelity.\n\n### Selected result\n\n- Same 48px circle/hit point, equal 21×14px horizontal cards, radius3.25. Foreground fixed; rear offsets `(-2.5,0)`, `(-5,0)`, `(-5.25,-1.5)`px. Narrow translucent edges instead of an opaque block, with restrained light/dark roles.\n- Capsule keeps its soft neck and independent insertion/toggle targets. Board uses a complete circular rim above a shallow rounded-panel overlap, not a concave melted junction. Final board right/bottom34 relative to the 48px anchor protects last-row/editor controls without moving the circle.\n- Runnable same-board search, detail, edit/create/save, pin/order, hide/restore/split, keyboard navigation, dirty-work guard and persistent-error layout. Synthetic in-memory fixtures and explicit demo textarea adapter only.\n- Self-contained output can be generated with `python build.py`; open `index.html` with its adjacent files directly. `export_assets.py` regenerates six SVGs and the native-size sheet. The delivered review archive also includes the generated single HTML and lossless browser screenshots; `evidence/manifest.json` records exact identities and which files are delivered rather than checked in.\n\n### Actual verification and retained findings\n\n`python verify.py` final run **30/30 PASS**, Chromium144.0.7559.96. Tests cover exact glyph/target bounds during motion, same-coordinate toggle, pointer/keyboard and held activation, selection-preserving fixture insertion/no-send, search/IME events,150/151 graphemes, dirty edits, Save center and four-corner hit-testing, growth/short-space recovery,390px viewport,200% component text, reduced motion, forced colors, two themes/DPR1/2, zero external requests and no uncaught JS errors.\n\nThe initial29/30 focus-modality fixture result remains in `verification-initial.json`; the earlier center-hit30/30 before strengthened corner clearance remains separately in `verification-pre-clearance.json`. Neither is relabelled as the final geometry. Final report hashes identify the exact published sources. Source integrity and browser results are different checks.\n\nThe managed renderer blocks file/localhost URL navigation; testing used exact self-contained HTML via Chromium `page.set_content`, without changing policy. These are actual offline Chromium renders, **not live authenticated ChatGPT or installed-extension screenshots**. No native undo/privacy isolation, real provider, physical120Hz, real event-to-paint p95, OS IME/screen reader, sustained human comfort or third-party independent-review claim.\n\n### Handoff to existing Prompt owner\n\nScope was announced in PR295 comment6244362362. Extract only the selected SVG/CSS geometry, material, layering and clearances through existing layout/private-frame/UI owners. Do not copy demo host CSS, fixture ranking/data, local mutation functions or `textarea.setRangeText` over production Family/history/receiver/privacy/undo owners. Keep existing plans and correct implementation, retesting only changed native dependencies at the current integration boundary.\n\nThis draft PR is ready for scoped visual/component review and remains unmerged."
+          },
+          {
+            "number": 298,
+            "title": "design(prompt): R2 unified capsule and separate-panel geometry",
+            "state": "open",
+            "draft": true,
+            "merged": false,
+            "headSha": "9a770b22f3e1be88f146905fbd31ff204139710d",
+            "branch": "design/float-ui-1.2-geometry-r2-20261018",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/298",
+            "updatedAt": "2026-10-18T03:31:21Z",
+            "mergedAt": null,
+            "body": "## Owner-requested geometry-only successor to R1 / PR #297\n\n**Selected result: one continuous capsule + clearly separate board.** The owner explicitly rejected the narrowed/gourd-neck relationship and authorized a bounded geometry redesign. This supersedes the earlier 'preserve the neck' instruction for this candidate, not all canonical plans or the double-card identity.\n\nHead: `9a770b22f3e1be88f146905fbd31ff204139710d`  \nBase: `34f5188d52ada449b99ac88fb6451db8dabcea6f`  \nRoot tree: `d1d5d14c93221b4bd1beda5cc7f75bde79c819b9`  \nR2 subtree: `32ab7253f1cf9c883c9ed51ad44a10784b3a9cfc` — independently calculated from the actual 24 local delivered file bytes and matched exactly to GitHub.\n\nOnly **24 added files** under `extension/docs/consumer-product-v1/design/narrow-input-board-v4/geometry-r2-2026-10-18/`. No existing path modified/deleted. Main and PR295/297 code, canonical plans/STATUS, CI, versions, website, installation and deployment are not changed.\n\n### Geometry decision\n\n- Replace the old neck with ONE 48px-high stadium skin: width48→272, radius24, right edge fixed. There is no second circle border in capsule mode. The text and fixed right48px toggle are separate semantic targets without a permanent divider. Text clipping follows the exact surface width during transition; the text itself and front card do not translate.\n- Board336×312, radius18; right edge equals the circle right edge; **8px clear gap above the complete circle**. No shallow overlap, concave notch, bridge or tail. The same48px circle remains available to open/close at the original coordinates.\n- Actually rendered competitor B: embed the circle in a reserved48px bottom area, expanding the panel to360px to preserve the six-row content region. Rejected for the nearly empty footer and heavier surface. B is retained only as decision evidence, not a user-facing option.\n- Explicit tradeoff: R1 envelope370×346 becomes336×368 —34px narrower,22px taller. Real available-space calculations and retained recovery account for this. Conversation text can still be occluded; no claim that floating panels eliminate that tradeoff.\n\n### Preservation and verification\n\nThe supplied R1 source/report package reproduces PR297's exact22-file subtree `5d72b58df3528cc15c42c9fb862f5c7f9c85b114` at head `7e5322d2241fd13112751a5170d3902179e00081`. R1 component.css/js, demo.css/js, six card SVGs, original tokens and baseline verifier are byte-preserved. Only the added geometry layer changes rendering/layout.\n\nActual offline **Chromium144.0.7559.96**:\n- R1 regression:30/30 PASS. Only the expressly superseded case04 changes its neck expectation to the new active text area; other29 cases and their thresholds remain. The baseline verifier is retained and hash-pinned by the transparent wrapper.\n- R2 geometry:16/16 PASS. Four transition directions with fixed anchor/front and synchronous skin/text mask; exact gap/right alignment; separate body/toggle hits; blank-gap pointer pass-through; all circle and Save/Cancel corner targets; six full rows; tooltip below panel; keyboard names/control relationships;320px/390px viewports; two themes; reduced motion/forced color; A/B renders and DPR3 details.\n- No uncaught JS errors or external requests in either recorded run. Overlapping checks are not a statistical quality score or native-extension certification.\n\n### Deliverables and reproduction\n\nOpen `index.html` beside its sources, or run `python build.py` to produce self-contained `PAIA_Float_R2.html`. Search/edit/manage, long-conversation and growing-draft scenarios remain the explicit R1 in-memory demonstration only. `python verify.py` and `python verify_geometry.py` reproduce the reports and PNGs with Playwright and a supplied Chromium.\n\nFull lossless light/dark three-state screenshots, long/narrow/editor views, capsule-end/board-gap details, A/B decision evidence, full reports and the ready-to-open HTML are in the conversation ZIP. **Generated binary screenshots are not claimed checked in.** Their exa"
+          },
+          {
+            "number": 296,
+            "title": "fix: verify complete authored restore journal continuity",
+            "state": "open",
+            "draft": false,
+            "merged": false,
+            "headSha": "a19a9c6c0c8e71d4b9e90f152f879d27699cc617",
+            "branch": "codex/authored-restore-continuity-20261018",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/296",
+            "updatedAt": "2026-10-18T01:06:27Z",
+            "mergedAt": null,
+            "body": "## Dependency and scope\n\nDepends on #295 at exact c76bba7d02d07002e0f9c26d19278dba5054763d. Do not merge this successor before that prerequisite. The published commit has that actual remote parent; it does not invent remote ancestry for local review checkpoints.\n\nThis compatible 0.54.2 repair admits a genuine source-free human Entry remove/restore only after the original owner verifies the bounded complete birth/body-edit/remove/restore journal chain. It preserves fresh processing permission, exactly-one human membership, final authority, Context commit and ACK fences. Old Context, grants, prepared handles, responses and ACKs do not revive.\n\n## Reviewed changes and validation\n\n- Three owner/test blobs equal independently reviewed 14ce24e11b29d5363b793c468d084c1d8d89844e. Review's disguised-journal counterexample was repaired before this snapshot; missing predecessor and historical-disguise controls remain.\n- Only five code/test/package paths differ from c76: that owner, its unit/native files, and synchronized manifest/package 0.54.2. Three factual documentation files complete this eight-file successor.\n- Actual default-four local units: 7657/7657, zero failures/skips, exit0.\n- Standard release: 16528 guardrails / 489 runtime resources / 513 files. Source: 16592 / 493. Privacy/network: 59/59. All exit0.\n- Overlapping owner/version subset: 100/100; independent owner review: 97/97. These are not added to the full-suite total.\n- Two new native phases per Source/release variant reuse the existing Maintenance journey. Native execution for this head is pending. No local Chrome run, shortened gate, increased timeout, weakened assertion, changed workflow/shard or paid/provider call is claimed.\n\nPrerequisite c76 [Visual39084449408](https://github.com/haohongfei2001-png/paia/actions/runs/39084449408) and [D739084449439](https://github.com/haohongfei2001-png/paia/actions/runs/39084449439) have passed. Its Full/Foundation are still running; their outcome does not substitute for this successor's own required checks. Main6cc's original Full39080866509 Browser8 failure remains failed.\n\n[Owning receipt](https://github.com/haohongfei2001-png/paia/blob/a19a9c6c0c8e71d4b9e90f152f879d27699cc617/extension/docs/consumer-product-v1/implementation/ai-usage/AI-COST-03-AUTHORED-RESTORE-CONTINUITY.md).\n\nInput-only privacy, human ownership/order and paused Sync features remain. Human visual/comfort, physical120Hz/NIB50ms, live-provider qualification, installation and the separate revoked-draft storage-failure gap remain open. Safe merge is followed by exact-main certification.\n\nPAIA_FULL_CERTIFICATION\nPAIA_D7_ARCHIVE_READER"
+          },
+          {
+            "number": 287,
+            "title": "design: open-canvas revision 02; fixed-stage prototype rejected",
+            "state": "open",
+            "draft": true,
+            "merged": false,
+            "headSha": "a7c3635469052808e4bf1a10abfd469463281632",
+            "branch": "design/website-three-act-20261014",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/287",
+            "updatedAt": "2026-10-13T17:11:18Z",
+            "mergedAt": null,
+            "body": "## 当前设计候选：修订02，不再沿用固定舞台\n\n负责人反馈：原型01快慢滚动都生硬，像中间几个小道具轮番表演，不像整体设计；尺度狭窄、缺少舒展感。**原型01不再作为默认实施方向。** 本 PR 保持 Draft，正式官网没有改动，不合并、不部署。\n\n最新候选：`a7c3635469052808e4bf1a10abfd469463281632`。此次只新增 `design/website-three-act-20261014/revision-02/` 目录。主线仍为 `fb90d4406dfdacf6873dd0d0dadb7bf00b13b177`。原型01原始文件保留供对照。\n\n### 直接查看新候选\n\n[下载修订02：原型、截图、真实浏览器视频](https://github.com/haohongfei2001-png/paia/raw/a7c3635469052808e4bf1a10abfd469463281632/design/website-three-act-20261014/revision-02/PAIA-Open-Canvas-Revision02.zip)（约7MB）\n\n解压打开 `review.html`；直接体验打开 `prototype.html` 或 `prototype-en.html`。原型不含字体文件，在线引用现官网字体，离线回退系统字体。\n\n[新的总览](https://github.com/haohongfei2001-png/paia/blob/a7c3635469052808e4bf1a10abfd469463281632/design/website-three-act-20261014/revision-02/screenshots/zh-overview.webp) · [设计裁决](https://github.com/haohongfei2001-png/paia/blob/a7c3635469052808e4bf1a10abfd469463281632/design/website-three-act-20261014/revision-02/DESIGN.md) · [实际检查与渲染成本诊断](https://github.com/haohongfei2001-png/paia/blob/a7c3635469052808e4bf1a10abfd469463281632/design/website-three-act-20261014/revision-02/verification.json)\n\n### 不是只把动画加快\n\n- 取消1200×740全局缩放舞台、停在角落的淡化道具、每段前27%不推进的停顿，以及逐帧宽高/字号/内距变化。\n- 原首屏与原结尾保留，中间改为页面尺度的连续排版：大段内容自然流动；档案用时间与原话展开，思想库和聊天场景不再被缩成小模型。\n- 只有同框整理和悬浮形态两个关键变化采用约280/260px的局部驻留；不锁定整个中段，不拦截滚轮、不模拟惯性，不要求点击或等视频播放。\n- 文字预先排版，滚动仅更新transform/opacity。几何读取缓存只在尺寸/字体条件变化时刷新。球/胶囊/浮板锚点保持一致。\n- 总览改为可阅读的产品关系构图，不再坚持“同一组DOM必须缩小归位”。不把四张完整截图缩成看不清的拼贴，也不虚构一个万能工作台。\n- Context始终是四个目录及用途说明，不展示个人信息正文。无写入、发送、AI调用或真实授权。\n\n### 证据与边界\n\n本地HTTP Chromium检查44项通过：中英文、多视口正常布局、四条原文完整、阅读内容不挤进页脚、悬浮锚点（允许浏览器原生取整小于1CSS像素）、200%实际文字增大与重排等。另已核对原首屏/结尾文字、三大主内容区结构，以及无JS/减少动态回退的完整阅读。截图和滚动视频为实际网页运行结果。\n\n相同浏览器/视口、各180个rAF区间诊断：旧版LayoutCount123，新版3；LayoutDuration约151.5ms降至0.231ms。两版场景范围不同，该结果仅说明相应测试路径的布局工作量，不是物理显示器FPS认证，也不是所有卡顿已经消失的承诺。两次rAF间隔p95分别约16.7/16.8ms，**没有据此宣称帧率提升**。是否达到负责人期望的整体气场仍需视觉审阅。\n\n本轮没有修改正式网站、原型01、扩展、Sync、Canonical、品牌字体、表单、工作流、账号或服务配置。保持Draft，未经新的视觉认可不发布。"
+          },
+          {
+            "number": 264,
+            "title": "refactor(ci): unify browser admission and simplify the existing execution entry",
+            "state": "open",
+            "draft": false,
+            "merged": false,
+            "headSha": "6ed7bf75942d2696af32f72d9f6cb143572c7582",
+            "branch": "engineering/execution-efficiency-20261012",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/264",
+            "updatedAt": "2026-10-12T22:23:53Z",
+            "mergedAt": null,
+            "body": "## Current composition — latest main and fixture correction absorbed\n\nHead **6ed7bf75942d2696af32f72d9f6cb143572c7582**, tree **74cb339bf25bb463e98b9dfb8df82a18fec07df5**, second parent/main **07d90b715be8a1e0c707abc6a86d873436677b4c**. Preserves all main product work (#268, version0.43.29), #270 qualified fixture acquisition, and website work through #272. Only the original23 optimization paths differ from latest main. STATUS retains the compact current index plus immutable incoming history. No parallel repair of the already-owned shared fixture.\n\nPrevious exact head81757795 Full38294005115 FAILED: only Current Browser1/job114960922045,112PASS/1FAIL, S02 historical purge fixture at cpv1-01-save-recovery-chrome-e2e.test.mjs247, CONTROL_PUBLICATION_CHANGED from pre-gate-purge-browser-fixture.mjs9. Artifact11768087170 SHA256642e1c0c425027a8045e4c870a823de9d7ec6e7f4b07a424e99493a6e8e587c3 remains original failed evidence. Other nine browser groups, four unit shards, release, privacy, macOS and partial native storage passed; Prompt38294005129 passed. These component successes do not override Full failure.\n\nMain #270 adds exact read-only missing-snapshot handling with reset stability and no partial metadata; initialization and entered callbacks/writes are never replayed. Its original bound100 rounds/25ms/eight stable samples and all refusal/equality/purge assertions remain. The original #264 failure did not record the complete acquisition trace, so unique historical cause is not claimed. The shared-helper correction is inherited unchanged.\n\nCurrent six whole affected files **56PASS/0FAIL/0CANCEL/0SKIP**, admission **96 files PASS**, package **15973 guards/466 resources PASS**, merge whitespace PASS. New changed-composition hosted Full/Prompt remain required and pending. No forced merge, waived safety assertion or timeout increase. This PR does not claim installed/current-live or whole-product completion.\n\n## Earlier candidates and exact historical evidence\n\n## Latest exact candidate\n\nHead **81757795b47e304444ed7519baaf44d8f9e31e9c**, tree **59d9892f594c4b47fa30b5694ac0ee70fee92567**. Contains the final-main composition below plus explicit `--test-reporter=tap` for the child node:test launcher whose output is parsed as TAP. The current container defaults to spec output: the original seven-file run had23PASS/1FAIL at the format assertion, while both synthetic source/release cases themselves passed. After selecting TAP, all seven complete files **24PASS/0FAIL/0CANCEL/0SKIP**, including the unchanged over-budget failure counterexample. No assertion, time budget or product code changed. Combined targeted checks now **82PASS** across17 complete files. Hosted exact-head Full and Prompt pending; superseded runs are not final certification.\n\n## Current candidate — final main absorbed, qualification pending\n\nHead **6a531a63c1571decfe943c99d2d73a769b56030b**, tree **0d1b16160a2c30f4078c456c9a3c34a756ba3ea8** merges actual main **3fee88d423076013b910e91400512fd5a9c91fbe** after normal #266 integration. Only the original23 optimization paths differ from main. All #266 runtime, history/consent/Backup repairs, fixtures, authority/protocol and receipts remain exact. Main's certified ANS03 and writing fixtures supersede the two provisional fixtures on the preceding #264 candidate. Compact STATUS points to active #268 without modifying its branch; MASTER retains immutable incoming history.\n\nLocal ten whole files **58PASS/0FAIL/0CANCEL/0SKIP**, current admission **96 files PASS**, static package **15886 guards/466 resources PASS**. Relative-main scope is23 paths. The incoming Backup receipt retains its upstream trailing blank line; merge-parent whitespace check flags that unchanged upstream byte, not a new optimization change. Hosted new-head Full and Prompt are pending; local browser remains unavailable.\n\nPrevious #264 Full38270492312 FAILED at the first-use Settings Back journey (chrome.runtime unavailable); Prompt38270492367 PASSED. Main now conta"
+          },
+          {
+            "number": 267,
+            "title": "website: live-based art direction with frozen copy",
+            "state": "open",
+            "draft": true,
+            "merged": false,
+            "headSha": "d2f74539845e6530cc7612689ab3e137108ef256",
+            "branch": "design/website-live-art-direction-20261012",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/267",
+            "updatedAt": "2026-10-12T15:32:58Z",
+            "mergedAt": null,
+            "body": "## 现网基础视觉候选 — 等待负责人视觉审阅\n\n**Draft，不合并、不发布。PR #240 已被负责人明确否决；本候选从最新 main 独立制作，没有继承 #240 的代码或布局补丁，也没有修改或合并 #240。**\n\n候选：`d2f74539845e6530cc7612689ab3e137108ef256`。\n基线：`8e56ab340f2065b95a909a97b75b6b8eb1ce8bdb`。提交前重新获取 main，仍为该提交。实际现网中英文首页及五个正在使用的样式／脚本，与基线七项逐字节一致。\n\n## 直接查看\n\n**[下载中英文可操作预览与现网对照包](https://github.com/haohongfei2001-png/paia/raw/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/PAIA-Website-Review-20261012.zip)** — 解压后打开 `review.html`；直接体验打开 `home-zh.html` 或 `home-en.html`。约 21 MB。预览不含字体文件，使用系统字体；真实浏览器截图使用现网原有字体。申请／政策等链接前往现有正式网站。\n\n[中文桌面全页](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/images/after-zh-1440-full.webp) · [中文手机全页](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/images/after-zh-390-full.webp) · [英文桌面全页](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/images/after-en-1440-full.webp)\n\n[档案](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/images/after-zh-archive.png) · [思想库](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/images/after-zh-thought.png) · [悬浮球](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/images/after-zh-orb.png) · [悬浮胶囊](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/images/after-zh-capsule.png) · [悬浮板](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/images/after-zh-prompt.png) · [AI Context](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/images/after-zh-context.png)\n\n## 设计改动\n\n- 首屏主体、全部正式中英文标题／正文／示例、原有品牌与共享样式保持。仅删除指定的独立 1–4 导航及其文字。\n- 档案从重复的完整应用窗口改为可编辑原话和来源核对的阅读局部；原位置导航保留在可主动打开的原生披露控件中。\n- 思想库采用阅读展开页构图，主题目录与连续阅读在左、说明在右，保留实际 Topic／Section 交互，而非把全部区域套同一比例。\n- 悬浮工具展示三种轮廓和同一聊天环境；球、胶囊是替代的收起形态。窄板按宿主宽度使用 322／336 CSS px 上限，单行候选，高度避让完整输入框；不因失焦闲置自动收起，不自动发送。\n- Context 以四张独立卡片围绕正文组合，权限说明与可操作范围另行组织，保留原有独立权限和四卡片详情。\n\n历史 `77f4af96` 与第一版蓝白 `282bfe5e` 已在真实浏览器中比较。第一版蓝白采用居中标题与下移的产品窗口，不是整页没有产品图。候选没有回滚当前首屏或恢复旧文案。历史首屏与现网／候选对照均包含在预览包。\n\n## 证据与范围\n\n本地真实 Chromium：完整网站 **6,437 项通过**；首页专项 **435 项通过**；便携预览 **74 项通过**，各自 0 失败。覆盖中英文、1440／1024／768／390／320 宽度（依测试范围）、200% 文字、原文／首屏冻结、草稿与光标保留、完整文字核对、过期确认拒绝、输入法组合保护、键盘、减少动态、无 JavaScript 与禁止非预期网络请求。全部原有业务断言保留，截断候选增加显式核对后再断言完整插入结果。\n\n47 个非首页生成文件与基线逐字节一致。新增文案与首屏冻结检查已接入既有 `website/test.py`。没有修改 `extension/**`、Canonical、产品计划、Sync、工作流、部署设置、真实权限或服务，没有提交真实表单。\n\n[完整交付记录](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/README.md) · [验证汇总与源码哈希](https://github.com/haohongfei2001-png/paia/blob/d2f74539845e6530cc7612689ab3e137108ef256/website/receipts/art-20261012/verification.json)\n\n以上是本地测试结果，不预先宣称 GitHub CI 通过。浏览器视口测试不等于物理设备、屏幕阅读器或真实扩展认证。WebKit 尝试未获得可用会话，没有计入通过结果。示例不访问真实档案、账号、AI 或同步服务。\n\n**本 PR 仅交付候选。未获得负责人视觉批准前，不转正式、不合并、不发布。**"
+          },
+          {
+            "number": 240,
+            "title": "website: refine the current live layouts, preserve existing copy",
+            "state": "open",
+            "draft": true,
+            "merged": false,
+            "headSha": "21c76b9d676a7b3d5aa5492e9d41b96be1badaae",
+            "branch": "feat/website-words-worth-returning-20261010",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia/pull/240",
+            "updatedAt": "2026-10-10T17:44:41Z",
+            "mergedAt": null,
+            "body": "## 现官网局部布局修订 — 保留文案，待审核\n\n**当前候选：`21c76b9d676a7b3d5aa5492e9d41b96be1badaae`。Draft，未合并、未发布。** 本轮按负责人提供的现网截图做局部修正，不沿用已被否决的 V1/V2、Copy Study 或 Own Thinking 叙事/重设计。继续同一个 PR #240；旧方案仅保留在提交历史，不再是当前推荐候选。\n\n### 修改范围\n\n| 负责人要求 | 已实施 |\n|---|---|\n| 不要 1–4 导航这一页 | 从首页移除整组二级导航 HTML，不保留占位；保留各段原有标题和正文。 |\n| 下方档案大图重复、过大 | 首屏完整保留；下方去掉重复的两列软件导航、叠层外框，改成较紧凑的编辑区。查找、3 条原话、工作编辑、原始来源和还原仍可操作。 |\n| 文案不改 | 首页标题、正文、引导语、示例内容及首屏 DOM 均与现网基线比对。没有另起口号或更换案例。新增文字仅限本次要求的展示形态与必要操作标签。 |\n| 思想库不要上下图文 | 宽屏及平板改为左侧标题/正文、右侧原有 Topic/Section 界面；打开主题后仍在同一位置连续阅读，不引入新产品架构。 |\n| 展示悬浮球、胶囊、浮板 | 同一聊天示意中可手动切换三种状态。球与胶囊是两种收起形态，点击展开同一个板，不是自动三步流程。保持 <=336px、单行候选；省略/多行原话先核对，填入保留草稿且不发送。 |\n| AI Context 不要上下图文 | 标题、正文、原有授权说明在左，四卡片界面在右。屏幕太窄时才顺排，保证文字和交互仍可读。 |\n\n原首页之外的全部生成页面（包括完整 Demo、Beta/表单、政策、SEO/语言路由）与现网基线逐字节相同。`extension/**`、正式产品方案和开发计划、工作流均未修改。没有真实 AI、权限、同步、付费服务或正式网站部署。\n\n**权限示例说明：** 为遵守本轮文案冻结，保留现官网明确标注的“示例用户已授权”状态及“真实产品首次使用默认关闭”的说明；它始终只是虚构页面状态，不改变真实产品权限。球/胶囊/板切换也不会更改任何 Context 范围。\n\n### 直接查看本轮成果\n\n[中文桌面全页](https://github.com/haohongfei2001-png/paia/blob/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/layout-20261011/zh-1440-home.png) · [中文手机全页](https://github.com/haohongfei2001-png/paia/blob/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/layout-20261011/zh-390-home.png)\n\n[思想库并排布局](https://github.com/haohongfei2001-png/paia/blob/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/layout-20261011/zh-1440-thought.png) · [AI Context 并排布局](https://github.com/haohongfei2001-png/paia/blob/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/layout-20261011/zh-1440-context.png)\n\n[悬浮球](https://github.com/haohongfei2001-png/paia/blob/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/layout-20261011/zh-1440-orb.png) · [悬浮胶囊](https://github.com/haohongfei2001-png/paia/blob/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/layout-20261011/zh-1440-capsule.png) · [悬浮板](https://github.com/haohongfei2001-png/paia/blob/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/layout-20261011/zh-1440-board.png)\n\n**[下载中英文可操作预览及截图包](https://github.com/haohongfei2001-png/paia/raw/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/layout-20261011/PAIA-Current-Site-Layout-Review.zip)** — 解压打开 `home-zh.html`。预览包不含字体文件，使用系统字体；实际构建截图使用官网原有字体。申请/政策等链接指向现有正式网站。预览不是安装包，不读取私人档案或调用模型。\n\n### 实际验证\n\n- 全站真实本地 HTTP 浏览器回归：**6,540 检查，0 失败**，48 条 HTML 路由，1440/768/390/320px，文字放大、键盘、减弱动态、强制颜色、无 JavaScript、来源/草稿/权限/表单边界。\n- 独立布局与文案冻结检查：**331 检查，0 失败**，包括原首屏/文案、其他页面字节、并排布局、三态切换、保留草稿、权限不变和不同宽度 200% 文字。\n- 修改区 axe 检查：**18 扫描、0 确定违规、18 组对比度待人工复核项**。不是整站、物理设备或屏幕阅读器认证。\n- 离线预览：**8 场景通过**，无意外网络请求、脚本错误或横向溢出。\n- 构建检查50个生成文件，JavaScript语法检查通过。没有提交真实表单。\n\n[本轮范围与实现说明](https://github.com/haohongfei2001-png/paia/blob/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/LAYOUT_ONLY_20261011.md) · [验证记录](https://github.com/haohongfei2001-png/paia/blob/21c76b9d676a7b3d5aa5492e9d41b96be1badaae/website/receipts/layout-20261011/verification.json) · [GitHub CI 本次运行](https://github.com/haohongfei2001-png/paia/actions/runs/38072545581)\n\n提交前核对实际 main `ef08a51` 的网站子树与现网基线相同，没有覆盖其他官网写入。新提交以旧 PR head 为父提交，恢复现网网站子树后仅施加这些布局调整；产品与工作流对象保持原样。\n\n**保持 Draft。负责人审核前不合并，不发布正式官网。**"
+          }
+        ],
+        "runs": [
+          {
+            "id": 41076548646,
+            "name": "PAIA Website",
+            "headSha": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+            "workflowId": 367203420,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/41076548646",
+            "createdAt": "2026-10-30T14:59:32Z",
+            "updatedAt": "2026-10-30T15:03:34Z"
+          },
+          {
+            "id": 41076547090,
+            "name": "pages build and deployment",
+            "headSha": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+            "workflowId": 353533668,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/41076547090",
+            "createdAt": "2026-10-30T14:59:31Z",
+            "updatedAt": "2026-10-30T15:00:38Z"
+          },
+          {
+            "id": 41066851811,
+            "name": "PAIA Website",
+            "headSha": "47e42e194db8cd087e4f3bf22cb5cce3a9145b0d",
+            "workflowId": 367203420,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/41066851811",
+            "createdAt": "2026-10-30T13:52:21Z",
+            "updatedAt": "2026-10-30T14:02:50Z"
+          },
+          {
+            "id": 41066850366,
+            "name": "pages build and deployment",
+            "headSha": "47e42e194db8cd087e4f3bf22cb5cce3a9145b0d",
+            "workflowId": 353533668,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/41066850366",
+            "createdAt": "2026-10-30T13:52:20Z",
+            "updatedAt": "2026-10-30T13:53:39Z"
+          },
+          {
+            "id": 41066490772,
+            "name": "PAIA Website",
+            "headSha": "fdd661ab68f22bb7876f964107a79accfc3edd24",
+            "workflowId": 367203420,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/41066490772",
+            "createdAt": "2026-10-30T13:49:45Z",
+            "updatedAt": "2026-10-30T13:51:50Z"
+          },
+          {
+            "id": 41064445656,
+            "name": "PAIA Website",
+            "headSha": "0facb35078c5bdb6b2026ab1367a42afc1a3bd92",
+            "workflowId": 367203420,
+            "status": "completed",
+            "conclusion": "failure",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/41064445656",
+            "createdAt": "2026-10-30T13:34:58Z",
+            "updatedAt": "2026-10-30T13:43:41Z"
+          },
+          {
+            "id": 41064445097,
+            "name": "pages build and deployment",
+            "headSha": "0facb35078c5bdb6b2026ab1367a42afc1a3bd92",
+            "workflowId": 353533668,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/41064445097",
+            "createdAt": "2026-10-30T13:34:57Z",
+            "updatedAt": "2026-10-30T13:37:05Z"
+          },
+          {
+            "id": 41063914096,
+            "name": "PAIA Website",
+            "headSha": "3f6976be7cd68c7da711541a21077b778ff9ae12",
+            "workflowId": 367203420,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/41063914096",
+            "createdAt": "2026-10-30T13:31:11Z",
+            "updatedAt": "2026-10-30T13:33:30Z"
+          },
+          {
+            "id": 40883073851,
+            "name": "UI same-head 5 recovery states 1cf86b13c631beb27f38f527bc5e89b88ce6bfe9",
+            "headSha": "1cf86b13c631beb27f38f527bc5e89b88ce6bfe9",
+            "workflowId": 400333935,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/40883073851",
+            "createdAt": "2026-10-29T13:33:50Z",
+            "updatedAt": "2026-10-29T13:34:21Z"
+          },
+          {
+            "id": 40880787438,
+            "name": "UI same-head 8 recovery states 65dd4f51dd58adefa1256447026cb7b751630a04",
+            "headSha": "65dd4f51dd58adefa1256447026cb7b751630a04",
+            "workflowId": 400333935,
+            "status": "completed",
+            "conclusion": "failure",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/40880787438",
+            "createdAt": "2026-10-29T13:18:53Z",
+            "updatedAt": "2026-10-29T13:19:49Z"
+          },
+          {
+            "id": 40859950271,
+            "name": "UI same-head 10 recovery states d82086269a4fa134b089bdd944908b2eb30c4ad6",
+            "headSha": "d82086269a4fa134b089bdd944908b2eb30c4ad6",
+            "workflowId": 400333935,
+            "status": "completed",
+            "conclusion": "failure",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/40859950271",
+            "createdAt": "2026-10-29T10:44:38Z",
+            "updatedAt": "2026-10-29T10:45:11Z"
+          },
+          {
+            "id": 40849816756,
+            "name": "UI same-head 49 remaining states 4429f31b1d29e022f491522b61c2f9f4b78e6061",
+            "headSha": "4429f31b1d29e022f491522b61c2f9f4b78e6061",
+            "workflowId": 400333935,
+            "status": "completed",
+            "conclusion": "failure",
+            "url": "https://github.com/haohongfei2001-png/paia/actions/runs/40849816756",
+            "createdAt": "2026-10-29T09:27:49Z",
+            "updatedAt": "2026-10-29T09:29:31Z"
+          }
+        ],
+        "coverage": {
+          "recentPulls": 18,
+          "recentRuns": 12,
+          "allHistory": false
+        },
+        "commits": [
+          {
+            "sha": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+            "title": "website: restore October 29 live homepage (Atelier 16)",
+            "body": "website: restore October 29 live homepage (Atelier 16)\n\nRestore the published EN/ZH homepages, source templates and version-specific checks from the last pre-Atelier17 production baseline (e99e7ac). Remove the Atelier17 assets and review artifacts. Preserve all extension/product code and the newer HTTP 503 readback fix. No history rewrite.",
+            "date": "2026-10-30T14:59:14Z",
+            "url": "https://github.com/haohongfei2001-png/paia/commit/52c589efa27534cf84b7a7daf8712bc90635c2b4"
+          },
+          {
+            "sha": "47e42e194db8cd087e4f3bf22cb5cce3a9145b0d",
+            "title": "Retry transient 503 responses in strict website readback (#332)",
+            "body": "Retry transient 503 responses in strict website readback (#332)\n\nKeep all exact-byte, host, asset and browser assertions intact. Retry only HTTP 503 on the same request up to three attempts with bounded 2s/4s backoff, preserving useful URL diagnostics. Five deterministic unit tests and 10,485 website checks pass.",
+            "date": "2026-10-30T13:52:17Z",
+            "url": "https://github.com/haohongfei2001-png/paia/commit/47e42e194db8cd087e4f3bf22cb5cce3a9145b0d"
+          },
+          {
+            "sha": "0facb35078c5bdb6b2026ab1367a42afc1a3bd92",
+            "title": "Refine PAIA homepage with Atelier 17 (#331)",
+            "body": "Refine PAIA homepage with Atelier 17 (#331)\n\nContent-first Chinese and English homepages with lighter typography, accessible preview tabs and refined responsive layouts. Preserve original source records, Context permission boundaries and the approved R3 component. Verified by 10,484 website checks with zero failures and desktop/mobile visual review.",
+            "date": "2026-10-30T13:34:54Z",
+            "url": "https://github.com/haohongfei2001-png/paia/commit/0facb35078c5bdb6b2026ab1367a42afc1a3bd92"
+          },
+          {
+            "sha": "e99e7ac5aeea73f727acf707fc7f7e651fa2cf2f",
+            "title": "Release 0.55.30 maintenance status document revalidation",
+            "body": "Release 0.55.30 maintenance status document revalidation",
+            "date": "2026-10-28T17:33:01Z",
+            "url": "https://github.com/haohongfei2001-png/paia/commit/e99e7ac5aeea73f727acf707fc7f7e651fa2cf2f"
+          }
+        ]
+      }
+    },
+    {
+      "id": "todayaction",
+      "name": "TodayAction",
+      "repo": "haohongfei2001-png/pjsdas",
+      "icon": "assets/apps/todayaction.svg",
+      "iconKind": "repository-asset",
+      "iconSource": "https://github.com/haohongfei2001-png/pjsdas/blob/b934a58f038a946ec7bd3b199efe7a4083e7d943/public/brand/favicon.svg",
+      "observedAt": "2026-10-31T18:30:33Z",
+      "sourceRef": "dot/ta-row-storage-stage-a-20261025",
+      "sourceSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+      "planPath": "docs/engineering/workspace-rows-integrated-candidate-contract.md",
+      "trackedPr": 307,
+      "phase": {
+        "label": "恢复链路验证",
+        "sourceUrl": "https://github.com/haohongfei2001-png/pjsdas/pull/307",
+        "ref": "4ce14933526940d55bd18facf1431dca31911dbf"
+      },
+      "currentSummary": "新恢复检查通过，候选仍为 Draft；完整发布门槛未关闭。",
+      "currentWork": "补齐恢复、混合负载和发布验收。",
+      "progress": {
+        "kind": "unknown",
+        "value": null,
+        "label": "整体进度未量化",
+        "reason": "发布门槛与不同范围的检查不能混成产品完成比例。"
+      },
+      "plan": {
+        "title": "行级恢复 · 集成候选",
+        "sourceUrl": "https://github.com/haohongfei2001-png/pjsdas/blob/4ce14933526940d55bd18facf1431dca31911dbf/docs/engineering/workspace-rows-integrated-candidate-contract.md",
+        "ref": "4ce14933526940d55bd18facf1431dca31911dbf",
+        "scopeLabel": "候选验收重点 · 非全部发布门槛",
+        "completeScope": false,
+        "items": [
+          {
+            "id": "ta-core",
+            "title": "原始身份的中断恢复与保护检查",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076403"
+          },
+          {
+            "id": "ta-storage",
+            "title": "浏览器持久化与重载恢复",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076239"
+          },
+          {
+            "id": "ta-uipg",
+            "title": "真实界面到 PostgreSQL 恢复测试",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076377"
+          },
+          {
+            "id": "ta-mixed",
+            "title": "混合负载与截止预算问题",
+            "status": "blocked",
+            "sourceUrl": "https://github.com/haohongfei2001-png/pjsdas/pull/307"
+          },
+          {
+            "id": "ta-release",
+            "title": "完整兼容、部署与生产准入",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/pjsdas/pull/307"
+          }
+        ]
+      },
+      "previousPlans": [
+        {
+          "title": "Stage A 分层验证",
+          "date": "2026-10-25T16:33:36Z",
+          "status": "historical",
+          "sourceUrl": "https://github.com/haohongfei2001-png/pjsdas/pull/307",
+          "summary": "先验证行级存储，再加入原始身份恢复、浏览器重载和真实界面到数据库检查；旧失败未被后续局部通过抹去。"
+        }
+      ],
+      "rounds": [
+        {
+          "id": "ta-ui-pg",
+          "title": "补齐真实界面到数据库的恢复检查",
+          "date": "2026-10-29T19:52:49Z",
+          "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+          "status": "review",
+          "done": [
+            "Stop 与原始 Undo 的真实界面 / API / PostgreSQL 检查通过",
+            "修正测试对参与状态与招聘事实的区分"
+          ],
+          "failed": [
+            "完整 Browser E2E 与 Matrix 按 Draft 策略跳过"
+          ],
+          "next": [
+            "继续处理发布前的剩余门槛"
+          ],
+          "sources": [
+            {
+              "label": "当前候选",
+              "url": "https://github.com/haohongfei2001-png/pjsdas/pull/307"
+            },
+            {
+              "label": "真实 UI → PostgreSQL 检查",
+              "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076377"
+            }
+          ]
+        },
+        {
+          "id": "ta-reciprocal",
+          "title": "停止同步时间戳引发的互相回读",
+          "date": "2026-10-29T15:56:01Z",
+          "headSha": "c63b08762346cee0e9b64c8d0ca80d4f5809313f",
+          "status": "review",
+          "done": [
+            "修复同步时间戳通知引发的互相读取"
+          ],
+          "failed": [],
+          "next": [],
+          "sources": [
+            {
+              "label": "修复提交",
+              "url": "https://github.com/haohongfei2001-png/pjsdas/commit/c63b08762346cee0e9b64c8d0ca80d4f5809313f"
+            }
+          ]
+        },
+        {
+          "id": "ta-gmail",
+          "title": "减少邮件批次中的重复处理",
+          "date": "2026-10-25T15:21:58Z",
+          "headSha": "70fa03f16494d381e69ef8e78edff311087c6466",
+          "status": "merged",
+          "done": [
+            "复用批次内的邮件身份计算",
+            "跳过重复回放的完整克隆"
+          ],
+          "failed": [],
+          "next": [],
+          "sources": [
+            {
+              "label": "PR #306",
+              "url": "https://github.com/haohongfei2001-png/pjsdas/pull/306"
+            }
+          ]
+        }
+      ],
+      "attention": [
+        {
+          "id": "ta-release-gap",
+          "title": "恢复候选仍有未关闭的发布门槛",
+          "kind": "blocked",
+          "sourceUrl": "https://github.com/haohongfei2001-png/pjsdas/pull/307",
+          "ref": "4ce14933526940d55bd18facf1431dca31911dbf",
+          "reason": "PR 明确保留混合负载、截止预算和生产准入缺口；通过的新检查只覆盖其标明的范围。",
+          "confidence": "explicit-source"
+        }
+      ],
+      "limitations": [
+        "当前 PR 文案含多个历史提交的验收段；最新检查以 4ce1493 对应 Actions 为准。",
+        "没有发现当前明确要求用户批准的独立事项，不将 Draft 自动当作待批准。"
+      ],
+      "github": {
+        "source": "github-connector-read",
+        "fetchedAt": "2026-10-31T18:30:33Z",
+        "mainSha": "b934a58f038a946ec7bd3b199efe7a4083e7d943",
+        "repository": {
+          "fullName": "haohongfei2001-png/pjsdas",
+          "defaultBranch": "main",
+          "url": "https://github.com/haohongfei2001-png/pjsdas",
+          "pushedAt": "2026-10-29T19:52:59Z",
+          "private": false
+        },
+        "pullRequests": [
+          {
+            "number": 307,
+            "title": "Draft: default-off integrated row recovery (not deployable)",
+            "state": "open",
+            "draft": true,
+            "merged": false,
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "branch": "dot/ta-row-storage-stage-a-20261025",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/pull/307",
+            "updatedAt": "2026-10-29T19:53:06Z",
+            "mergedAt": null,
+            "body": "## Scope\nDefault-off integrated row persistence and durable same-identity recovery candidate. This extends the existing Stage-A Draft rather than replacing it. Existing central/runtime and frontend recovery routes are included; this is no longer an isolated adapter-only patch.\n\n- Immutable versioned prepared intent is separate from database-fenced execution attempts (at most ten seconds each). Original command, prepared bytes, authority, business times and reservation are retained; retries do not rerun the reducer/provider or mint replacement commands/grants.\n- Original v1 bytes retain their original interpretation. Receipt-first resolution, terminal noncommit fences, grant/revision/CAS/resource checks and complete V5/Undo/audit boundaries remain explicit.\n- Candidate SQL remains under `tests/sql/candidates`, not the production migration chain. Server admission capabilities remain default off. No environment activation, deployment configuration, production SQL/ACL or resource-policy change is made by this PR.\n- Source-only historical fixtures contain reviewed same-repository text and exact independent hashes, not compiled artifacts, dependency packages, private evidence, production catalogs or full local Git history.\n\n## Validation — distinct sources and gates\n| Status | Scope and limits |\n| --- | --- |\n| PASS on runtime source `88c369b` | Real at-least-one-minute disconnected recovery through new API/scoped processes using the original identity; 185 focused tests; TypeScript; exact frontend/API/scoped builds; 5,276 unit tests / 397 files. Safety, lock/resource, audit modes, historical compatibility and original SQL regressions are separate grouped results, not one all-green acceptance run. |\n| PASS, source/compile only on packaging source `dce4ed0` | Four historical source closures, byte/provenance checks, tamper/symlink refusal and six independent bundles in a source archive without Git history or sibling trees. Existing verified locked compiler packages were reused; no fresh install or bundle execution is claimed. No runtime/candidate SQL changes in that packaging delta. |\n| PASS, publication packaging | Documentation-only status/privacy cleanup, with one exact documented composition-hash evolution; source composition and historical materialization/tamper checks repeated. Runtime, SQL, workflow and historical blob bytes remain those reviewed above. |\n| FAIL / unresolved | Retained mixed-load readability and bounded-attempt deadline failures, including earlier full-pair failures. Separate successful tails and recovery do not erase failed original runs. |\n| Historical local BLOCKED | At original packaging, local Chromium could not launch and zero cases ran. The later exact-head, storage-only real-browser gate below is now independently verified in Chromium/WebKit; it does not replace real-PG, full-UI, automatic-scheduler or full-pair acceptance. |\n| NOT_RUN before publication | Fresh dependency installation and the complete final packaged TypeScript/unit/native PostgreSQL/HTTP/pair acceptance matrix. Applicable exact-publication-commit CI is reported separately below; old-head CI does not certify this update. |\n\n## Native core / safety / barrier gate addition\nCurrent head: [`67e276f477ad6a40a0ab370ab4d0fb717d45dd0a`](https://github.com/haohongfei2001-png/pjsdas/commit/67e276f477ad6a40a0ab370ab4d0fb717d45dd0a), tree `ac6fb4bd3917ddfe8ab7afc05a11d39ddbf143f0`, sole parent `078de1e7130da00f8a714d4f370677b98095efe7`. This is a separate **nine-file synthetic test/workflow/documentation increment**, not a production runtime, SQL, permission, GC or deployment change.\n\nAfter the original Stage A suite, the existing PostgreSQL 17 service must run serial independent fixtures: **core 4**, **one continuous safety 17**, and **barriers 7**. All 28 unique labels must pass on this exact source, with verified before/after source manifest and owned database/authenticator/process/workspace/private-log cleanup. The 633-file transport allowlist i"
+          },
+          {
+            "number": 306,
+            "title": "perf: bound batch-local Gmail identity reuse and skip replay clones",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "70fa03f16494d381e69ef8e78edff311087c6466",
+            "branch": "dot/ta-gmail-bounded-cpu-20261025",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/pull/306",
+            "updatedAt": "2026-10-25T15:21:58Z",
+            "mergedAt": "2026-10-25T15:21:58Z",
+            "body": "## Changes\n- Reuse only immutable string normalization and identity aliases within one Gmail batch. Do not cache opportunities, match decisions, parser results or clocks; preserve scan order and ambiguity rules.\n- Bound each memo map to 2,048 entries, keys to 512 characters and the combined scope to 524,288 retained UTF-16 code units (not a byte/heap-size guarantee). Oversized/full cases compute the original result rather than truncate evidence.\n- Check an already-applied semantic run before cloning its entire snapshot. New runs keep existing mutation, receipt and CAS behavior.\n\n## Verification\n- Failure-first regression recorded; the optional-scope callback/index regression is covered by bank-branch and bilingual alias cases.\n- 4,977 unit tests across 377 files, TypeScript and build passed.\n- Independent review: 1,415 full-field differential comparisons plus 15 cache-boundary/exception groups passed; frozen file hashes match.\n- A synthetic 20-message/1,000-opportunity workload with warmup and alternating order reduced parser computation while preserving complete outputs. This is not a production latency or reliability guarantee.\n\nNo SQL, permissions, runtime budget, timeout, empty-poll eligibility or production payload changes. Existing non-replay semantic snapshot clones remain. All applicable remote CI gates are required before merge."
+          },
+          {
+            "number": 305,
+            "title": "feat: default-off bounded empty Gmail checkpoint candidate",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "1514e27426ee4a030a65368ad6bfa8a775cbc318",
+            "branch": "dot/ta-empty-poll-checkpoint-candidate-20261025",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/pull/305",
+            "updatedAt": "2026-10-25T13:47:05Z",
+            "mergedAt": "2026-10-25T13:47:05Z",
+            "body": "## Scope\nDefault-off candidate for strictly empty controlled Gmail history polls: preserve each canonical audit run and logical CAS while avoiding full snapshot assignment. This is not a general delta API.\n\nIncludes compatible overlay reads, old-writer/guarded-write handling, bounded immutable evidence, immutable replay, a drain CAS fence, and fail-closed uncertain responses. Both new flags default OFF. See docs/engineering/gmail-empty-poll-checkpoint-candidate.md for exact schema/ACL delta and rollout limits.\n\n## Verification\n- Local unit suite: 4,841 passed; TypeScript passed.\n- Independent gateway review: 112 tests plus 9 adversarial assertions passed.\n- Independent native PostgreSQL 17 tests: permissions, canonical run/source-health equivalence, old and guarded writers, lease/consent/CAS concurrency, crash recovery, drain fence and rollback paths passed.\n- Real PostgREST 14.5 HTTP fixture is wired into existing SQL CI. Not run locally because Docker is unavailable; CI result remains required.\n- Only code, synthetic fixtures and technical design are included. No production payloads or observations.\n\n## Explicit boundary\nDraft PR and CI only. Do not merge, apply production migrations or enable either flag without separate complete production approval after all gates pass. Existing backends that echo raw snapshots cannot coexist after enablement; all readers must be upgraded first. Rollback requires writer-off/read-on, drain with CAS fencing, and verified absence of pending windows."
+          },
+          {
+            "number": 304,
+            "title": "Require complete attributable evidence for automatic Discovery scope",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "74c602fa999186f17d36f574efb7adec24b8d535",
+            "branch": "dot/ta-complete-scope-evidence-20261025",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/pull/304",
+            "updatedAt": "2026-10-25T13:29:51Z",
+            "mergedAt": "2026-10-25T13:29:51Z",
+            "body": "## Change\n- Do not treat the 2,000-character presentation excerpt as proof that a posting lacks an excluded condition.\n- Evaluate bounded complete, attributable posting content against the current trusted profile; carry bounded rule matches tied to document/profile fingerprints instead of storing full bodies.\n- Reject forged, stale, mismatched or incomplete automatic-scope evidence. Preserve existing saved-job refresh and explicit manual review semantics.\n- Ambiguous nested/auxiliary content and unproven description shells stay unresolved rather than being guessed away.\n\n## Validation\n- Original late-description and visible-body regressions failed before this fix.\n- 43 focused tests and 16 independent synthetic probes passed.\n- Frozen full suite: 371 files / 4,829 tests passed with two workers; TypeScript, production build and diff checks passed.\n- Earlier concurrent timing failures were not counted as passes; no assertions or timeouts were loosened.\n\nNo provider activation, database change, real job write or paid service. This is bounded static-source correctness, not acceptance of live A17 search or every possible rendered job page."
+          },
+          {
+            "number": 303,
+            "title": "Ground AI capture time fields in attributable source evidence",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "60cbcc4c53c8506f29c59dd34992e5f5e2245d33",
+            "branch": "dot/ta-ai-temporal-grounding-20261025",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/pull/303",
+            "updatedAt": "2026-10-25T13:08:36Z",
+            "mergedAt": "2026-10-25T13:08:35Z",
+            "body": "## Change\n- Validate supplied dates, instants and time bounds against the candidate's own source evidence and trusted reference time/timezone, rather than format alone.\n- Fail to clarification for unsupported or ambiguous expressions, invented end times, unrelated temporal clauses, omitted explicit historical timestamps and incompatible time roles.\n- Keep confirmed application-submission evidence checks independent of optional occurredAt, including explicit negation.\n- Preserve the existing reschedule path and provider/output schema; add no external calls, permissions, configuration or runtime enablement.\n\n## Validation\n- Original synthetic reproductions failed before the fix and now pass.\n- Independent adversarial review and focused tests passed, including explicit/relative dates, timezone ambiguity, source anchors, range completeness, optional-field bypasses and valid controls.\n- Final local full suite: 371 files / 4,861 tests passed with two workers; TypeScript and production build passed. An earlier concurrent run hit an unchanged parser-budget test timeout; no timeout or assertion was loosened.\n\nThis is bounded conservative validation, not a complete natural-language semantics or live-model quality guarantee."
+          },
+          {
+            "number": 302,
+            "title": "Avoid unused full-snapshot hashing for semantic commits",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "f2bde4c431e555fe76d5f7ffe57f4c9d04dd6ef6",
+            "branch": "dot/ta-semantic-fingerprint-20261025",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/pull/302",
+            "updatedAt": "2026-10-25T12:35:49Z",
+            "mergedAt": "2026-10-25T12:35:49Z",
+            "body": "## Change\nCompute the workspace fingerprint only for compatibility snapshot writes. Semantic commands already supply their own command identity and payload hash, so the extra full-snapshot hash has no effect on their RPC input.\n\n## Validation\n- Failure-before synthetic tests: five assertions demonstrated the redundant call; all preceding RPC, receipt and CAS checks passed.\n- After the fix: 50 focused tests, TypeScript and production build passed.\n- Compatibility writes still calculate exactly one fingerprint and retain the same command ID and payload hash.\n- Independent equivalence review passed.\n\nThis removes redundant CPU work only. It is not a claim that database or network save failures are resolved."
+          },
+          {
+            "number": 301,
+            "title": "Reserve commit budget while slicing Gmail polling",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "82c733d9e1d93fe9324805d0bef6bfbc7b0a1e87",
+            "branch": "dot/ta-gmail-budget-slice-20261025",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/pull/301",
+            "updatedAt": "2026-10-25T11:32:13Z",
+            "mergedAt": "2026-10-25T11:32:13Z",
+            "body": "## Change\n- Keep the existing five-message fetch concurrency and twenty-message maximum while parsing each fetched group once before admitting another group.\n- Reserve a conservative tail for semantic application, fenced commit and cleanup without increasing the execution cap.\n- Preserve deferred IDs, page tokens and history boundaries through existing continuation state.\n- If no records can be consumed, leave the existing cursor and continuation unchanged without writing an empty snapshot.\n\n## Validation\n- Synthetic failure-before reproduction demonstrated commit starvation under a bounded clock.\n- 56 focused tests, TypeScript and production build passed.\n- Tests cover partial progress followed by complete continuation, zero-consumption retry, overflow/page tokens and unavailable messages.\n- Independent safety review passed.\n\nA single slow batch or commit can still exhaust the unchanged hard cap; this is budget allocation improvement, not a guarantee that every save succeeds."
+          },
+          {
+            "number": 300,
+            "title": "Add payload-free workspace commit failure diagnostics",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "14b4315453b6757aa68de7fe5c924193a27af868",
+            "branch": "dot/ta-commit-failure-diagnostics-20261025",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/pull/300",
+            "updatedAt": "2026-10-25T10:20:53Z",
+            "mergedAt": "2026-10-25T10:20:53Z",
+            "body": "## Scope\n- Log bounded primitive metadata only for ordinary workspace commit transport and non-2xx failures: RPC version, serialized request byte count, duration, HTTP status and allowlisted error classification.\n- Exclude request content, identifiers, URLs, credentials, raw error text and stack traces. No success logging, new service, configuration, retention change or retry change.\n- Isolate logging failures from the existing request behavior.\n\n## Validation\n- 32 focused synthetic tests passed.\n- TypeScript and production build passed.\n- Independent privacy and behavior review completed.\n\nThis change adds observation only; it does not claim to resolve any underlying save failure."
+          }
+        ],
+        "runs": [
+          {
+            "id": 40944076660,
+            "name": "TodayAction UI Review",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 367529244,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076660",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:56:19Z"
+          },
+          {
+            "id": 40944076526,
+            "name": "TSUI-05 Browser Matrix",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 366961302,
+            "status": "completed",
+            "conclusion": "skipped",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076526",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:53:12Z"
+          },
+          {
+            "id": 40944076520,
+            "name": "Consumer Management SQL",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 373123821,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076520",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:55:43Z"
+          },
+          {
+            "id": 40944076403,
+            "name": "Workspace rows Stage A (synthetic only)",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 396168137,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076403",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:57:42Z"
+          },
+          {
+            "id": 40944076377,
+            "name": "Consumer UI recovery to PostgreSQL (synthetic only)",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 398086304,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076377",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:55:38Z"
+          },
+          {
+            "id": 40944076339,
+            "name": "TodayAction Brand Gate",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 367515311,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076339",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:54:20Z"
+          },
+          {
+            "id": 40944076334,
+            "name": "Secondary surfaces visual adaptation",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 372183180,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076334",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:58:39Z"
+          },
+          {
+            "id": 40944076318,
+            "name": "Browser E2E",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 357468554,
+            "status": "completed",
+            "conclusion": "skipped",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076318",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:53:11Z"
+          },
+          {
+            "id": 40944076311,
+            "name": "CGR-02 Read-only Rollback",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 365098675,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076311",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:54:12Z"
+          },
+          {
+            "id": 40944076309,
+            "name": "CI",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 354561684,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076309",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:55:12Z"
+          },
+          {
+            "id": 40944076290,
+            "name": "CGR-02 VoiceOver",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 365081891,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076290",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:57:50Z"
+          },
+          {
+            "id": 40944076239,
+            "name": "Instant Recovery Draft Gate",
+            "headSha": "4ce14933526940d55bd18facf1431dca31911dbf",
+            "workflowId": 372018064,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/pjsdas/actions/runs/40944076239",
+            "createdAt": "2026-10-29T19:53:10Z",
+            "updatedAt": "2026-10-29T19:58:20Z"
+          }
+        ],
+        "coverage": {
+          "recentPulls": 8,
+          "recentRuns": 12,
+          "allHistory": false
+        }
+      }
+    },
+    {
+      "id": "paia-ime",
+      "name": "PAIA IME",
+      "repo": "haohongfei2001-png/paia-ime",
+      "icon": null,
+      "iconKind": "fallback-initials",
+      "initials": "拼",
+      "observedAt": "2026-10-31T18:30:33Z",
+      "sourceRef": "main",
+      "sourceSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+      "planPath": "README.md",
+      "trackedPr": null,
+      "phase": {
+        "label": "离线候选验证",
+        "sourceUrl": "https://github.com/haohongfei2001-png/paia-ime/blob/b0a7358ea83573cc073cf854d98594f1ea8f917b/README.md",
+        "ref": "b0a7358ea83573cc073cf854d98594f1ea8f917b"
+      },
+      "currentSummary": "原生候选已集成；尚未作为系统输入法安装验证。",
+      "currentWork": "继续资格验证与词库来源准备。",
+      "progress": {
+        "kind": "unknown",
+        "value": null,
+        "label": "整体进度未量化",
+        "reason": "工程切片完成不能折算成系统输入法的整体可用比例。"
+      },
+      "plan": {
+        "title": "从离线候选到可安装输入法",
+        "sourceUrl": "https://github.com/haohongfei2001-png/paia-ime/blob/b0a7358ea83573cc073cf854d98594f1ea8f917b/README.md",
+        "ref": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+        "scopeLabel": "当前资格门槛摘录",
+        "completeScope": false,
+        "items": [
+          {
+            "id": "ime-native",
+            "title": "原生引擎与候选操作",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia-ime/blob/b0a7358ea83573cc073cf854d98594f1ea8f917b/README.md"
+          },
+          {
+            "id": "ime-integration",
+            "title": "整合设置、词条和恢复",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia-ime/blob/b0a7358ea83573cc073cf854d98594f1ea8f917b/docs/PRODUCT_CANDIDATE.md"
+          },
+          {
+            "id": "ime-vocabulary",
+            "title": "生产词库来源与分发资格",
+            "status": "blocked",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia-ime/blob/b0a7358ea83573cc073cf854d98594f1ea8f917b/docs/PRODUCTION_DICTIONARY_GATE.md"
+          },
+          {
+            "id": "ime-installed",
+            "title": "系统安装与真实应用兼容",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia-ime/blob/b0a7358ea83573cc073cf854d98594f1ea8f917b/README.md"
+          }
+        ]
+      },
+      "previousPlans": [],
+      "rounds": [
+        {
+          "id": "ime-unicode",
+          "title": "加入可选的 Unicode 17 词典比较",
+          "date": "2026-10-16T18:28:46Z",
+          "headSha": "46bf3e6e146b4781e9ce451e1e3916e77cce66e4",
+          "status": "merged",
+          "done": [
+            "加入独立开启的词典比较实验"
+          ],
+          "failed": [],
+          "next": [
+            "不把研究实验当作生产词库资格"
+          ],
+          "sources": [
+            {
+              "label": "PR #24",
+              "url": "https://github.com/haohongfei2001-png/paia-ime/pull/24"
+            }
+          ]
+        },
+        {
+          "id": "ime-timeout",
+          "title": "保留超时退出的失败证据",
+          "date": "2026-10-16T16:29:07Z",
+          "headSha": "bde1fca5e11399162aa5761f10daf2b79da59868",
+          "status": "merged",
+          "done": [
+            "子进程先退出时仍保留超时失败记录"
+          ],
+          "failed": [],
+          "next": [],
+          "sources": [
+            {
+              "label": "PR #23",
+              "url": "https://github.com/haohongfei2001-png/paia-ime/pull/23"
+            }
+          ]
+        },
+        {
+          "id": "ime-million",
+          "title": "完成有界原生回放与资源观测",
+          "date": "2026-10-11T02:47:10Z",
+          "headSha": "97416025dc42658aeec4c90d49c55b80690771f6",
+          "status": "merged",
+          "done": [
+            "记录原生百万输入操作与资源观察"
+          ],
+          "failed": [
+            "部分延迟长尾仍未解释"
+          ],
+          "next": [
+            "继续真实安装与语言质量验证"
+          ],
+          "sources": [
+            {
+              "label": "PR #22",
+              "url": "https://github.com/haohongfei2001-png/paia-ime/pull/22"
+            }
+          ]
+        }
+      ],
+      "attention": [],
+      "limitations": [
+        "默认候选只有 46 条人工词条；不能声称可以日用。",
+        "仓库未发现正式应用图标，使用文字占位。"
+      ],
+      "github": {
+        "source": "github-connector-read",
+        "fetchedAt": "2026-10-31T18:30:33Z",
+        "mainSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+        "repository": {
+          "fullName": "haohongfei2001-png/paia-ime",
+          "defaultBranch": "main",
+          "url": "https://github.com/haohongfei2001-png/paia-ime",
+          "pushedAt": "2026-10-16T18:28:46Z",
+          "private": false
+        },
+        "pullRequests": [
+          {
+            "number": 24,
+            "title": "Add opt-in Unicode 17 dictionary comparison experiment",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "46bf3e6e146b4781e9ce451e1e3916e77cce66e4",
+            "branch": "feature/unicode-dictionary-experiment",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/pull/24",
+            "updatedAt": "2026-10-16T18:51:29Z",
+            "mergedAt": "2026-10-16T18:28:46Z",
+            "body": "## Scope\nResearch-only comparison of authored, Unicode character-reading, and existing research dictionaries. Default product dictionary remains unchanged. Public Unicode data only; no user input records.\n\n## Reproducibility\n- Pin official Unicode 17 Unihan archive and Unicode License V3 with byte counts and SHA-256 locks.\n- Reproduce historical 730,547-byte reading snapshot exactly: SHA-256 c7f6b7563ebc78caa2b981588477efd34677a0336bc92666987306cf127b3535.\n- Deterministic conversion yields 52,691 unique character/readings with uniform weight 1 (not frequency). Eight unsupported circumflex readings are explicitly reported.\n- Add a newly authored fixed 48-task v1 comparator. This does not pretend to restore the lost historical task file. Three dictionary lanes, three independent processes per lane, five rounds per process; preserve individual rank/commit/error evidence.\n- Integrate explicit opt-in experiment into existing Batch A2 macOS CI. Existing G01/mixed regressions remain separate gates.\n\n## Validation\nLocal Python experiment tests 5/5 and static A1/A2 audits passed. Swift/native results are pending CI; no claim of installed-Mac validation or whole-plan completion. Independent review is pending after reviewer quota interruption; keep draft until reviewed.\n\nRemote tree 7c290f786c2f9d37e62428408ec926cc92673a3d exactly matches local candidate 6390469a405e7f0b6c6dab6616723daa0fd5e781."
+          },
+          {
+            "number": 23,
+            "title": "Preserve timeout failure evidence when qualification child exits before kill",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "bde1fca5e11399162aa5761f10daf2b79da59868",
+            "branch": "fix/qualification-timeout-exit-race",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/pull/23",
+            "updatedAt": "2026-10-16T16:29:07Z",
+            "mergedAt": "2026-10-16T16:29:07Z",
+            "body": "## Change\nHandle ProcessLookupError only when the owned test process group disappears between timeout and SIGKILL. Still reap the child and record timeout=true, even when the raced exit is 0; qualification remains failed and is never replayed.\n\n## Validation\n- New deterministic regression failed on original code (unhandled ProcessLookupError), then passed after correction.\n- Python supervisor verifier: 8/8 passed locally on Linux, including real child timeout/reaping.\n- A1/A2 static privacy/resource audits passed.\n- Native macOS evidence must come from this exact head's existing workflows; local checks are not installed IME qualification.\n- No resource data, default dictionary, credentials, permissions, signing or installation changes.\n\nRelease compatibility and spelling policy verifiers require prepared macOS/cache evidence unavailable locally and were not claimed passed."
+          },
+          {
+            "number": 22,
+            "title": "Qualify native million-event replay and precompiled resource observations",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "97416025dc42658aeec4c90d49c55b80690771f6",
+            "branch": "feature/native-reliability-qualification",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/pull/22",
+            "updatedAt": "2026-10-11T02:47:10Z",
+            "mergedAt": "2026-10-11T02:47:10Z",
+            "body": "## Scope\nImplements REPORT §15.3's native million-event replay and HANDOFF §4 timing/resource observations using the existing pinned, explicitly unbundled research pack. No new paid services/runners, installed input source, user profile, AI or PAIA integration.\n\n- Real serial C ABI counters, shared monotonic clock and separate owner/native/copy timing records.\n- Seeded 32-schema/8-case workload: at least 1,000,000 actual native input operations, separate calibration/startup/lifecycle/IMK-host observations.\n- Production constructor retains a cleared, no-learning private traditional-conversion owner after seven fixed public engine inputs; fail-closed cleanup and no retry. This moves real lazy resource loading out of a later first key, with disclosed startup and idle-memory costs.\n- Correct exported G01 trial lifecycle diagnostics, including pending-trial runtime cleanup. Dedicated native cancellation/adoption/failed-search/close/late-cancel tests.\n- Candidate constructor counters are checked before legitimate saved-settings restoration, with a separate strict empty-probe delta.\n\n## Exact-head verification\nHead `97416025dc42658aeec4c90d49c55b80690771f6`, tree `8f1d6124a08c054d44a93314ae586c4c0879e1d5`.\n\nAll 12 existing official standard macos-15 workflows finished successfully. B1 attempt 1 completed functional replay but artifact upload failed after five GitHub CreateArtifact timeouts; it has zero downloadable artifacts and is retained as a failure, not accepted evidence. The same job was rerun without code or threshold changes; attempt 2 succeeded with full raw evidence.\n\n- [B1 exact-head run](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38104856433): 1,000,017 native operations, 88,397 commits, 4,995,763 assertions, 11,117 created/destroyed owners, zero live/failed. Separate 50,006 paired wall/process-CPU records and actual 32-episode/128-insert IMK protocol host.\n- B1 artifact 11689411815: 84 files, SHA256 `a65f70904e844492159e8ad790a73388cc06f6be6dd42d6cc6e41be3be0dfd05`.\n- [IMK exact-head run](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38104856375): all candidate restart, resource recovery, actual N→N+1→N authored-data compatibility, bounded-edit, mixed, basic-control and retained-repair stages pass.\n- IMK artifact 11689821679: 203 files, SHA256 `207391b9d708abb70f01e072fd73249b32b47f42cb1f746112363cac082034ff`.\n- Local Python verifier 7/7, strict C ABI and ASan/UBSan checks pass. Linux has no Swift/AppKit. LeakSanitizer unavailable under the recorded ptrace boundary.\n- Independent read-only review recomputes all million/calibration/diagnostic records, percentiles, counters, hashes, timing containment and CPU pairings. Final IMK review independently verifies all 203 files, actual restart/restore/G01/Mixed counters, seven expected-red control logs and the original N's 284 source blobs; PASS is recorded in the recovery evidence.\n\n## Preserved failures and limitations\nOriginal mixed-clock calibration failure, G01 created/destroyed 71/72 failure, misplaced restored-settings snapshot 9/8 assertion, superseded cancellations, expected-red controls, skipped downstream stages and artifact-upload failure remain preserved. No failed samples are trimmed.\n\nG02 is **open**. The earlier 278.061ms tail remains unexplained. Later million runs contain other tails; this head's largest owner observation is 26.401ms, and four exceed 16.7ms. The separate CPU diagnostic cannot explain uninstrumented tails from another process/run. These are not visible-candidate or target-M1 acceptance results.\n\nDefault product resources remain 46 authored rows. The 1,873,509-row strong corpus requires explicit research configuration and has unresolved production-source grants. This is not an install-and-use daily product. ENGINE_NATIVE / APPKIT_HOST / SIMULATED remain separate; no INSTALLED_IME, LIVE_CLIENT or HUMAN_STUDY claim. Production vocabulary/quality, live clients, physical accessibility, 8-hour/500-hour use, signing/notar"
+          },
+          {
+            "number": 21,
+            "title": "Qualify existing-data compatibility with frozen native N → N+1 → N",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "43f04ecded67cf14f3fe5bcb5761a1b4bd8d7b3a",
+            "branch": "feature/release-compatibility",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/pull/21",
+            "updatedAt": "2026-10-11T00:01:59Z",
+            "mergedAt": "2026-10-11T00:01:58Z",
+            "body": "## Qualified scope\nExplicit existing-only compatibility assessment and actual frozen original N → N+1 → N on authored isolated settings, terms and exact-expression data. N is original d2f9d62 / 0.3.0 build 1; N+1 is 0.3.1 build 2. Existing data and public-source formats are unchanged. No installer, signed update or system input-source change.\n\n## Exact final acceptance\nFinal head **43f04ecded67cf14f3fe5bcb5761a1b4bd8d7b3a**, tree **a3068bb798f4c559378e5191e84f11e2045ef14c**: all **12 existing macos-15 workflows success**. [Final IMK run](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38095472436/job/114340353709): all 24 steps success. Initial implementation b6c69a1 independently passed all 12; final differs only in README, contract and validation Markdown. Independent read-only exact-head source/evidence review: **PASS, no blockers**.\n\n- Six strict-store, four launch-parser and twelve public-catalog tests pass. Existing-only Lexicon initialization is explicitly forbidden even with a stat/open presence race; deterministic SIMULATED guard removal produces one-test/two-assertion expected-red, then exact source restoration and rebuilt green.\n- Original N 284 source files / 111 app files / 4 XCTest files SHA inventories are frozen and verified after the complete matrix; all original source blobs independently match d2f9d62. N is never patched or recompiled after freezing. SDK-only XCTest environment, no N+1 package libraries in original N.\n- Five original N real-engine/AppKit-host stages and two N+1 host save/delete stages; five separate original app preflights; two explicit N+1 store saves; six successful compatibility checks and 21 authority-preserving refusals. Every host/save stage executes exactly one named test; no new stage skips.\n- Original N consumes new saves and tombstones without resurrection; original app selection checks exact public current/updated or lastGood/baseline generation and personal-active state. Read stages preserve complete authority bytes, inode/mode/link identity. Authored legacy v1 is distinctly labelled; post-upgrade original-app preflight is narrower than full v2 host restore.\n- All 24 current-stage raw job logs and all 24 artifact ZIPs retained with verified SHA256/size/CRC. Each IMK artifact has 203 files: inventories, receipts, snapshots, per-command logs and red/restored controls. Runner-local app/XCTest binary bodies are not in evidence ZIPs.\n\n## Limits\nCompatibility checks perform flush barriers and private helper scratch/probes; they return before main engine/controller/NSApplication/IMKServer and do not migrate, repair or retry. This is point-in-time authority-preserving assessment, not publisher authentication, future CAS or installed rollback.\n\nDefault vocabulary remains **46 authored rows**; full vocabulary remains explicit unbundled research with unresolved production rights. No installed/live-client, production language quality, visible latency, target-machine resource budget, accessibility, human-efficiency or signed/notarized update claim. A1's documented personal-only skip and all preexisting expected-red controls remain retained; dedicated personal CI covers that configuration.\n\nSee docs/RELEASE_COMPATIBILITY.md and evidence/release-compatibility/VALIDATION.md. Ready and merge will be separately verified; exact merged-main CI and private full recovery follow independently, and are not pre-claimed here."
+          },
+          {
+            "number": 20,
+            "title": "Integrate candidate resource publication and startup recovery",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "94a83f2cddf34a4af5470237b11e1f4ea2f9f6cd",
+            "branch": "feature/candidate-resource-recovery",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/pull/20",
+            "updatedAt": "2026-10-10T22:06:24Z",
+            "mergedAt": "2026-10-10T22:05:58Z",
+            "body": "## Integrated authored candidate update/recovery\n\nFinal head: `94a83f2cddf34a4af5470237b11e1f4ea2f9f6cd`\nFinal tree: `489e4cc8595aafaf2ef3f9b9fb0b089e6f4edb26`\nBase main: `11ea06848c6499a1e5f4b94c70e98156cb6b2565`\n\n### Product contract\n- Fixed bundle-anchored baseline/update source presets, isolated offline compilation and discriminating native probes. Only one authored dictionary row changes; 46 authored rows remain, with unchanged recipe/map inventory. No arbitrary-pack importer or research corpus distribution.\n- Separate format-2 public catalog, held no-follow directory/lock identities, expected revision, immutable generations, durable index publication and unknown-outcome writer quarantine.\n- Actual candidate startup selects current or recorded verified last-good before deriving only the current authoritative personal snapshot. No old personal overlay restoration, implicit learning, authority writes or third bundled fallback from a malformed catalog.\n- Live compositions retain their resources/raw/candidate identity; a separate process sees the new generation. One main engine entry, zero deployment calls. Actual executable preflight supports an isolated authored parent; IMKServer remains unstarted.\n\n### Exact-head verification\nAll **12 existing public macos-15 workflows succeeded** at this exact final head, including [the full IMK job](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38089089776/job/114321637049).\n- 11 catalog/source/transaction and 3 launch-parser tests.\n- 10 independent update/recovery stages: active publication, next startup, corrupt artifact, coherent semantic mismatch, wrong prism, both invalid, missing index, current personal update/fallback and deletion/no-relearn persistence.\n- Real marker counterexample passes the older 32-policy smoke but is refused by the new marker probe/publication. Correct controls: 16 total commits and 16 exhaustive negatives.\n- Four helper faults are reaped before genuine last-good native probing; late main failure does not retry.\n- Actual app: 3 positive and 2 zero-entry negative preflights, unchanged established authority bytes.\n- Source identity, quarantine, held-lock and sole-catalog dispatch mutants produce their exact required red assertions; exact restoration/rebuilt green follows. All existing native IMK/context/habits/mixed/basic/repair lanes also complete.\n\nIndependent full source/native review accepted code head `6ecb4eb`; this final head changes only four Markdown files and repeats all CI. Final exact-tree review is checked before ready/merge. Exact merged-main CI and private complete recovery follow merge, not assumed here.\n\n### Retained failures and limits\nIntegration `d3f487f` had an exact XCTest assertion-text harness mismatch; corrected `ed03d25` passed two native stages then rejected a test-created catalog under a Foundation temp-path alias. Both complete failures and skipped stages remain retained. The test uses physical scratch and now accepts only the specific native-probe refusal; production checks were not weakened.\n\nEvidence remains separated as SIMULATED / ENGINE_NATIVE / APPKIT_HOST. Default vocabulary is a small authored fixture; full vocabulary is explicit unbundled research with unresolved source rights. No installed/live-client, production quality, signed publisher, software/database migration/downgrade, visible latency, physical accessibility or long-run acceptance is claimed. No input-source install, credentials, permissions, paid resources, PAIA changes or new management UI.\n\nSee [contract](docs/CANDIDATE_RESOURCE_RECOVERY.md) and [commit-bound evidence](evidence/candidate-resource-recovery/VALIDATION.md)."
+          },
+          {
+            "number": 19,
+            "title": "Integrate authored candidate resources and product data startup",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "30e867c97de2b02b584900d18f55e5ec06906588",
+            "branch": "feature/product-candidate-contract",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/pull/19",
+            "updatedAt": "2026-10-10T20:00:54Z",
+            "mergedAt": "2026-10-10T20:00:54Z",
+            "body": "## Integrated candidate scope\nDefault `.build/PAIAInputMethod.app` now joins 32 Full/Flypy/Natural, script, punctuation and bounded spelling policies; verified native G01/mixed; and the existing explicit settings, personal-term and exact-expression controls. The movable bundle contains **46 authored dictionary rows**, six pinned recipe/map sources and the unchanged pinned engine. It does not contain the large research corpus.\n\nOne protected product root owns three independent stores. Child helpers receive frozen personal snapshots, compile/probe before the sole main native entry, and never roll back personal authority. Existing roots cannot recreate missing writer locks or entirely erased stores. Legacy v1 fixture publication/recovery remains separate.\n\n## Exact final acceptance\n- Head: `30e867c97de2b02b584900d18f55e5ec06906588`\n- Tree: `5541102eb5e727f6d0d7a4443c4cab2a26d67af4`\n- Independent exact-head source review: PASS.\n- All **12 existing public macos-15 workflows succeeded**. [Final IMK integration job](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38081036431/job/114297823396).\n- ENGINE_NATIVE: 32-schema public probe, 106 real commits, 24 policy negatives, 32 punctuation cases, genuine G01/mixed capability proof; main startup has one attempt and zero deployments.\n- APPKIT_HOST: 32 mode commits plus once-only G01 repaired and mixed commits; five independent save/restart/delete processes; seven optional-store/preparation fault stages, including erased personal authority.\n- Actual relocated app preflight: two positives and seven integrity/semantic/capability negatives, with original .build unavailable and clean environment; no IMKServer started.\n- SIMULATED: ProductData 11/0, CandidatePack 5/0, malformed C ABI tables. Read-race, metadata-routing and erased-store guard removals were deliberately red, exact source restored, rebuilt current tests green.\n- Initial native path-alias failure (8 of 9 data tests), subsequent 12-workflow Swift compile failure, all raw failures/skips and successful checkpoints are retained. A1's broad personal-only skip and the existing expression expected-red control are not relabeled as successful individual tests.\n\n## Qualification boundaries\nNo installation/registration, normal service launch, signing credential, private user profile/input, PAIA modification or paid service is included. Helpers are separate same-user processes, not an OS sandbox. Hashes are integrity checks, not publisher authentication or blanket distribution rights.\n\nThe candidate remains a small authored pack; full vocabulary is explicitly configured research and retains its production provenance gate. Daily language quality, installed/live-client behavior, advanced real-client C2/C3, accessibility/human/long-run/performance qualification and release signing/install/uninstall remain open. Format-2 staged public-resource current/last-good and actual software/data migration rollback also remain separate code/acceptance work; v1 fixture evidence is not substituted for them. Simultaneous settings/expression marker+JSON erasure while preserving the original lock is indistinguishable from their legitimate never-saved format.\n\nSee [candidate contract](https://github.com/haohongfei2001-png/paia-ime/blob/30e867c97de2b02b584900d18f55e5ec06906588/docs/PRODUCT_CANDIDATE.md), [source inventory](https://github.com/haohongfei2001-png/paia-ime/blob/30e867c97de2b02b584900d18f55e5ec06906588/Resources/candidate-sbom.json) and [checkpoint evidence](https://github.com/haohongfei2001-png/paia-ime/blob/30e867c97de2b02b584900d18f55e5ec06906588/evidence/product-candidate/VALIDATION.md). Exact merged-main CI and the verified private recovery are separate closing gates."
+          },
+          {
+            "number": 18,
+            "title": "Consolidate spelling policies, per-app initial modes and system character entry",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "fe914431d348b40a9abaf30efd443e3e57f28144",
+            "branch": "feature/input-habits-contract",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/pull/18",
+            "updatedAt": "2026-10-10T18:32:29Z",
+            "mergedAt": "2026-10-10T18:16:07Z",
+            "body": "## Scope\nConsolidates original REPORT §§6.4, 7 and 8.2: bounded independent fuzzy initials and Full-Pinyin typo rules, explicit per-application initial Chinese/literal mode, canonical settings migration, and a gated public Emoji & Symbols action. No new workflow, paid service, installation or PAIA/AI dependency.\n\n## Exact-source acceptance\n- Base: `4a2cc9db13133720618ad3e2e736730d4a8bc7f4`\n- First checkpoint: `7d4f085f6ad6cc68d4890e4257ac14c8b3626d8b`, all 12 workflows succeeded.\n- Final source: `fe914431d348b40a9abaf30efd443e3e57f28144`\n- Final tree: `88bef8ccb4fd1b150322536490cea5712a7f3cd3`\n- Final 12 existing public macos-15 workflows: **all success**, every job/step success, no skipped stage. [Final IMK run](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38074082474).\n- Independent source reviews cover settings/owner boundaries, pinned spelling recipes, fixture capability UI and personal fallback integration. Exact final-source/native evidence review is recorded in the recovery acceptance.\n\n## Actual evidence\n- **ENGINE_NATIVE:** finite authored 27-row dictionary, 32 schemas / 8 prisms, **928** real selected/drained commits, **144** exhaustive target-negative cases, **48** native single-key code/type diagnostics. Closed n/l, z/zh, c/ch, s/sh rules precede double-key mapping; strict Full Pinyin removes only 37 pinned typo derivations. Default algebra and old schema identities remain unchanged.\n- **ENGINE_NATIVE:** existing research resources supply **272** same-meaning commits plus **28** fuzzy/typo-positive commits. Whole-source Return and stale-candidate regressions passed. These are not language-quality or finite-absence claims.\n- **ENGINE_NATIVE + APPKIT_HOST:** eight production driver/NSTextView habit tests passed, covering two clients, activation modes, foreign/stale actions, five app-identity getter reentries, post-hide ownership, Unicode boundaries and real explicit save actions.\n- Final capability increment passed the actual fixture literal-button test: unsupported policy controls disabled/off, internal legacy correction default retained, old session preserved on rejected policy.\n- Final basic-controls stage passed **8 personal-overlay commits + 8 configured public-baseline commits** after explicit personal mutation. Once-only insertion, no settings autosave and appropriate repair capability were checked. Common-word fallback cases prove availability in eight configurations; policy contrasts are separately proved by the finite authored matrix.\n- **SIMULATED:** five new store/codec tests plus nine existing settings tests; one closed-schema identity case; injected system-palette callback. The actual OS panel was not opened.\n- All previous engine/ABI, G01, mixed, resource, bounded context, expression, settings and ownership workflows remained enabled.\n\n## Safety and data contract\nv1 bytes/digest/schema are verified before memory-only defaults; only explicit Save writes v2. At most 16 bounded exact app IDs, no app/document scanning. Initial modes affect an activation and do not change another composing client. One-shot character actions revalidate after hide and issue no IME insert. No hot-path deployment/network, implicit learning, input history or automatic expression save. Prior unknown-save and unknown-insert outcomes never retry.\n\n## Honest remaining gates\nThe default unsigned app is still the tiny authored fixture. The full feature combination remains in explicit research configuration; installation alone would not make this a daily-use product. Research corpus remains unbundled, with unresolved source-grant questions. Direct Unicode ü phonetic normalization and double-Pinyin typo correction are not implemented. Actual OS palette, physical menus/keyboard, installed C0/C1/C2/C3, VoiceOver/display scaling, visible performance/energy, production language quality, consented learning/privacy controls, long-duration/human studies, signing/notarization/update/uninstall are not accepted here.\n\nTwo local sta"
+          },
+          {
+            "number": 17,
+            "title": "Integrate lossless typed Chinese and literal composition through native IMK path",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "d4f1894ebca6b4a8ef3139b2e0679f88a466d291",
+            "branch": "feature/lossless-mixed-input",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/pull/17",
+            "updatedAt": "2026-10-10T17:16:11Z",
+            "mergedAt": "2026-10-10T17:03:43Z",
+            "body": "## Final qualified scope\n\nFinal head `d4f1894ebca6b4a8ef3139b2e0679f88a466d291`, tree `2efaaefc22b41cf74ec1867ac09fdff67073702a`; baseline/main `df871e48bc3a5df450f7b600280e964c8e1cc511`. Sole writer; final source and native evidence independently reviewed PASS. All 12 existing macOS workflows are completed/success for this exact head, with no skipped job stage. No new runner or workflow.\n\nOne InputSession now owns full original source, a typed spelling/literal/genuine-engine-proof draft and the existing once-only effect path. Optional serialized C ABI owner/project/select/adopt/commit keeps the original G01 ABI unchanged. Chinese proofs require actual native selection and exact raw span, text and phonetic code. Literal identity is distinct and only represents explicit authored bytes. Full replay checks native input, selected spans, preview, actual drained commit and empty second drain; sealed or dirty success cannot be reused after later Swift failure.\n\nThe actual uninstalled IMK controller exposes mixed/literal/reopen/commit actions, Option-L literal intent, Tab/Shift-Tab span navigation and real candidate Up/Down/page/Space. Return and lifecycle completion preserve the whole original source from any allowed caret. Stale/foreign/changed-target and unknown host insertion outcomes never retry. Grapheme-safe edits, explicit confirmed-span reopen, exact source/display maps, bounded work and incomplete candidate footer are included. Ordinary input does not learn or persist expressions.\n\n## Exact-head execution\n\n[Final IMK 38069421567](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421567):\n- ENGINE_NATIVE: negative control reproduces the former `user_id` middle replay failure with source unchanged; corrected 98 scenarios (96 commits + two budget refusals); 20 direct owner commits.\n- ENGINE_NATIVE: 10 actual Swift/C ABI bridge tests, including four failures injected only after real native success. Twelve exposed research schemas plus full initials produce 32 converted commits and 32 whole-source Return effects. Chained edits and 128 genuine suffix proofs pass.\n- ENGINE_NATIVE + APPKIT_HOST: 7 actual NSTextView/production-driver tests, including 128 suffix selections and an independent nonempty finish/deactivate × front/middle lifecycle case. Complete source is inserted once; stale menu and repeated finish are rejected.\n- SIMULATED: 10 pure draft/effect tests and one panel-footer test. Thus host-target total is 8, not eight real engine cases. The existing A1 Address/Undefined sanitizer job also passes authored output-free-after-close tests.\n\n[Final A1](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421568), [A2](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421583), [B1](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421642), [B2](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421560), [B3](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421580), [B4](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421624), [B5](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421654), [B6](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421584), [B7](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421577), [B8](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421586), [expressions](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38069421585): all success. Exact merged main `4a2cc9db13133720618ad3e2e736730d4a8bc7f4` has the same reviewed tree and all 12 push workflows completed/success. [Main IMK run 38070196249](https://github.com/haohongfei2001-png/paia-ime/actions/runs/38070196249) separately reran the entire native/host/regression gate. Final and exact-main logs/checks are preserved separately in the private recovery.\n\n## Preserved failures and limits\n\n[evidence/mixed/VALIDATION.md](evidence/mixed/VALIDATION.md) and [docs/MIXED_INPUT.md](docs/MI"
+          }
+        ],
+        "runs": [
+          {
+            "id": 38947655382,
+            "name": "Batch B3 explicit settings and safe mode recovery",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380079799,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655382",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:35:34Z"
+          },
+          {
+            "id": 38947655380,
+            "name": "Uninstalled IMK client integration",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380416442,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655380",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:48:14Z"
+          },
+          {
+            "id": 38947655363,
+            "name": "Batch B4 visible native candidate navigation",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380115459,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655363",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:31:45Z"
+          },
+          {
+            "id": 38947655355,
+            "name": "Batch B6 fully readable long candidates",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380154683,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655355",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:37:56Z"
+          },
+          {
+            "id": 38947655336,
+            "name": "Batch B5 explicit settings save verification",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380132218,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655336",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:36:01Z"
+          },
+          {
+            "id": 38947655330,
+            "name": "Batch B1 native research controls",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380000983,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655330",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:35:27Z"
+          },
+          {
+            "id": 38947655307,
+            "name": "Batch A1 native engine and synthetic host",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 379942491,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655307",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:31:24Z"
+          },
+          {
+            "id": 38947655298,
+            "name": "Batch A2 constrained native research",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 379977985,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655298",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:34:32Z"
+          },
+          {
+            "id": 38947655295,
+            "name": "Exact local expression IMK loop",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380481526,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655295",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:38:08Z"
+          },
+          {
+            "id": 38947655274,
+            "name": "Batch B8 lossless keyboard boundary",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380197960,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655274",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:37:31Z"
+          },
+          {
+            "id": 38947655262,
+            "name": "Batch B2 explicit personal lexicon",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380032379,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655262",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:33:37Z"
+          },
+          {
+            "id": 38947655260,
+            "name": "Batch B7 explicit Unicode character entry",
+            "headSha": "b0a7358ea83573cc073cf854d98594f1ea8f917b",
+            "workflowId": 380179178,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-ime/actions/runs/38947655260",
+            "createdAt": "2026-10-16T18:28:49Z",
+            "updatedAt": "2026-10-16T18:38:23Z"
+          }
+        ],
+        "coverage": {
+          "recentPulls": 8,
+          "recentRuns": 12,
+          "allHistory": false
+        }
+      }
+    },
+    {
+      "id": "hcl-assistant",
+      "name": "HCL Assistant",
+      "repo": "haohongfei2001-png/hcl-assistant",
+      "icon": null,
+      "iconKind": "fallback-initials",
+      "initials": "H",
+      "observedAt": "2026-10-31T18:30:33Z",
+      "sourceRef": "main",
+      "sourceSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+      "planPath": "DEVELOPMENT_PLAN.md",
+      "trackedPr": null,
+      "phase": {
+        "label": "会员链路开发",
+        "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md",
+        "ref": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e"
+      },
+      "currentSummary": "账号与会员基础已合入；真实商户适配仍待完成。",
+      "currentWork": "M3-01 会员、支付和完整商业验收。",
+      "progress": {
+        "kind": "plan-items",
+        "completed": 10,
+        "total": 11,
+        "value": 91,
+        "label": "开发计划 10 / 11",
+        "scopeLabel": "当前 11 个工程包，不代表产品商业完成度",
+        "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+      },
+      "plan": {
+        "title": "Assistant-first · 当前开发计划",
+        "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md",
+        "ref": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+        "scopeLabel": "当前 11 个工程包",
+        "completeScope": true,
+        "items": [
+          {
+            "id": "P0-01",
+            "title": "预览契约与开发队列统一",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "P1-01",
+            "title": "首页与聊天界面",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "P1-02",
+            "title": "更正、依据与历史",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "D1-01",
+            "title": "开发态模型对话",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "P1-03",
+            "title": "检查器与设置",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "C1-01",
+            "title": "隔离托管工程",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "U1-01",
+            "title": "聊天交互优化",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "M1-01",
+            "title": "普通账号与隔离",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "U2-01",
+            "title": "账号入口与首次聊天",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "M2-01",
+            "title": "密码找回与登录撤销",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "M3-01",
+            "title": "会员、商户适配与商业验收",
+            "status": "active",
+            "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md"
+          }
+        ]
+      },
+      "previousPlans": [
+        {
+          "title": "L0–L2.5 原型与受限开发桥接",
+          "status": "historical",
+          "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/blob/3e8ad86cacefe51310fd519b2c1c2c803c1fd61e/DEVELOPMENT_PLAN.md",
+          "summary": "历史阶段已完成，当前产品任务由 Assistant-first 队列管理。"
+        }
+      ],
+      "rounds": [
+        {
+          "id": "hcl-upstream",
+          "title": "上游运行时同步检查失败",
+          "date": "2026-10-31T17:47:06Z",
+          "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+          "status": "failed",
+          "done": [],
+          "failed": [
+            "最近一次上游同步 Actions 失败；未据此判断整个产品不可用"
+          ],
+          "next": [
+            "打开失败运行检查具体原因"
+          ],
+          "sources": [
+            {
+              "label": "最新同步运行",
+              "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/41226195405"
+            }
+          ]
+        },
+        {
+          "id": "hcl-expired",
+          "title": "过期账号保持只读直到核验恢复",
+          "date": "2026-10-16T16:48:28Z",
+          "headSha": "faea18d22d5b1d8af4c1a7f38e9668b61ebf5fde",
+          "status": "merged",
+          "done": [
+            "保留会话、历史与草稿",
+            "过期状态在核验恢复前禁止新发送"
+          ],
+          "failed": [],
+          "next": [],
+          "sources": [
+            {
+              "label": "PR #61",
+              "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/61"
+            }
+          ]
+        },
+        {
+          "id": "hcl-history",
+          "title": "核对刷新与重新登录后的历史",
+          "date": "2026-10-07T11:02:27Z",
+          "headSha": "eeb63e9d3800f87b53b76a9566e807d292c26796",
+          "status": "merged",
+          "done": [
+            "验证普通账号历史恢复"
+          ],
+          "failed": [],
+          "next": [],
+          "sources": [
+            {
+              "label": "PR #59",
+              "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/59"
+            }
+          ]
+        }
+      ],
+      "attention": [
+        {
+          "id": "hcl-upstream-failure",
+          "title": "上游同步检查失败",
+          "kind": "blocked",
+          "sourceUrl": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/41226195405",
+          "ref": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+          "reason": "这是上游同步任务的失败信号，不等同于应用运行失败。",
+          "confidence": "exact-run"
+        }
+      ],
+      "limitations": [
+        "10/11 表示登记的工程包完成数，不是生产、模型质量或商业验收 91%。",
+        "仓库未发现正式应用图标，使用文字占位。"
+      ],
+      "github": {
+        "source": "github-connector-read",
+        "fetchedAt": "2026-10-31T18:30:33Z",
+        "mainSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+        "repository": {
+          "fullName": "haohongfei2001-png/hcl-assistant",
+          "defaultBranch": "main",
+          "url": "https://github.com/haohongfei2001-png/hcl-assistant",
+          "pushedAt": "2026-10-16T16:48:28Z",
+          "private": false
+        },
+        "pullRequests": [
+          {
+            "number": 61,
+            "title": "Keep late expired account sessions read-only until verified recovery",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "faea18d22d5b1d8af4c1a7f38e9668b61ebf5fde",
+            "branch": "product/consumer-continuation-20261016",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/61",
+            "updatedAt": "2026-10-16T16:48:29Z",
+            "mergedAt": "2026-10-16T16:48:28Z",
+            "body": "## Consumer account repair\nLate expired status/renewal responses cannot reopen writes. Same-account history and draft remain read-only until fresh verification; expired account-switch responses remove the prior account view. Precise recovery feedback retains actionable-error priority.\n\n## Final validation\nExact head faea18d22d5b1d8af4c1a7f38e9668b61ebf5fde. Independent initial and incremental reviews found no blocking defects. Local 89/89 Node view tests, lifecycle 22/22, TypeScript/Vite build and build:cloud passed. Hosted workflow 38933336058: planning and cloud-postgres jobs and all their steps success. Both exact browser regressions retained, including no-send, draft preservation and Lab export refusal. Vercel bot reports latest preview Ready as of 2026-10-16 16:37 UTC. Earlier failed runs are superseded, not relabeled as passing.\n\nNo real paid provider calls, Auth grants, payment activation, new service or budget changes. Synthetic provider and test-database verification do not prove real customer production acceptance. PR53/55 remain untouched. Complete product plan remains open."
+          },
+          {
+            "number": 60,
+            "title": "test: stabilize membership expiry and concurrent history alerts",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "d8af4c40ac28a1aea7547f0e33cab271eea970d5",
+            "branch": "product/membership-expiry-alert-regression",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/60",
+            "updatedAt": "2026-10-09T09:06:47Z",
+            "mergedAt": "2026-10-09T08:56:22Z",
+            "body": "## Scope and writer\nOne test-only writer for the membership-expiry browser regression, based on adopted main `5aca868ab4a08a2fb441650016e2b32e675a72fc`. Exactly one changed file: `tests/browser/member-entry-separation.spec.js`. The sole product queue remains M3-01. PR53 and rejected visual PR55 are outside this change and remain unmodified.\n\n## Failure and repair\nUpstream Sync run 37870484632 recorded 159 ordinary browser passes, 46 skips and one failure: the expiry test's page-wide alert locator matched both the membership-expiry notice and the independent history-recovery notice. Send was already disabled; the later Enter/draft/no-POST assertions had not run.\n\nThe fixture now waits for initial history loading to finish before advancing its 15-second timeout clock. It checks two deterministic cases: a successfully loaded empty history list, and an explicit synthetic HTTP503 history-list response. The expiry alert is located by its membership-expiry meaning; the failure variant must preserve both alerts and an enabled history-reload button. A counter confirms the account-status response really remains held during expiry. Existing Send-disabled, Enter, draft-preservation and zero-POST assertions remain intact. No first-match escape hatch, skipped test, weaker retry, hidden notice or runtime change.\n\n## Verification\n- Independent source review passed on file SHA256 `b8bc247e80d74bf00cf5e0dada58b3157c8eaa3a9c5d1dff1bc57a1459e716f2`.\n- Local syntax and diff checks passed. Playwright collection lists seven cases, including both expiry variants.\n- Planning and repository boundary checks passed after replacing a temporary dependency symlink with a real copy of the same locked dependencies.\n- TypeScript, both Vite builds, preview boundary check and all 82 Node view tests passed.\n- Local Chromium could not launch: process singleton socket returned EPERM before the browser test body. Actual browser results are pending the existing hosted exact-head workflow; this is not a browser pass.\n- A raw local Python discovery attempt collected 502: 345 passed, 132 skipped, 13 failed and 12 errored. Twenty-four failures/errors require the unconfigured pinned development artifact; one requires the absent pinned psycopg package. Existing hosted CI supplies those prerequisites. No assertions were changed or skipped to make that attempt pass.\n- The original trailing Send-disabled assertion after releasing account status is retained, but does not prove React consumed the late response. This PR does not claim new late-response-consumption coverage.\n\n## Boundaries\nSynthetic fixtures only, zero live provider calls, no credentials or production configuration changes. Existing planning/cloud-postgres workflows and reviewed runtime lock are unchanged; no upstream candidate is adopted and no publication guard is bypassed. Application/build/deployment source is byte-identical to the base. Keep Draft until exact-head browser/Postgres checks and evidence review complete; adoption also requires exact-main verification."
+          },
+          {
+            "number": 59,
+            "title": "Verify ordinary account history after reload and re-login",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "eeb63e9d3800f87b53b76a9566e807d292c26796",
+            "branch": "product/ordinary-history-durability",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/59",
+            "updatedAt": "2026-10-07T11:17:09Z",
+            "mergedAt": "2026-10-07T11:02:27Z",
+            "body": "## Ordinary-account durability acceptance\nAdd a browser regression through the ordinary `/` entry using existing injected Auth/model transports and disposable localhost Postgres. It verifies persistent chat after refresh and same-account logout/login, unchanged conversation/run/answer identities, and a second answer using the original context. Exactly one conversation and two event/execute pairs are allowed; reload/re-login cause no mutation replay or owner-route navigation.\n\nOnly the browser-test file and development writer metadata change. SOURCE_REVIEWED records source review only; actual PR merge and exact-main CI remain the delivery authority. Application, API, fixtures, workflows, dependencies, runtime pin, permissions and live configuration are unchanged. M3 remains open; PR53 is untouched. This is not live account/email/model/payment or security-review evidence.\n\n## Reviewed and verified final head\nFinal head: eeb63e9d3800f87b53b76a9566e807d292c26796\nFinal reviewed tree: 6826009a1de49e5741af2c7b96c21807a46ff8ed\nExact-head run37609951509 passed both original jobs: 160 general browser cases, 46 actual cloud-browser cases, 193 PostgreSQL tests, 82 Node tests, and the existing Python/build/planning/repository gates. Cloud-only cases are intentionally skipped in the general job and executed in the cloud job. The new durability scenario passed in 4.7 seconds.\n\nFinal artifact11478031152 was downloaded and its ZIP SHA256 verified as aa2224ba2da02d847632a7450e839b990530b72833a0edd8f1741d7e25fd5a9d. The restored-history screenshot was inspected; the identity JSON and attached copy are byte-identical and record exactly one creation and two event/execute pairs, with zero live provider calls.\n\nInitial head48bed184 also passed the complete gates in run37608551027. Its inline attachment body was not retained by the list reporter; a minimal independently reviewed follow-up writes the identical payload to Playwright's output path. No assertion was weakened. Both original and corrected evidence are preserved.\n\nThe owner explicitly approved publishing this complete test file and companion metadata to the existing public repository, PR/CI and merge. No private user data or credentials are included. Exact-main checks remain required after merge.\n\n## Exact-main adoption\nMerged main 5aca868ab4a08a2fb441650016e2b32e675a72fc preserves the reviewed tree. Run37611389189 passed both original planning and cloud-postgres jobs, including the new ordinary-member durability scenario. The exact commit's Vercel deployment status succeeded. Read-only public root/account/development status checks returned HTTP200 at 11:04 UTC; they still report owner-smoke-only model readiness and unavailable password recovery, not completed live ordinary chat. No live account, model, payment or PR53 activation followed from this test adoption."
+          },
+          {
+            "number": 58,
+            "title": "Reconcile HCLA delivery status and remaining consumer work",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "a23362aedd579823c22d877c857e5285be27c9dc",
+            "branch": "product/delivery-status-closeout",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/58",
+            "updatedAt": "2026-10-07T04:34:41Z",
+            "mergedAt": "2026-10-07T04:34:41Z",
+            "body": "## Factual delivery closeout\nSeven documentation/metadata files only. Record adopted PR56 full-product visual work and PR57 diagnostic fixture repair, and replace M3's obsolete NOT_IMPLEMENTED evidence with its adopted provider-neutral order/membership/renewal foundation. M3 remains NEXT_READY; eligible live merchant adapter, offers/terms and full commerce acceptance remain open.\n\nThe dated snapshot separates engineering/CI from ordinary-account live usability. Read-only public GETs at 2026-10-07 04:03 UTC returned 200: account service available, Qwen configured/shared-monthly, owner_smoke_only=true and recovery_available=false. No login, account mutation, model call or successful live chat is claimed.\n\n## Automatic behavior and boundaries\nThe existing runtime publisher defers on non-runtime-sync open PRs, not control/plan.json.writer. Correct the stale PR57 record without changing that guard. PR53 and PR55 remain untouched/unadopted; runtime lock stays a8229fcf. Application/API/scripts/tests/workflows/contracts/build/dependencies/deployment configuration are byte-identical to main05e3b8a. No activation, payment, credential or permission change.\n\n## Review and verification\nIndependent factual review cleared exact tree818a017160dea48da521c69782b1ca4cc0844fee; connector publication preserves it. Planning/repository/diff checks and 37 existing queue/publisher regressions pass. One initial command used a nonexistent test module name; corrected invocation ran the actual modules and passed. This local subset is not a full regression pass; original exact-head hosted gates and exact-main verification are required.\n\nOrdinary login→persistent chat→reload/re-login history evidence is the next bounded functional slice. Status reconciliation does not close consumer delivery or authorize the unadopted self-use candidate."
+          },
+          {
+            "number": 57,
+            "title": "Make offline diagnostic timeout metadata tests deterministic",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "3138af5702ca0e56270436cee683c35ea5ec675e",
+            "branch": "product/deterministic-diagnostics",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/57",
+            "updatedAt": "2026-10-06T21:10:29Z",
+            "mergedAt": "2026-10-06T21:10:29Z",
+            "body": "The thinking-only fixture used a real 0.3s deadline while its first SSE event arrived in delayed fragments. A slow test runner could time out before consuming model metadata, making the unconditional actual_model assertion fail even though UNKNOWN with no observed model was correct.\n\nKeep the production adapter and exact browser transport unchanged. The test controls only the adapter clock at real FIFO consumption boundaries: before parsing the first bytes, or on the next read after the complete metadata event. Assert both truthful outcomes, exact chunk counts, no answer/usage/cost and no hidden reasoning. The timeout is unchanged; this adds no retry or requested-model substitution. The only other change is the writer claim.\n\nValidation: independent review cleared tree 2290d8df2b334de854cfdb0c2a836824e3c0b826; 44 focused tests passed independently, 50 repeated boundary cases passed, and cleanup checks confirmed restored patches and no surviving adapter workers. Planning/repository/diff checks passed. Local full regression was attempted but lacked the pinned runtime artifact and psycopg distribution metadata; it is not reported as passing. Require the original full hosted gates at this exact head.\n\nProduction adapter, fake transports, dependency/runtime locks, provider settings and activation rights are unchanged. The existing automatic runtime-sync gate remains authoritative; no manual publication bypass or real provider call is included."
+          },
+          {
+            "number": 56,
+            "title": "Apply the accepted clear-glass style across HCLA",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "b03ef2fc358e23ca228d55ee270afe69f0c44063",
+            "branch": "product/glass-home-preview",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/56",
+            "updatedAt": "2026-10-06T20:33:32Z",
+            "mergedAt": "2026-10-06T20:33:31Z",
+            "body": "Apply the owner-accepted bright white and transparent Home style across the existing HCLA interface. Conversation keeps the same compact growing composer; sidebar/search, evidence/source/revision, memory, settings and account/membership/recovery views use the same fine edges and light surfaces. The accepted Home stylesheet stays unchanged.\n\nPreserve actual labels, privacy/error/expiry states, drafts, IME/send/consent guards, source navigation and account/payment permissions. Long dialogs retain a reachable Close control. Checkbox visuals remain small while their labels retain 44px targets. System transparency and forced-color fallbacks have explicit browser assertions.\n\nValidation: independent source review cleared tree e2b0444894d313c073c69ce877049768b32768bf. Local build, 82 Node regressions, planning/repository checks and diff checks passed during preparation. Final exact-head PostgreSQL/browser gates and actual responsive pixel review are required before adoption; current-head captures cover all affected screens, including empty/error states. Existing CI gains only a bounded synthetic screenshot artifact.\n\nThe owner accepted Home direction at d50dbec8 and authorized the full-product application. Original reference assets remain intact; PR55 is not adopted. No live Auth, provider, grant, payment or research activation is included. The product queue remains M3-01."
+          },
+          {
+            "number": 55,
+            "title": "style: unify HCLA with the requested minimal consumer design",
+            "state": "open",
+            "draft": true,
+            "merged": false,
+            "headSha": "8f5e0a5630de9be65d016f025e62f6822bee7c1d",
+            "branch": "product/consumer-visual-refresh",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/55",
+            "updatedAt": "2026-10-06T18:00:48Z",
+            "mergedAt": null,
+            "body": "Apply the requested cool-gray canvas, white rounded surfaces, dark typography and restrained violet-blue focus to the existing HCLA UI. Shared styles cover Home/chat/navigation, evidence/source/memory, settings/membership/orders, and account/recovery screens. The composer is compact on desktop and keeps its actions accessible on phones; optional companion controls remain available with quieter decoration.\n\nThis is a presentation-only candidate: one stylesheet import, shared CSS/account styling, visual documentation and synthetic browser evidence. Existing actions, capability states, authentication, provider/payment behavior and activation settings are unchanged. The reference image remains outside the repository; no third-party logos or unimplemented integration controls were added.\n\nValidation so far: build/type checks, 82 Node view tests, planning/repository checks and independent source review pass. Local Chromium cannot start its singleton socket; the cloud browser also blocks localhost. Actual screenshots, responsive/contrast checks and the complete hosted browser regression are pending. Keep this draft until those rendered results have been reviewed; code review alone is not visual acceptance."
+          },
+          {
+            "number": 54,
+            "title": "fix: clear stale payment feedback when orders refresh",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "4753356680ca49900c67f3bbd5995a42420e1fd8",
+            "branch": "product/order-feedback-refresh",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/pull/54",
+            "updatedAt": "2026-10-06T03:27:23Z",
+            "mergedAt": "2026-10-06T03:27:23Z",
+            "body": "Refreshing membership orders now clears the previous operation message immediately. A pending or failed read, refund, or dispute therefore cannot retain an obsolete payment-success notice.\n\nFour synthetic browser regressions cover pending refresh, refund/dispute results, a failed read, and an older response arriving after a newer refund response even when cancellation is ineffective. Refresh is also checked for zero repeated order, checkout, or reconciliation mutations.\n\nValidation: test-only head de816d6 reproduced all four stale-message failures in run37407173818. Final head 4753356 passes run37408214237: 156 general browser cases, 45 cloud browser cases, 193 actual PostgreSQL tests, 501 Python tests (127 database-dependent skips in the general job), 82 Node view tests, and the build/type/repository checks. The exact tree has independent source review. Local Chromium could not start because of the environment's singleton-socket restriction, so browser evidence is from hosted CI.\n\nScope: one UI state reset, synthetic tests, and writer metadata. No backend, schema, permission, payment-provider, account-grant, or live configuration changes."
+          }
+        ],
+        "runs": [
+          {
+            "id": 41226195405,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "failure",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/41226195405",
+            "createdAt": "2026-10-31T17:47:06Z",
+            "updatedAt": "2026-10-31T17:47:23Z"
+          },
+          {
+            "id": 41202134903,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/41202134903",
+            "createdAt": "2026-10-31T12:40:14Z",
+            "updatedAt": "2026-10-31T12:47:46Z"
+          },
+          {
+            "id": 41174235683,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/41174235683",
+            "createdAt": "2026-10-31T05:51:28Z",
+            "updatedAt": "2026-10-31T05:57:55Z"
+          },
+          {
+            "id": 41146921780,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/41146921780",
+            "createdAt": "2026-10-30T23:51:32Z",
+            "updatedAt": "2026-10-30T23:58:54Z"
+          },
+          {
+            "id": 41115663782,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/41115663782",
+            "createdAt": "2026-10-30T19:29:28Z",
+            "updatedAt": "2026-10-30T19:37:16Z"
+          },
+          {
+            "id": 41070448091,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/41070448091",
+            "createdAt": "2026-10-30T14:16:41Z",
+            "updatedAt": "2026-10-30T14:24:32Z"
+          },
+          {
+            "id": 41018727540,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/41018727540",
+            "createdAt": "2026-10-30T07:13:08Z",
+            "updatedAt": "2026-10-30T07:19:48Z"
+          },
+          {
+            "id": 40983730773,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/40983730773",
+            "createdAt": "2026-10-30T01:05:32Z",
+            "updatedAt": "2026-10-30T01:13:25Z"
+          },
+          {
+            "id": 40955689596,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/40955689596",
+            "createdAt": "2026-10-29T21:11:51Z",
+            "updatedAt": "2026-10-29T21:19:47Z"
+          },
+          {
+            "id": 40909275874,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/40909275874",
+            "createdAt": "2026-10-29T16:12:30Z",
+            "updatedAt": "2026-10-29T16:20:23Z"
+          },
+          {
+            "id": 40843165754,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/40843165754",
+            "createdAt": "2026-10-29T08:34:55Z",
+            "updatedAt": "2026-10-29T08:42:44Z"
+          },
+          {
+            "id": 40802865106,
+            "name": "Upstream HCL Runtime Sync",
+            "headSha": "3e8ad86cacefe51310fd519b2c1c2c803c1fd61e",
+            "workflowId": 371565331,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/hcl-assistant/actions/runs/40802865106",
+            "createdAt": "2026-10-29T01:50:55Z",
+            "updatedAt": "2026-10-29T01:57:41Z"
+          }
+        ],
+        "coverage": {
+          "recentPulls": 8,
+          "recentRuns": 12,
+          "allHistory": false
+        }
+      }
+    },
+    {
+      "id": "semantic-lab",
+      "name": "Semantic Lab",
+      "repo": "haohongfei2001-png/paia-semantic-lab",
+      "icon": null,
+      "iconKind": "fallback-initials",
+      "initials": "S",
+      "observedAt": "2026-10-31T18:30:33Z",
+      "sourceRef": "main",
+      "sourceSha": "7d80f2fd7833fed37853c30917b88dc69ae115ed",
+      "planPath": "status/ZERO_MODEL_REFOUNDATION_STATUS.json",
+      "trackedPr": null,
+      "phase": {
+        "label": "研究准备",
+        "sourceUrl": "https://github.com/haohongfei2001-png/paia-semantic-lab/blob/7d80f2fd7833fed37853c30917b88dc69ae115ed/status/ZERO_MODEL_REFOUNDATION_STATUS.json",
+        "ref": "7d80f2fd7833fed37853c30917b88dc69ae115ed"
+      },
+      "currentSummary": "独立评估条件尚未具备，研究能力仍未验证。",
+      "currentWork": "等待真实独立角色、数据与隔离运行条件的证据。",
+      "progress": {
+        "kind": "unknown",
+        "value": null,
+        "label": "研究能力未验证",
+        "reason": "工程完成不等于研究能力通过；独立数据和资源资格尚未通过。"
+      },
+      "plan": {
+        "title": "ZMR · 最小研究轮准备",
+        "sourceUrl": "https://github.com/haohongfei2001-png/paia-semantic-lab/blob/7d80f2fd7833fed37853c30917b88dc69ae115ed/docs/zero-model-refoundation-v1/DEVELOPMENT_PLAN.md",
+        "ref": "7d80f2fd7833fed37853c30917b88dc69ae115ed",
+        "scopeLabel": "当前获准准备范围",
+        "completeScope": false,
+        "items": [
+          {
+            "id": "lab-protocol",
+            "title": "协议与工程基础登记",
+            "status": "done",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia-semantic-lab/blob/7d80f2fd7833fed37853c30917b88dc69ae115ed/status/ZERO_MODEL_REFOUNDATION_STATUS.json"
+          },
+          {
+            "id": "lab-independent",
+            "title": "独立人员、数据与隔离条件",
+            "status": "blocked",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia-semantic-lab/blob/7d80f2fd7833fed37853c30917b88dc69ae115ed/status/ZERO_MODEL_REFOUNDATION_STATUS.json"
+          },
+          {
+            "id": "lab-admission",
+            "title": "数据资格与候选冻结",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia-semantic-lab/blob/7d80f2fd7833fed37853c30917b88dc69ae115ed/docs/zero-model-refoundation-v1/DEVELOPMENT_PLAN.md"
+          },
+          {
+            "id": "lab-test",
+            "title": "独立评估执行",
+            "status": "todo",
+            "sourceUrl": "https://github.com/haohongfei2001-png/paia-semantic-lab/blob/7d80f2fd7833fed37853c30917b88dc69ae115ed/docs/zero-model-refoundation-v1/DEVELOPMENT_PLAN.md"
+          }
+        ]
+      },
+      "previousPlans": [
+        {
+          "title": "CIG-v1 研究路线",
+          "status": "failed",
+          "sourceUrl": "https://github.com/haohongfei2001-png/paia-semantic-lab/blob/7d80f2fd7833fed37853c30917b88dc69ae115ed/README.md",
+          "summary": "独立盲测未达既定门槛，已按失败关闭；没有把工程通过改写成能力通过。"
+        }
+      ],
+      "rounds": [
+        {
+          "id": "lab-ci",
+          "title": "当前主分支一项检查失败",
+          "date": "2026-10-06T21:25:53Z",
+          "headSha": "7d80f2fd7833fed37853c30917b88dc69ae115ed",
+          "status": "failed",
+          "done": [],
+          "failed": [
+            "ZMR isolated package validation 失败",
+            "另一项 Semantic Lab CI 成功"
+          ],
+          "next": [
+            "核对失败作业；不推断研究能力结论"
+          ],
+          "sources": [
+            {
+              "label": "ZMR 检查",
+              "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37533834044"
+            }
+          ]
+        },
+        {
+          "id": "lab-provision",
+          "title": "登记独立评估所需条件",
+          "date": "2026-10-04T14:20:00Z",
+          "headSha": "a209cf2df6e146e80204eb8f11c1b0b397ab1fe3",
+          "status": "merged",
+          "done": [
+            "列明独立角色、数据、审核与隔离运行条件"
+          ],
+          "failed": [
+            "独立条件尚未 provision，AS_READY 未达到"
+          ],
+          "next": [
+            "等待具体独立条件证据，不重复无变化的研究执行"
+          ],
+          "sources": [
+            {
+              "label": "PR #264",
+              "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/pull/264"
+            }
+          ]
+        },
+        {
+          "id": "lab-minimal",
+          "title": "登记最小研究轮授权边界",
+          "date": "2026-10-04T14:01:04Z",
+          "headSha": "7578817daea3f54637bb7b27c1c7f73696f2cf40",
+          "status": "merged",
+          "done": [
+            "允许有限准备工作"
+          ],
+          "failed": [],
+          "next": [
+            "实际独立评估执行仍需后续明确授权"
+          ],
+          "sources": [
+            {
+              "label": "PR #262",
+              "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/pull/262"
+            }
+          ]
+        }
+      ],
+      "attention": [
+        {
+          "id": "lab-independent-gap",
+          "title": "独立评估条件未具备",
+          "kind": "blocked",
+          "sourceUrl": "https://github.com/haohongfei2001-png/paia-semantic-lab/blob/7d80f2fd7833fed37853c30917b88dc69ae115ed/status/ZERO_MODEL_REFOUNDATION_STATUS.json",
+          "ref": "7d80f2fd7833fed37853c30917b88dc69ae115ed",
+          "reason": "当前门槛是 INDEPENDENCE_NOT_PROVISIONED，不是“用户尚未点击批准”。",
+          "confidence": "explicit-source"
+        }
+      ],
+      "limitations": [
+        "研究仓库，不是独立应用或 PAIA 生产依赖。",
+        "不把旧盲测失败、当前工程 CI 失败与未完成的新能力验证混成同一状态。",
+        "仓库未发现正式图标，使用文字占位。"
+      ],
+      "github": {
+        "source": "github-connector-read",
+        "fetchedAt": "2026-10-31T18:30:33Z",
+        "mainSha": "7d80f2fd7833fed37853c30917b88dc69ae115ed",
+        "repository": {
+          "fullName": "haohongfei2001-png/paia-semantic-lab",
+          "defaultBranch": "main",
+          "url": "https://github.com/haohongfei2001-png/paia-semantic-lab",
+          "pushedAt": "2026-10-06T21:25:51Z",
+          "private": false
+        },
+        "pullRequests": [
+          {
+            "number": 264,
+            "title": "ZMR: bounded independent provisioning inventory and admission contract",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "a209cf2df6e146e80204eb8f11c1b0b397ab1fe3",
+            "branch": "zmr-independent-provisioning-inventory-20261004",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/pull/264",
+            "updatedAt": "2026-10-04T14:23:48Z",
+            "mergedAt": "2026-10-04T14:20:00Z",
+            "body": "## Bounded independent provisioning inventory/contract only\n\nStarted after PR262 full integration receipt5980885014 at source actual maincf6560117854c94b7a5a187bd4776d345f45c47c; Semantic37208110721/ZMR37208110680 SUCCESS attempt1, six governance bytes/tree verified. No follow-up semantic/data/Router/AS work preceded integration.\n\nTwo existing canonical files only: EXECUTION_PROTOCOL append-only admission contract, STATUS actual evidence inventory. Nine capabilities classified AVAILABLE/UNAVAILABLE/UNKNOWN with exact current source pointers. Actual independent author cohorts, reviewers/arbitrator, curator, store/runner have no registered attestations; no actor assignment or independent quota credit. Public repo/writer-readable workspace unsuitable for sealed store. External provider capacity UNKNOWN, not proof of global nonexistence.\n\nContract fixes responsibilities, lawful source/cohort capacity, independent role/access/read-denial evidence, pre-prediction gold/role/boundary review, unchanged full144/language/mechanism/safety quantities, finite sample purpose/cap/stop, <=2admission revisions, durable atomic claim/crash/no-replay identity binding, and no real AS claim/execution. No persons contacted/accounts created/deployment/new data/gold review/Router selection or evaluation. Existing helper/CI availability is engineering-only.\n\nLocal schema/count/source/append-only contract invariants PASS; all old rounds/HOLD/product limits, permanent historical false/false/null, new caps/authorization/zero allocations/provisioning/readiness unchanged. DataNOT_QUALIFIED/capabilityUNTESTED/resourceNOT_QUALIFIED/no ceiling; AS_READY not reached; AS claim/executionfalse/final0.\n\nAfter exact-head/actual-main integration, quiet checkpoint until concrete independent provider/role/source/store/runner attestations arrive under existing authority; no repeated unchanged scans/synthetic quota/candidate work/empty CI. Same-PR final receipt; no receipt-only PR.\n"
+          },
+          {
+            "number": 263,
+            "title": "ZMR: repair PR262 actual-main metadata transport with existing read authority",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "606f8dfdaa5a122136a7d4dc94dabbf6e775b6eb",
+            "branch": "zmr-pr262-actual-main-transport-20261004",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/pull/263",
+            "updatedAt": "2026-10-04T14:10:07Z",
+            "mergedAt": "2026-10-04T14:07:42Z",
+            "body": "## PR262 actual-main transport repair only\n\nPR262 merged at1bc4887d74303f817d8f81f152112646f8bc4e62; six governance/status bytes/tree were verified, but actual-main ZMR37207708367 attempt1 failed shard3 job111452274656 at public tree metadata HTTP403 before units. Shards1/2 and Semantic37207708373 succeeded. Integration remains incomplete; no provisioning/data/Router/AS work has begun. This is an actual engineering repair PR, not a receipt-only PR.\n\nUse the already granted workflow contents:read action token as primary authorization for GitHub tree metadata; raw content fetches stay credential-free immutable SHA/blob verified. No new permission, token scope or auth fallback;403 still fails without retry. Existing35s shared deadline/5s per-attempt/one transient retry token/no sleeps unchanged. Strict metadata-only repair path runs the exact mocked public-reader proof, rather than all historical engineering units; other engineering/data/RESULT changes retain original full gates and140 units.\n\nLocal8 mock reader tests PASS: primary existing metadata authorization, raw no credentials, invalid ref/path/symlink/hash/schema failures,403 no fallback/retry, bounded timeouts/body/cache. Actual governor positive/7 harmful mutation rejections/3 mixed-scope fallbacks/scoped transport test routing PASS; trigger bytes and explicit closures/unit commands preserved; script123815bytes under126000. No runtime/data/governance artifact modification. Historical false/false/null, all limits/HOLD and AS execution/claim=false/final0 stay unchanged.\n\nPreserve prior failed CI; no unchanged head/main rerun. Green exact-head merge, then new actual-main applicable CI and six governance bytes/tree verification, final integration receipt on PR262. Only after full integration execute bounded independent-provisioning inventory/contract.\n"
+          },
+          {
+            "number": 262,
+            "title": "ZMR: capped minimal epoch authorization; AS execution withheld",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "7578817daea3f54637bb7b27c1c7f73696f2cf40",
+            "branch": "zmr-minimal-epoch-authorization-20261004",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/pull/262",
+            "updatedAt": "2026-10-04T14:10:05Z",
+            "mergedAt": "2026-10-04T14:01:04Z",
+            "body": "## Owner authority registration only\n\nRegister explicit owner approval OWNER-ZMR-MINIMAL-EPOCH-20261004 in six canonical governance/status files. Base main1ae17774e9631959258aed1a67bf5b89ce84c659; previous finite engineering item PR261 is complete per same-PR receipt5978078825, and is not reopened.\n\n### Prospective limits and withheld authority\n\n- Separate single minimal epoch:1 development generation, fixed anchor+1 unique Router candidate,3 stable configs total, at most1 candidate semantic repair; no automatic replacement/family/generation.\n- Preparation of genuinely independent data/curator/review/runner/writer-inaccessible storage/atomic consumption is authorized within existing access/cost scope.\n- AS execution, claim and delivery to candidate are not authorized. All data/resource/freeze/readiness gates must have immutable evidence before AS_READY; at AS_READY stop/report for separate owner authority.\n- Final TEST creation/execution/slots0; no payment/new permissions/private or production access.\n\n### Historical and scientific boundaries\n\nHistorical complete=false/reconciled=false/remaining_allowance=null permanently preserved; no reset/refund/UNKNOWN-as-unspent. Old RESULT bytes/hash, all old round records, repair/retirement/key facts, product limits and semantic HOLD remain unchanged. The legacy accounting guard is unchanged and explicitly not epoch-aware; later scoped admission implementation is required before a stable comparison, without fake reconciled history or bypass.\n\nFull144/95% assigned+global precision/70% coverage-macro-language/context-multi floors/safety/1MiB/2MiB/32MiB/20ms/100ms/local-first/zero neural-embedding-LLM-semanticAPI unchanged. DataNOT_QUALIFIED/capabilityUNTESTED/resourceNOT_QUALIFIED/no ceiling.\n\n### Verification and next task\n\nLocal owned-path/JSON/invariant checks PASS; all existing rounds/product contract/generation limits/historical pins/label-role holds unchanged, closure SHA256371b3d264534956d0deec09833b855c7a8c5a376026630d9b3bef845734e39d2 preserved. No code/data/workflow change, semantic evaluation/fitting/Router comparison/new row/AS claim or infrastructure deployment.\n\nNext unique task after integration: bounded independent-provisioning admission inventory/contract with real role, source/cohort, reviewer/arbitrator, curator/runner/store access attestations and pre-prediction label/role/boundary procedure. Unavailable providers remain NOT_PROVISIONED; no shared-context agent independence or synthetic quota. This batch ends at governance registration; no Router comparison.\n\nApplicable exact-head and actual-main checks/owned bytes will be recorded on this PR; no recursive receipt-only PR or unchanged-head CI rerun.\n"
+          },
+          {
+            "number": 261,
+            "title": "ZMR: retain finite streaming allocation observations and original fixture failure",
+            "state": "closed",
+            "draft": false,
+            "merged": true,
+            "headSha": "83887e046d77547d28cc79d6e578884151c218c0",
+            "branch": "zmr-streaming-allocation-20261004",
+            "base": "main",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/pull/261",
+            "updatedAt": "2026-10-04T08:56:56Z",
+            "mergedAt": "2026-10-04T08:26:20Z",
+            "body": "## Finite engineering registration\nSingle writer; five owned paths:workflow,STATUS,standalone synthetic diagnostic harness,report,RESULT. Expected base72e15ffb6bc645c8c3a299496197ebd0c6f2886c. Dependency PR260 exact-head Semantic37167862351/ZMR37167862338 and actual-main Semantic37169131647/ZMR37169131633 SUCCESS attempt1, six owned bytes/tree verified.\n\nThree synthetic structures; eager vs streamed manual weights, two formulas/32calls per formula/child/full144 numeric slots. No Router, text, fitting, actual index or stable candidate. Initial unpadded suffix fixture rejected at128 terms:3child starts/2completed observations/1failure retained with exact initial harness. One ordinary fixture-order correction changes all input/weight identities, no validator relaxation or semantic budget charge/refund. Six changed-fixture child observations completed; three paired arithmetic digests equal. Nine total child starts, no unchanged input replay; registration reexecutes no measurement.\n\nSmall3x3 representation heap delta eager18832/stream31936, dense1500x144 eager17545176/stream87304; these within-process observations do not prove total gain. Largest encoded synthetic JSON3627346bytes exceeds1MiB; not eligible deployable index.64post-call samples/child are not true peak/latency. Last-array buffer release1152bytes observed; smaller stream representation release root stillINCONCLUSIVE. No resource PASS, confidence interval or algorithm improvement.\n\n## Verification\nSeven-file isolated declaration/materialization/new guard, six current code pins, original harness hash, phase/call/pair checks; three altered resource/phase/pair records rejected. Harness/embedded-child and inline syntax constructed only, not evaluated. All140 prior unit arguments/order byte-identical; no new unit/cache/measurement execution. Existing public allowlist CI once on changed head. Five-minute three serial jobs/two workers/bounded transport/product checks preserved.\n\n## Critical path / stop\nNON_INDEPENDENT_DEVELOPMENT_EVIDENCE,capabilityUNTESTED/resourceNOT_QUALIFIED/allowancenull/no ceiling. Full144/95% assigned-global precision/70% floors/safety/resource/local-first/zero neural-embedding-LLM-semanticAPI unchanged. Original failure37155918962 and all scientific round fields preserved. Labels41/globalroles78/nineboundaryHOLD/32preferences/source12unregistered unchanged. New samples/quota/stable allocation/fit/Router/predictions/consumed AS-TEST/final blind/paid/newpermissions0.\n\nUnique next priority: exact-head and actual-main CI/owned bytes-tree integration; stop finite engineering item then. Without new original ledger or genuinely accepted independent semantic/source evidence enabling concrete work, quiet checkpoint, no unchanged audit scans/repeated state rebuild/measurement/CI or sample padding. Real capability comparison still lacks reconciled historical budget, accepted labels/roles/source-lineage, frozen full144 anchor/candidate/compiler/scorer/calibration, atomic isolation/truecurator-AS/grouped uncertainty/safety/consumer resources. Future sample batches require evidenced gap/comparison-ablation split/finite cap/true semantic acceptance/stop-to-validation; quantity is not algorithm gain.\n\nExact-head and actual-main applicable CI and owned bytes/tree now verified; finite engineering integration complete. Receipt below, no recursive receipt-only PR.\n\n## Preserved initial CI and packaging repair\nInitial head99df735eb53ed8f8c3c81d0770c060d759d34937 ZMR37182463213 FAIL attempt1; all3jobs fail starting action Node with Argument list too long, script/units never execute, completed unit0. Public engineering log hashes retained. No unchanged-head rerun.\n\nRepair head83887e046d77547d28cc79d6e578884151c218c0 reuses75 document literals by their identical indices in the same explicit docs array and compacts leading indentation outside fixed transport extraction segments. Serialized script132144→125130bytes, static bound126000. All521 resolved materialized paths/order,2"
+          }
+        ],
+        "runs": [
+          {
+            "id": 37533834044,
+            "name": "ZMR isolated package validation",
+            "headSha": "7d80f2fd7833fed37853c30917b88dc69ae115ed",
+            "workflowId": 369872131,
+            "status": "completed",
+            "conclusion": "failure",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37533834044",
+            "createdAt": "2026-10-06T21:25:53Z",
+            "updatedAt": "2026-10-06T21:26:20Z"
+          },
+          {
+            "id": 37533834042,
+            "name": "Semantic Lab CI",
+            "headSha": "7d80f2fd7833fed37853c30917b88dc69ae115ed",
+            "workflowId": 361487923,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37533834042",
+            "createdAt": "2026-10-06T21:25:53Z",
+            "updatedAt": "2026-10-06T21:32:59Z"
+          },
+          {
+            "id": 37208867932,
+            "name": "ZMR isolated package validation",
+            "headSha": "0ec6d9748cb88422d20a1e02c8d2047343f8bf96",
+            "workflowId": 369872131,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208867932",
+            "createdAt": "2026-10-04T14:20:03Z",
+            "updatedAt": "2026-10-04T14:20:28Z"
+          },
+          {
+            "id": 37208867808,
+            "name": "Semantic Lab CI",
+            "headSha": "0ec6d9748cb88422d20a1e02c8d2047343f8bf96",
+            "workflowId": 361487923,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208867808",
+            "createdAt": "2026-10-04T14:20:03Z",
+            "updatedAt": "2026-10-04T14:20:09Z"
+          },
+          {
+            "id": 37208609786,
+            "name": "SEM-03 Qualified Runtime Candidate Stability",
+            "headSha": "a209cf2df6e146e80204eb8f11c1b0b397ab1fe3",
+            "workflowId": 361576525,
+            "status": "completed",
+            "conclusion": "skipped",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208609786",
+            "createdAt": "2026-10-04T14:15:50Z",
+            "updatedAt": "2026-10-04T14:15:51Z"
+          },
+          {
+            "id": 37208609784,
+            "name": "SEM-01 Local Runtime Bakeoff",
+            "headSha": "a209cf2df6e146e80204eb8f11c1b0b397ab1fe3",
+            "workflowId": 361546678,
+            "status": "completed",
+            "conclusion": "skipped",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208609784",
+            "createdAt": "2026-10-04T14:15:50Z",
+            "updatedAt": "2026-10-04T14:15:51Z"
+          },
+          {
+            "id": 37208609724,
+            "name": "ZMR isolated package validation",
+            "headSha": "a209cf2df6e146e80204eb8f11c1b0b397ab1fe3",
+            "workflowId": 369872131,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208609724",
+            "createdAt": "2026-10-04T14:15:50Z",
+            "updatedAt": "2026-10-04T14:16:15Z"
+          },
+          {
+            "id": 37208609694,
+            "name": "Semantic Lab CI",
+            "headSha": "a209cf2df6e146e80204eb8f11c1b0b397ab1fe3",
+            "workflowId": 361487923,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208609694",
+            "createdAt": "2026-10-04T14:15:50Z",
+            "updatedAt": "2026-10-04T14:15:56Z"
+          },
+          {
+            "id": 37208110721,
+            "name": "Semantic Lab CI",
+            "headSha": "cf6560117854c94b7a5a187bd4776d345f45c47c",
+            "workflowId": 361487923,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208110721",
+            "createdAt": "2026-10-04T14:07:44Z",
+            "updatedAt": "2026-10-04T14:07:53Z"
+          },
+          {
+            "id": 37208110680,
+            "name": "ZMR isolated package validation",
+            "headSha": "cf6560117854c94b7a5a187bd4776d345f45c47c",
+            "workflowId": 369872131,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208110680",
+            "createdAt": "2026-10-04T14:07:44Z",
+            "updatedAt": "2026-10-04T14:08:10Z"
+          },
+          {
+            "id": 37208042331,
+            "name": "Semantic Lab CI",
+            "headSha": "606f8dfdaa5a122136a7d4dc94dabbf6e775b6eb",
+            "workflowId": 361487923,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208042331",
+            "createdAt": "2026-10-04T14:06:33Z",
+            "updatedAt": "2026-10-04T14:06:39Z"
+          },
+          {
+            "id": 37208042263,
+            "name": "ZMR isolated package validation",
+            "headSha": "606f8dfdaa5a122136a7d4dc94dabbf6e775b6eb",
+            "workflowId": 369872131,
+            "status": "completed",
+            "conclusion": "success",
+            "url": "https://github.com/haohongfei2001-png/paia-semantic-lab/actions/runs/37208042263",
+            "createdAt": "2026-10-04T14:06:33Z",
+            "updatedAt": "2026-10-04T14:06:57Z"
+          }
+        ],
+        "coverage": {
+          "recentPulls": 4,
+          "recentRuns": 12,
+          "allHistory": false
+        }
+      }
+    }
+  ]
+}

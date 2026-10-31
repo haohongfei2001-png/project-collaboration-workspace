@@ -1,0 +1,102 @@
+{
+  "type": "actual-public-github-server-collector-read",
+  "createdAt": "2026-10-31T19:43:08.916Z",
+  "currentSourceSha256": "c555067b1569761714e085230dd4cfbae877fa033b38ab232271e10bea60cb44",
+  "authentication": "unauthenticated public repository read only",
+  "transport": "Node fetch through existing environment proxy; fixed GitHub API origin; redirect manual",
+  "sources": [
+    {
+      "project": "VAIWL",
+      "file": "/tmp/pcw-vaiwl-real-read.json",
+      "sha256": "1c3af8b57e55a4249a936543fdcd4c6f63768559ef0bf2dadf1c85df4f057ed2",
+      "observedAt": "2026-10-31T19:38:52.753Z",
+      "headSha": "30d4cba74854f1a5dfe1e23e6295047cba602976",
+      "mainSha": "033f05608a97bb2f3d5da5995b60ca8ac2dd7c3b",
+      "requests": 6,
+      "evidenceCount": 76,
+      "pendingTasks": 20,
+      "complete": false,
+      "kinds": [
+        "repository",
+        "commit",
+        "pull_request",
+        "issue_comment"
+      ],
+      "warnings": []
+    },
+    {
+      "project": "VAIWL continuation",
+      "file": "/tmp/pcw-vaiwl-real-read-page2.json",
+      "sha256": "cd21f06ce146412961d722963330ffe3c5253a06ddbc51f4e06269b34f10e2ae",
+      "observedAt": "2026-10-31T19:41:05.701Z",
+      "headSha": "30d4cba74854f1a5dfe1e23e6295047cba602976",
+      "mainSha": "033f05608a97bb2f3d5da5995b60ca8ac2dd7c3b",
+      "requests": 6,
+      "evidenceCount": 52,
+      "pendingTasks": 65,
+      "complete": false,
+      "kinds": [
+        "workflow_run",
+        "commit"
+      ],
+      "warnings": []
+    },
+    {
+      "project": "Riftlet",
+      "file": "/tmp/pcw-riftlet-real-read.json",
+      "sha256": "a06ccb5b797874f7d751a496aea93bdc6e5c5d78a3396ab4ba2bdf1af517ea14",
+      "observedAt": "2026-10-31T19:40:39.253Z",
+      "headSha": "5c552fc252a1e79b8370d0ce4d1b43700dcc2151",
+      "mainSha": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+      "requests": 6,
+      "evidenceCount": 81,
+      "pendingTasks": 17,
+      "complete": false,
+      "kinds": [
+        "repository",
+        "commit",
+        "pull_request",
+        "issue_comment",
+        "pull_request_review_comment"
+      ],
+      "warnings": []
+    },
+    {
+      "project": "PAIA",
+      "file": "/tmp/pcw-paia-real-read.json",
+      "sha256": "f2af1857e88ecc16c0d878326eed7f67d17b078bf9c39edd238654708b53dfd8",
+      "observedAt": "2026-10-31T19:40:37.212Z",
+      "headSha": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+      "mainSha": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+      "requests": 6,
+      "evidenceCount": 202,
+      "pendingTasks": 68,
+      "complete": false,
+      "kinds": [
+        "repository",
+        "commit",
+        "pull_request",
+        "issue_comment",
+        "pull_request_review_comment",
+        "workflow_run"
+      ],
+      "warnings": []
+    }
+  ],
+  "localRegression": {
+    "command": "node tests/r2-github.test.js",
+    "passed": 19,
+    "failed": 0,
+    "skipped": 0
+  },
+  "retainedFailures": [
+    "Initial Node direct fetch had NETWORK_ERROR; Node --use-env-proxy restored approved network path.",
+    "First real collection rejected legitimate /repositories/{id} pagination. Exact same-ID canonical form is now supported and protected by regression test."
+  ],
+  "limits": [
+    "No GitHub App installation/private-repository read verified.",
+    "All reads intentionally bounded; cursors remain and complete=false.",
+    "No webhook delivery, database persistence, model call, protected preview or closed-browser end-to-end acceptance implied.",
+    "First VAIWL read predated minor later scheduling/default-path edits; receipt currentSourceSha256 is current source identity, not a retrospective exact execution digest for every sample."
+  ]
+}

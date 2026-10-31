@@ -1,0 +1,123 @@
+{
+  "date": "2026-11-01",
+  "timezone": "Asia/Shanghai",
+  "method": "Actual Chromium UI actions; DOM reads only for dimensions and rendered results; no app-state injection.",
+  "build": {
+    "file": "Project-Workspace-Watch-V1.html",
+    "bytes": 285362,
+    "sha256": "e1d3ca2af192a8752f529b16d1cd1174eb9c2e59f7dc725c5abc296dbc1d9be9"
+  },
+  "desktop": {
+    "viewport": [
+      1363,
+      936
+    ],
+    "clientWidth": 1363,
+    "scrollWidth": 1363,
+    "cards": 8,
+    "columns": 4,
+    "rows": 2,
+    "cardWidth": 260.75,
+    "cardHeight": 246
+  },
+  "responsive": [
+    {
+      "iframeViewport": [
+        390,
+        844
+      ],
+      "page": "home, overview, plan",
+      "clientWidth": 375,
+      "scrollWidth": 375,
+      "homeColumns": 2,
+      "homeCardWidth": 163.5,
+      "planSheetWidth": 339
+    },
+    {
+      "iframeViewport": [
+        768,
+        1024
+      ],
+      "page": "home",
+      "clientWidth": 753,
+      "scrollWidth": 753,
+      "homeColumns": 3,
+      "homeCardWidth": 163.67
+    },
+    {
+      "iframeViewport": [
+        1280,
+        900
+      ],
+      "page": "home",
+      "clientWidth": 1280,
+      "scrollWidth": 1280,
+      "homeColumns": 4,
+      "homeCardWidth": 240
+    },
+    {
+      "iframeViewport": [
+        1280,
+        900
+      ],
+      "page": "plan",
+      "clientWidth": 1265,
+      "scrollWidth": 1265
+    }
+  ],
+  "scrollbarNote": "Native vertical scrollbars consume 15 px when content is taller than the viewport; no horizontal page overflow observed.",
+  "uiChecks": [
+    "Eight real projects displayed without introduction text; watching PAIA changed selection 3 to 4, persisted on reload, then restored to 3.",
+    "Created Context Tabs from a real public repository through the add-project form in a separate QA storage namespace: 8 to 9 cards.",
+    "Created and edited a note and task, completed the task, reloaded and reopened the note to verify persisted values.",
+    "Moved the note to PAIA through the project selector; global resources showed it under PAIA.",
+    "Recorded a local VAIWL processing note; history retained it after reload and explicitly said GitHub was unchanged.",
+    "VAIWL failure/revert filter reduced the four reviewed rounds to three.",
+    "Current and previous VAIWL plans rendered side by side, stacking on mobile.",
+    "Manually read VAIWL public API at 02:53; new head ab022fa appeared in history alongside reviewed head 5593e02; old phase/plan became pending review.",
+    "Changed tracked source from PR 16 to PR 24 and back; UI changed selected source and kept old plan pending review.",
+    "Mobile drawer opened and closed; mobile project overview, history and plan navigated successfully.",
+    "Dialog Shift+Tab wrapped from Close to Refresh GitHub, Tab returned to Close, Escape closed dialog and restored source-button focus.",
+    "Final standalone HTML rendered eight cards, search matched project/repository text, and history showed current API fact plus reviewed rounds."
+  ],
+  "actualPublicReads": [
+    {
+      "project": "Riftlet",
+      "fetchedAt": "2026-10-31T18:46:15.057Z",
+      "mode": "automatic after enable"
+    },
+    {
+      "project": "VAIWL",
+      "fetchedAt": "2026-10-31T18:51:35.708Z",
+      "mode": "automatic during preview/reload"
+    },
+    {
+      "project": "TodayAction",
+      "fetchedAt": "2026-10-31T18:54:50.288Z",
+      "mode": "automatic during responsive preview"
+    },
+    {
+      "project": "VAIWL",
+      "mode": "manual in QA namespace",
+      "timeLocal": "11/01 02:53"
+    }
+  ],
+  "schedulerLimit": "Automatic reads were observed across UI sessions; a full uninterrupted three-project 30-minute cycle was not timed. Final scheduler also checks stored successful-read times to avoid immediate duplicate reads on reload. Monitor paused after QA.",
+  "standalone": {
+    "protocolTested": "local HTTP",
+    "externalScripts": 0,
+    "externalStylesheets": 0,
+    "appErrorsObserved": 0,
+    "browserExtensionMetadataErrorsExcluded": true
+  },
+  "notVerified": [
+    "Real mobile OS/soft keyboard",
+    "file protocol across all browsers",
+    "production background synchronization",
+    "private repository authorization",
+    "real LLM interpretation",
+    "production multiuser security",
+    "full WCAG audit",
+    "forced UI network race stress test"
+  ]
+}
