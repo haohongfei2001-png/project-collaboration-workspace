@@ -1,4 +1,4 @@
-name: Prototype validation
+name: R2 workspace verification
 
 on:
   pull_request:
@@ -10,26 +10,56 @@ permissions:
   contents: read
 
 concurrency:
-  group: prototype-${{ github.ref }}
+  group: workspace-r2-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  prototype:
+  integration:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 8
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
           package-manager-cache: false
       - run: npm ci --ignore-scripts
       - run: npm run check
-      - uses: actions/upload-artifact@v6
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
         with:
-          name: project-workspace-watch-v1
+          name: workspace-r2-web-and-preserved-prototypes
           path: dist/
           if-no-files-found: error
           retention-days: 14
+  postgres:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_DB: workspace_test
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: synthetic_ci_password
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d workspace_test"
+          --health-interval 5s
+          --health-timeout 3s
+          --health-retries 12
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
+        with:
+          node-version: 24
+          package-manager-cache: false
+      - run: npm ci --ignore-scripts
+      - name: Real PostgreSQL roles, transactions, concurrency and HTTP integration
+        run: node tests/r2-server.test.js
+        env:
+          PCW_TEST_DATABASE_URL: postgresql://postgres:synthetic_ci_password@127.0.0.1:5432/workspace_test
