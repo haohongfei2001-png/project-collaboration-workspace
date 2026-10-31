@@ -21,7 +21,8 @@ export async function runWorker({store,config,fetchImpl,modelFetchImpl,maxJobs=4
         outcomes.push({id:job.id,kind:job.kind,status:'succeeded',complete:!result.cursor});
       } else {
         const context=await store.analysisContext(job);analysisProvider=context.provider;
-        if(!context.provider){await store.worker(q=>q.query("UPDATE pcw.projects SET status='awaiting_ai' WHERE id=$1",[project.id]));await store.finish(job);outcomes.push({id:job.id,kind:job.kind,status:'awaiting_ai'});continue;}
+        if(!context.provider){await store.worker(q=>q.query("UPDATE pcw.projects SET status='awaiting_ai' WHERE id=$1 AND generation=$2 AND watching=true AND status<>'permission_revoked' AND EXISTS(SELECT 1 FROM pcw.installations i WHERE i.id=pcw.projects.installation_id AND i.status='active') AND NOT EXISTS(SELECT 1 FROM pcw.providers c WHERE c.user_id=pcw.projects.user_id AND c.status='active' AND c.key_cipher IS NOT NULL)",[project.id,context.project.generation]));await store.finish(job);outcomes.push({id:job.id,kind:job.kind,status:'awaiting_ai'});continue;}
+        const sourcesReady=context.project.coverage?.complete===true;
         if(context.coverageLimited)context.sourceCoverage={...context.sourceCoverage,complete:false,reason:'Bounded recent context; full older records remain available in history.'};
         const input=buildAnalysisInput(context);
         const estimate=estimateAnalysisReservation(context.provider.config,context);
@@ -33,6 +34,7 @@ export async function runWorker({store,config,fetchImpl,modelFetchImpl,maxJobs=4
           await store.authorizeDispatch(job.user_id,reservation.id);
           result=await callAnalysis({...context.provider.config,timeoutMs:Math.max(1000,Math.min(context.provider.config.timeoutMs,maxMillis-(Date.now()-started)-10000))},key,context,{...(modelFetchImpl?{fetchImpl:modelFetchImpl}:{}),allowedHosts:config.allowedProviderHosts});
         }catch(error){await store.settle(job.user_id,reservation.id,{costMicros:error.costMicros,usage:error.usage,requestId:error.requestId,errorCode:error.code||'MODEL_ERROR',dispatched:error.requestSent===true});error.noRetry=error.requestSent===true;throw error;}
+        if(!sourcesReady){result.analysis.userActions=[];result.analysis.warnings=[...(result.analysis.warnings||[]),'首次历史补读尚未完成，用户审批与决策请求等待完整来源复核。'];result.analysis.coverage={...result.analysis.coverage,userActionsDeferred:true};}
         try{await store.saveAnalysis(job,context,result,reservation.id);}catch(error){error.noRetry=true;error.code=error.code||'AI_RESULT_UNCONFIRMED';throw error;}
         outcomes.push({id:job.id,kind:job.kind,status:'succeeded'});
       }

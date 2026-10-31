@@ -1,0 +1,8 @@
+# GitHub cannot supply a Supabase user JWT. This function authenticates raw bytes with HMAC.
+# This setting does not change authentication on the workspace or other Edge Functions.
+[functions.github-ingress]
+verify_jwt = false
+
+# pg_net supplies a one-minute, purpose-bound HMAC instead of a user JWT.
+[functions.cron-forwarder]
+verify_jwt = false

@@ -59,7 +59,7 @@ async function uiHarness(respond){
   const app={innerHTML:''},toast={textContent:'',className:''},listeners=new Map(),calls=[];
   const document={hidden:false,activeElement:null,body:{classList:{toggle(){}}},querySelector:s=>s==='#app'?app:s==='#toast'?toast:null,querySelectorAll:()=>[],addEventListener:(type,fn)=>listeners.set(type,fn)};
   const fetchImpl=async(path,options)=>{calls.push({path,options});return respond(path,options);};
-  const context=vm.createContext({document,window:{addEventListener(){}},location:{hash:'',assign(){}},console,URL,crypto:globalThis.crypto,structuredClone,Date,Intl,Map,Set,Number,String,Object,JSON,Boolean,Math,Array,Error,RegExp,Promise,AbortController,Response,
+  const context=vm.createContext({document,window:{addEventListener(){}},location:{hash:'',assign(){}},console,URL,crypto:globalThis.crypto,structuredClone,Date,Intl,Map,Set,Number,String,Object,JSON,Boolean,Math,Array,Error,RegExp,Promise,AbortController,Response,TextEncoder,
     CSS:{escape:value=>value},setTimeout,clearTimeout,setInterval(){},requestAnimationFrame:fn=>fn(),FormData:class{constructor(form){this.form=form;}[Symbol.iterator](){return Object.entries(this.form.data)[Symbol.iterator]();}},
     createWorkspaceClient:options=>createWorkspaceClient({...options,fetchImpl}),normalizeProject,normalizePlan,normalizeEvidence,serverSummary,projectHealth,claimSources,mergeProjectDetail,watchChecksFor});
   vm.runInContext(source,context);await new Promise(resolve=>setTimeout(resolve,5));
@@ -166,4 +166,84 @@ test('persisted worker errors appear on cards and source details with the correc
   assert.equal(projectHealth({lastError:'BUDGET_EXCEEDED',status:'attention'}).action,'settings');
   assert.equal(projectHealth({lastError:'PROVIDER_AUTH_FAILED',status:'permission_revoked'}).action,'settings');
   assert.equal(projectHealth({status:'current'}),null);
+});
+
+
+test('unconfigured GitHub login stays inside the app, and configured login remains available',async()=>{
+  const h=await uiHarness(async path=>json(path==='/api/bootstrap'?{configured:false,user:null,capabilities:{github:false,database:false},setupIssues:['GitHub App 待配置']}:{}));
+  await h.run('loadSettings()');
+  assert.match(h.app.innerHTML,/GitHub 登录待配置/);assert.doesNotMatch(h.app.innerHTML,/href="\/api\/auth\/start"/);
+  h.run('server.configured=true;server.capabilities.github=true;render()');
+  assert.match(h.app.innerHTML,/href="\/api\/auth\/start"/);
+});
+
+test('partial historical sync is visible and workspace records cannot masquerade as product acceptance',async()=>{
+  const p={id:'partial',repo:'org/partial',status:'current',coverage:{complete:false,pendingTasks:42},analysis:{stage:{text:'已读取证据的初步判断',classification:'inference'},progress:{known:false}}};
+  const evidence={id:'workspace-record',kind:'workspace_record',sourceUrl:'https://workspace.example/api/projects/partial/evidence/workspace-record',data:{body:'[{"title":"整理测试记录","done":true}]',productAcceptance:false,recordType:'tasks'},observedAt:'2026-10-31T12:00:00Z'};
+  const h=await uiHarness(async path=>json(path==='/api/bootstrap'?{configured:true,user:{id:'u',login:'owner'},csrf:'csrf',capabilities:{ai:true,github:true}}:path==='/api/projects'?{projects:[p]}:path.endsWith('/history')?{history:[evidence],evidence:[evidence]}:{}));
+  assert.match(h.app.innerHTML,/历史补读中/);assert.match(h.app.innerHTML,/还有 42 项来源待补读/);
+  h.run("location.hash='#/project/partial/history';route()");await new Promise(resolve=>setTimeout(resolve,5));
+  assert.match(h.app.innerHTML,/工作台记录/);assert.doesNotMatch(h.app.innerHTML,/GitHub 来源/);
+  assert.deepEqual(normalizeProject({...p,history:[evidence]}).rounds[0].done,[]);
+  assert.equal(h.run("summary(project('partial')).userActions.length"),0);
+});
+
+
+test('verification API helper sends one validated idempotency key and rejects invented authority fields',async()=>{
+  const calls=[],key='11111111-1111-4111-8111-111111111111';
+  const api=createWorkspaceClient({getCsrf:()=> 'csrf',fetchImpl:async(path,options)=>{calls.push({path,options});return json({evidenceId:'e',scope:'issue'});}});
+  const payload={issueId:'issue',sha:'a'.repeat(40),result:'passed',environment:'real',environmentDescription:'真实浏览器',scopeDescription:'复验了这个问题的全部场景',notes:'已执行操作并观察到预期结果',personallyTested:true,coversIssue:true};
+  await api.recordVerification('p',payload,{idempotencyKey:key});
+  assert.equal(calls[0].options.headers['Idempotency-Key'],key);assert.equal(calls[0].options.headers['x-csrf-token'],'csrf');
+  assert.equal(calls[0].options.credentials,'same-origin');assert.deepEqual(JSON.parse(calls[0].options.body),payload);
+  await assert.rejects(api.recordVerification('p',{...payload,actor:'owner'},{idempotencyKey:key}),error=>error.code==='INVALID_VERIFICATION');
+  await assert.rejects(api.recordVerification('p',payload),error=>error.code==='INVALID_IDEMPOTENCY_KEY');
+  await assert.rejects(api.recordVerification('p',payload,{idempotencyKey:'bad-header-value'}),error=>error.code==='INVALID_IDEMPOTENCY_KEY');
+  assert.equal(calls.length,1);
+});
+
+test('fresh scheduler heartbeat cannot hide webhook recovery gaps or manufacture an approval',async()=>{
+  const now=new Date().toISOString(),monitor={lastWorkerAt:now,schedulerHealthy:true,webhookRecovery:{status:'incomplete',lastSuccessfulPollAt:now,healthy:false,pending:3,exhausted:2,unconfirmed:1,retentionGap:true,pollIncomplete:true,incomplete:true,providerRetentionDays:3}};
+  const h=await uiHarness(async path=>json(path==='/api/bootstrap'?{configured:true,user:{id:'u',login:'owner'},csrf:'csrf',monitor}:path==='/api/projects'?{projects:[{id:'p',repo:'org/project',watching:true,status:'current'}],monitor}:{}));
+  assert.match(h.app.innerHTML,/事件恢复有历史缺口/);assert.doesNotMatch(h.app.innerHTML,/后台持续跟进中/);assert.equal(h.run('state.monitor.enabled'),false);
+  h.run("openOverlay('monitor')");assert.match(h.app.innerHTML,/待恢复 3 项/);assert.match(h.app.innerHTML,/重试耗尽 2 项/);assert.match(h.app.innerHTML,/未确认 1 项/);assert.match(h.app.innerHTML,/超过 3 天投递日志窗口/);
+  h.run("ui.overlay=null;ui.view='attention';render()");assert.match(h.app.innerHTML,/后台事件恢复/);assert.equal(h.run('allAttention().filter(a=>a.actionable).length'),0);
+  h.run("server.monitor.webhookRecovery={status:'ok',healthy:true,lastSuccessfulPollAt:new Date().toISOString(),pending:0,exhausted:0,unconfirmed:0,retentionGap:false,pollIncomplete:false,incomplete:false};render()");
+  assert.equal(h.run('monitorHealthy()'),true);
+  h.run("server.monitor.webhookRecovery={status:'not_started',healthy:false};render()");assert.match(h.app.innerHTML,/事件恢复尚未运行/);
+});
+
+test('personal verification binds one current issue and retries with the same key without pretending product acceptance',async()=>{
+  const sha='a'.repeat(64),claim={id:'issue-1',text:'实际浏览器的恢复操作仍失败',classification:'fact',evidenceIds:[]};
+  const p={id:'p',repo:'org/project',headSha:sha,status:'current',analysis:{stage:{text:'等待实际复验'},failed:[claim],pendingVerification:[],incomplete:[],blockers:[]}},calls=[];
+  const h=await uiHarness(async(path,options)=>{
+    if(path==='/api/bootstrap')return json({configured:true,user:{id:'u',login:'owner'},csrf:'csrf',capabilities:{ai:true,github:true}});
+    if(path==='/api/projects')return json({projects:[p]});
+    if(path.endsWith('/verification')){calls.push({path,options});return calls.length===1?json({error:{message:'连接暂时中断'}},503):json({evidenceId:'record-1',duplicate:true,scope:'issue',sha,result:'failed'});}
+    return json({history:[],evidence:[]});
+  });
+  h.run("location.hash='#/project/p/overview';route()");await new Promise(resolve=>setTimeout(resolve,5));
+  assert.match(h.app.innerHTML,/data-action="record-verification"/);
+  h.run("openVerification('p','issue-1')");const key=h.run('ui.overlay.idempotencyKey');
+  assert.match(h.app.innerHTML,new RegExp(sha));assert.match(h.app.innerHTML,/实测自报证据/);assert.match(h.app.innerHTML,/不代表整体产品验收/);
+  const attributes={},form={id:'verification-form',dataset:{id:'p'},data:{result:'failed',environment:'real',environmentDescription:'macOS Chrome 真实浏览器',scopeDescription:'重新打开页面并操作恢复按钮，覆盖所述问题的完整场景',notes:'实际点击后依旧没有恢复原草稿，问题仍然可以复现',personallyTested:'true',coversIssue:'true'},getAttribute:name=>attributes[name],setAttribute:(name,value)=>attributes[name]=value};
+  await h.listeners.get('submit')({target:form,preventDefault(){}});assert.equal(h.run('ui.overlay.idempotencyKey'),key);
+  await h.listeners.get('submit')({target:form,preventDefault(){}});
+  assert.equal(calls.length,2);assert.equal(calls[0].options.headers['Idempotency-Key'],key);assert.equal(calls[1].options.headers['Idempotency-Key'],key);
+  const body=JSON.parse(calls[1].options.body);assert.equal(body.issueId,'issue-1');assert.equal(body.sha,sha);assert.equal(body.personallyTested,true);assert.equal(body.coversIssue,true);assert.equal(body.actor,undefined);assert.equal(body.verification,undefined);
+  assert.match(h.toast.textContent,/未重复创建/);assert.equal(h.run("project('p').analysis.failed.length"),1);assert.equal(h.run('ui.overlay'),null);
+});
+
+test('verification cannot submit stale, permission-revoked, SHA-changed or unattested claims',async()=>{
+  const claim={id:'issue-1',text:'等待复验的问题',classification:'unknown',evidenceIds:[]},p={id:'p',repo:'org/project',headSha:'a'.repeat(40),status:'current',analysis:{pendingVerification:[claim]}},requests=[];
+  const h=await uiHarness(async(path,options)=>{requests.push(path);return json(path==='/api/bootstrap'?{configured:true,user:{id:'u',login:'owner'},csrf:'csrf',capabilities:{github:true}}:path==='/api/projects'?{projects:[p]}:{history:[],evidence:[]});});
+  h.run("openVerification('p','issue-1')");
+  const data={result:'passed',environment:'real-device',environmentDescription:'macOS 实机',scopeDescription:'完整操作并覆盖这一问题的所有复验场景',notes:'全部实际操作达到预期行为且无遗留失败',personallyTested:'true',coversIssue:'true'};
+  await assert.rejects(h.run("submitVerification({dataset:{id:'p'}},"+JSON.stringify({...data,coversIssue:undefined})+")"),/完整覆盖/);
+  h.run("project('p').headSha='b'.repeat(40)");
+  await assert.rejects(h.run("submitVerification({dataset:{id:'p'}},"+JSON.stringify(data)+")"),/代码版本已经改变/);
+  h.run("project('p').analysisNeedsReview=true");assert.match(h.run("verificationBlockReason(project('p'),verificationClaim(project('p'),'issue-1'))"),/需要复核/);
+  h.run("project('p').analysisNeedsReview=false;project('p').status='permission_revoked'");assert.match(h.run("verificationBlockReason(project('p'),verificationClaim(project('p'),'issue-1'))"),/权限已失效/);
+  h.run("project('p').status='current';project('p').headSha=''");assert.match(h.run("verificationBlockReason(project('p'),verificationClaim(project('p'),'issue-1'))"),/完整代码版本/);
+  assert(!requests.some(path=>path.endsWith('/verification')));
 });

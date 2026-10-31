@@ -1,0 +1,42 @@
+{
+  "name": "pcw-haohongfei2001-r2",
+  "url": "https://project-collaboration-workspace-git-84cb82-haohongfei2001-8529.vercel.app",
+  "description": "Personal read-only project monitoring with persistent evidence and scoped AI status analysis.",
+  "public": false,
+  "hook_attributes": {
+    "url": "https://replace-supabase-project.example.invalid/functions/v1/github-ingress",
+    "active": true
+  },
+  "callback_urls": [
+    "https://project-collaboration-workspace-git-84cb82-haohongfei2001-8529.vercel.app/api/auth/callback"
+  ],
+  "setup_url": "https://project-collaboration-workspace-git-84cb82-haohongfei2001-8529.vercel.app/api/github/callback",
+  "request_oauth_on_install": false,
+  "setup_on_update": false,
+  "default_permissions": {
+    "metadata": "read",
+    "contents": "read",
+    "pull_requests": "read",
+    "issues": "read",
+    "actions": "read",
+    "checks": "read",
+    "statuses": "read",
+    "deployments": "read"
+  },
+  "default_events": [
+    "push",
+    "pull_request",
+    "pull_request_review",
+    "pull_request_review_comment",
+    "issue_comment",
+    "issues",
+    "workflow_run",
+    "workflow_job",
+    "check_suite",
+    "check_run",
+    "status",
+    "deployment",
+    "deployment_status",
+    "repository"
+  ]
+}

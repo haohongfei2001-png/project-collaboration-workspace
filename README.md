@@ -1,3 +1,56 @@
+# 项目工作台 · R2 工程候选
+
+**把项目事实、可信判断、计划和历史保存在同一个个人工作台，持续更新真正需要关注的变化。**
+
+当前默认入口 `/` 是连接同源服务端的 R2 Web App，沿用白底紧凑卡片和项目内部「开发概况、开发历史、计划、资料」。GitHub App、数据库、模型与独立调度接通后，监控由后台继续执行；浏览器只呈现已保存结果。
+
+**当前准入：NO GO，尚不能作为真实项目进度的日常主要入口。** 已有统一源码、自动化回归、真实公开 GitHub 读取和受保护预览；目标数据库、App 授权/私有仓库、真实模型和闭浏览器端到端验收仍待完成。未配置时显示连接事项与空项目列表，不将上一版八个项目快照当作实时监控结果。
+
+## 开始使用与验证
+
+需要 Node.js 22 或以上：
+
+~~~bash
+npm ci --ignore-scripts
+npm run check
+npm run dev
+~~~
+
+打开 `http://localhost:3000`。本地服务默认不自动加载 `.env`；配置外部服务后可用 `node --env-file=.env scripts/dev.mjs`。数据库迁移、GitHub App、私有仓库、受保护预览入口、后台调度和模型配置步骤见 [R2 运行手册](docs/r2-operations.md)。
+
+| 命令 | 用途 |
+| --- | --- |
+| `npm run check` | 语法、旧版回归、R2 测试与构建 |
+| `npm run build` | 生成 R2 前端及保留的三个历史独立 HTML |
+| `npm run preview` | 用同一个服务端查看构建结果 |
+| `npm run db:migrate` | 通过专用 `PCW_MIGRATION_DATABASE_URL` 执行迁移 |
+| `npm run worker` | 独立执行一轮调度与后台处理；外部调度器负责周期调用 |
+| `npm run evaluate:ai` | 生成同源比较记录；默认缺少显式 Key/预算时为 NOT_RUN |
+
+## 当前交付入口
+
+- [R2 Preview](https://project-collaboration-workspace-git-84cb82-haohongfei2001-8529.vercel.app)：Vercel 身份保护；首次真实访问已证实未授权返回 302、授权后的 bootstrap 如实显示未配置。最终部署 SHA 与状态以验证记录为准。
+- [统一 PR #1](https://github.com/haohongfei2001-png/project-collaboration-workspace/pull/1)：继续同一开发候选，未公开发布生产版本。
+- [R2 工程说明](docs/r2.md)：当前能力、数据隔离、模型判断和保留历史。
+- [R2 部署与恢复](docs/r2-operations.md)：一次性外部配置、可执行命令、密钥和故障恢复。
+- [R2 验证及准入](docs/r2-verification.md)：区分模拟测试、真实服务读取、真实数据库 CI、真实模型和本人验收。
+- [AI 接口与评估](docs/ai-evaluation.md)：安全调用、预算、同版本比较；不以输出流畅代替质量。
+- [GitHub App 配置模板](config/github-app-manifest.json)：只读权限和回调，占位地址须替换。
+
+R2 的源码入口是 `src/watch.js`、`src/watch-api.js`、`server/http.js`、`server/worker.js`、`server/store.js`、`server/github.js`、`server/analysis.js` 与 `server/providers.js`。数据库使用私有 `pcw` schema；不向前端提供数据库管理权限、服务端密钥或模型 Key。
+
+工作台中的“已处理、暂缓、交给开发者”是个人处理记录，不代表 GitHub 批准、合并或生产部署。旧失败、旧计划和旧判断保留；CI 成功不自动等于产品可用。
+
+## 保留的旧版入口
+
+`/watch-v1.html` 保留上一版浏览器公开读取原型和原有本地数据；`/personal-v1.html`、`/legacy.html` 保留更早版本。旧原型关闭页面后不能监控，不能替代 R2 后端。
+
+---
+
+## 以下为 Watch V1 原说明，作为历史记录保留
+
+下文中的“当前”指当时的 Watch V1 交付，其依赖、数据位置和监控边界不代表上文 R2。
+
 # 项目工作台 · Watch V1
 
 **在一屏看清几个项目，打开一个项目看开发结果，集中处理真正需要自己介入的事。**

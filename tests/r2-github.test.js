@@ -41,8 +41,9 @@ function fixture({ intercept } = {}) {
   return { fetchImpl, calls };
 }
 async function finishCollection(f, options = {}) {
+  const { project: projectOverrides = {}, ...limits } = options;
   let cursor = null, last; const evidence = [], rounds = [];
-  for (let i = 0; i < 40; i++) { last = await collectEvidence({ fullName: 'u/r', repositoryId: 11, selectedPrNumbers: [16], sourcePaths: ['docs/STATUS.md'] }, { fetchImpl: f.fetchImpl, token: 'test-server-only-token', now: () => Date.parse(T), maxRequests: 5, maxPages: 1, ...options, cursor }); evidence.push(...last.evidence); rounds.push(last); cursor = last.cursor; if (!cursor) return { last, evidence, rounds }; }
+  for (let i = 0; i < 40; i++) { last = await collectEvidence({ fullName: 'u/r', repositoryId: 11, selectedPrNumbers: [16], sourcePaths: ['docs/STATUS.md'], ...projectOverrides }, { fetchImpl: f.fetchImpl, token: 'test-server-only-token', now: () => Date.parse(T), maxRequests: 5, maxPages: 1, ...limits, cursor }); evidence.push(...last.evidence); rounds.push(last); cursor = last.cursor; if (!cursor) return { last, evidence, rounds }; }
   throw new Error('Continuation did not converge');
 }
 
@@ -212,4 +213,127 @@ test('real-project fixture preserves scoped proof and the explicit VAIWL approva
   const approval = audit.records.find(r => r.id === 'vaiwl-comment-6547980076'); assert(approval.originalRecord.includes('须先获得用户对这一个增量窗口的授权')); assert(approval.originalRecord.includes('NOT_RELEASE_READY'));
   const paia = audit.records.find(r => r.id === 'paia-run-40736848180'); assert(paia.originalRecord.jobs.some(j => j.name === 'Full Suite Certification' && j.conclusion === 'skipped'));
   const riftlet = audit.records.find(r => r.id === 'riftlet-pr27'); assert(riftlet.originalRecord.includes('BLOCKED/NOT_RUN'));
+});
+
+const C = 'c'.repeat(40);
+const historicRun = (id, changes = {}) => ({ ...run(1), id, head_sha: C, name: `historical-${id}`, run_attempt: 1, status: 'completed', conclusion: 'success', created_at: '2026-10-01T00:00:00Z', updated_at: '2026-10-01T01:00:00Z', html_url: `https://github.com/u/r/actions/runs/${id}`, ...changes });
+function runPages(rows, { latest = new Map(), truncated = false } = {}) {
+  return fixture({ intercept: url => {
+    const path = url.pathname;
+    if (path === '/repos/u/r/actions/runs') {
+      const sha = url.searchParams.get('head_sha');
+      if (sha) return response({ total_count: sha === B ? 1 : 0, workflow_runs: sha === B ? [{ ...run(2), created_at: '2025-01-01T00:00:00Z' }] : [] });
+      const created = url.searchParams.get('created'), since = created ? Date.parse(created.slice(2)) : -Infinity;
+      const matching = rows.filter(row => Date.parse(row.created_at) >= since), page = Number(url.searchParams.get('page') || 1), selected = matching.slice((page - 1) * 50, page * 50);
+      const next = new URL(url); next.searchParams.set('page', String(page + 1));
+      return response({ total_count: truncated ? 1001 : matching.length, workflow_runs: selected }, 200, page * 50 < matching.length ? { link: `<${next.href}>; rel="next"` } : {});
+    }
+    const match = /\/actions\/runs\/(\d+)(?:\/attempts\/(\d+))?(\/jobs)?$/.exec(path);
+    if (match && Number(match[1]) !== 7) {
+      const id = Number(match[1]), current = latest.get(id) || rows.find(row => row.id === id);
+      if (!current) throw new Error(`Unknown fixture run ${id}`);
+      const attempt = Number(match[2] || current.run_attempt), value = attempt < current.run_attempt ? { ...current, run_attempt: attempt, status: 'completed', conclusion: 'failure', updated_at: current.created_at } : current;
+      if (match[3]) return response({ total_count: 1, jobs: [{ id: id * 100 + attempt, run_id: id, head_sha: value.head_sha, run_attempt: attempt, name: 'unit', status: value.status, conclusion: value.conclusion, started_at: value.created_at, completed_at: value.status === 'completed' ? value.updated_at : null, steps: [{ number: 1, name: 'test', status: value.status, conclusion: value.conclusion }] }] });
+      return response(value);
+    }
+  } });
+}
+
+test('incremental PR pagination stops below the overlap watermark while initial backfill keeps older pages', async () => {
+  const recent = Array.from({ length: 50 }, (_, index) => ({ ...pull, number: index + 100, updated_at: '2026-10-31T11:30:00Z' }));
+  const boundary = { ...pull, number: 200, updated_at: '2026-10-31T10:55:00Z' }, older = { ...pull, number: 201, updated_at: '2026-10-31T10:54:59Z' }, oldest = { ...pull, number: 202, updated_at: '2025-01-01T00:00:00Z' };
+  const make = () => fixture({ intercept: url => {
+    if (url.pathname !== '/repos/u/r/pulls') return;
+    assert.equal(url.searchParams.get('sort'), 'updated'); assert.equal(url.searchParams.get('direction'), 'desc');
+    const page = Number(url.searchParams.get('page'));
+    return response(page === 1 ? recent : page === 2 ? [boundary, older] : [oldest], 200, page < 3 ? { link: `<https://api.github.com/repositories/11/pulls?page=${page + 1}>; rel="next"` } : {});
+  } });
+  const incremental = make(), result = await finishCollection(incremental, { since: '2026-10-31T11:00:00Z' });
+  assert.equal(result.last.coverage.mode, 'incremental'); assert(result.last.coverage.sources.find(source => source.source === 'pulls').stoppedAtWatermark);
+  assert(result.evidence.some(item => item.kind === 'pull_request' && item.data.number === 200));
+  assert(!result.evidence.some(item => item.kind === 'pull_request' && item.data.number === 201));
+  assert(!incremental.calls.some(call => call.url.pathname === '/repos/u/r/pulls' && call.url.searchParams.get('page') === '3'));
+  assert(incremental.calls.some(call => call.url.pathname === '/repos/u/r/pulls/16'));
+  const initial = make(), all = await finishCollection(initial);
+  assert.equal(all.last.coverage.mode, 'backfill'); assert(all.evidence.some(item => item.kind === 'pull_request' && item.data.number === 202));
+});
+
+test('inconsistent PR ordering disables early stopping for the entire continued source', async () => {
+  const f = fixture({ intercept: url => {
+    if (url.pathname !== '/repos/u/r/pulls') return;
+    const page = Number(url.searchParams.get('page'));
+    return response(page === 1 ? [{ ...pull, number: 100, updated_at: '2020-01-01T00:00:00Z' }, { ...pull, number: 101 }] : [{ ...pull, number: 100 + page, updated_at: page === 2 ? '2020-01-01T00:00:00Z' : T }], 200, page < 3 ? { link: `<https://api.github.com/repos/u/r/pulls?page=${page + 1}>; rel="next"` } : {});
+  } });
+  const result = await finishCollection(f, { since: T });
+  assert(result.evidence.some(item => item.kind === 'pull_request' && item.data.number === 103));
+  assert(result.last.coverage.sources.find(source => source.source === 'pulls').orderUnverified);
+});
+
+test('an old observed unfinished run is reread directly and keeps failure then success on the same old SHA', async () => {
+  const current = historicRun(70, { run_attempt: 2, conclusion: 'success', updated_at: T });
+  const old = { id: 70, headSha: C, runAttempt: 1, status: 'in_progress', conclusion: null, updatedAt: '2026-10-01T01:00:00Z', jobsComplete: false };
+  const f = runPages([], { latest: new Map([[70, current]]) });
+  const result = await finishCollection(f, { since: '2026-10-31T11:00:00Z', project: { snapshot: { workflowRuns: [], pendingWorkflowRuns: [old] } } });
+  assert(f.calls.some(call => call.url.pathname === '/repos/u/r/actions/runs/70'));
+  assert(result.evidence.some(item => item.kind === 'workflow_run' && item.sha === C && item.data.runAttempt === 1 && item.data.conclusion === 'failure'));
+  assert(result.evidence.some(item => item.kind === 'workflow_run' && item.sha === C && item.data.runAttempt === 2 && item.data.conclusion === 'success' && item.data.jobsComplete));
+  assert.equal(result.last.snapshot.pendingWorkflowRuns.length, 0);
+  const recent = f.calls.find(call => call.url.pathname === '/repos/u/r/actions/runs' && !call.url.searchParams.has('head_sha'));
+  assert.equal(recent.url.searchParams.get('created'), '>=2026-10-28T12:00:00.000Z');
+  assert(f.calls.filter(call => call.url.searchParams.has('head_sha')).every(call => !call.url.searchParams.has('created')));
+  assert(result.evidence.some(item => item.kind === 'workflow_run' && item.sha === B && item.data.createdAt === '2025-01-01T00:00:00Z'));
+});
+
+test('a no-change compensation poll does not reread all historical jobs or generate new evidence identities', async () => {
+  const recent = historicRun(300, { created_at: '2026-10-31T10:00:00Z', updated_at: '2026-10-31T10:30:00Z' });
+  const rows = [recent, ...Array.from({ length: 120 }, (_, index) => historicRun(index + 1000))];
+  const initial = runPages(rows), before = await finishCollection(initial, { maxRequests: 30, maxPages: 2 });
+  assert(initial.calls.filter(call => /\/runs\/(1\d{3})\/attempts\/1\/jobs$/.test(call.url.pathname)).length >= 120);
+  const poll = runPages(rows), after = await finishCollection(poll, { since: T, now: () => Date.parse(T) + 300000, maxRequests: 30, maxPages: 2, project: { snapshot: before.last.snapshot } });
+  assert(!poll.calls.some(call => /\/runs\/(?:300|1\d{3})\/attempts\/1\/jobs$/.test(call.url.pathname)));
+  assert(poll.calls.length < 40); assert.equal(after.last.coverage.complete, true);
+  const identities = new Set(before.evidence.map(item => item.id));
+  assert(after.evidence.every(item => identities.has(item.id)), 'unchanged versions must not trigger another analysis through new fact IDs');
+  assert(after.last.coverage.sources.some(source => source.source === 'run:300:attempt:1:jobs' && source.reused));
+});
+
+test('pending run tracking outlives the 100-row UI snapshot and a later creation-window poll', async () => {
+  const rows = Array.from({ length: 101 }, (_, index) => historicRun(index + 1000, { status: 'in_progress', conclusion: null }));
+  const first = await finishCollection(runPages(rows), { maxRequests: 30, maxPages: 2 });
+  assert.equal(first.last.snapshot.workflowRuns.length, 100); assert.equal(first.last.snapshot.pendingWorkflowRuns.length, 101);
+  const next = runPages(rows), after = await finishCollection(next, { since: T, project: { snapshot: first.last.snapshot }, maxRequests: 30, maxPages: 2 });
+  assert.equal(next.calls.filter(call => /\/actions\/runs\/1\d{3}$/.test(call.url.pathname)).length, 101);
+  assert.equal(after.last.snapshot.pendingWorkflowRuns.length, 101);
+});
+
+test('a long outage extends the run creation overlap and filtered API limits remain explicit', async () => {
+  const f = runPages([], { truncated: true });
+  const result = await finishCollection(f, { since: '2026-10-20T12:00:00Z', project: { snapshot: { pendingWorkflowRuns: [] } } });
+  assert.equal(result.last.coverage.runsCreatedSince, '2026-10-20T11:55:00.000Z');
+  assert.equal(result.last.coverage.complete, false); assert(result.last.coverage.sources.some(source => source.source === 'recent_runs' && source.error === 'API_TRUNCATED'));
+  assert.equal(result.last.coverage.deploymentReadMode, 'full-pagination-every-cycle'); assert.equal(result.last.coverage.allHistory, false);
+  assert(result.last.coverage.limitations.some(limit => limit.includes('older, untracked SHAs')));
+});
+
+test('a legacy cursor migrates unfinished queued jobs outside its old UI snapshot into durable pending tracking', async () => {
+  const unfinished = historicRun(999, { status: 'in_progress', conclusion: null });
+  const cursor = { version: 1, repo: 'u/r', repositoryId: 11, headSha: A, since: T, startedAt: T, selected: [], paths: [], seen: [], coverage: [],
+    snapshot: { repo: 'u/r', fetchedAt: T, workflowRuns: Array.from({ length: 100 }, (_, index) => ({ id: index + 1, headSha: A, runAttempt: 1, status: 'completed', conclusion: 'success', updatedAt: T })), pullRequests: [], comments: [], commits: [], issues: [], warnings: [] },
+    tasks: [{ kind: 'jobs', key: 'run:999:attempt:1:jobs', path: '/repos/u/r/actions/runs/999/attempts/1/jobs', page: 1, run: unfinished, sha: C, attempt: 1 }] };
+  const result = await collectEvidence({ repo: 'u/r' }, { cursor, fetchImpl: runPages([unfinished]).fetchImpl, now: () => Date.parse(T) });
+  assert.equal(result.cursor, null); assert.equal(result.coverage.legacyPendingSnapshot, true);
+  assert(result.snapshot.pendingWorkflowRuns.some(row => row.id === 999 && row.status === 'in_progress'));
+  assert.equal(result.snapshot.workflowRuns.length, 100);
+  assert(result.coverage.limitations.some(limit => limit.includes('legacy snapshot')));
+});
+
+test('exactly 1000 filtered workflow results are unconfirmed at the provider cap even when total_count equals items', async () => {
+  const rows = Array.from({ length: 50 }, (_, index) => historicRun(2000 + index));
+  const cached = rows.map(row => ({ id: row.id, headSha: row.head_sha, runAttempt: 1, status: row.status, conclusion: row.conclusion, updatedAt: row.updated_at, jobsComplete: true }));
+  const cursor = { version: 1, repo: 'u/r', repositoryId: 11, headSha: A, mode: 'incremental', since: T, runsCreatedSince: '2026-10-28T12:00:00Z', startedAt: T, previousRuns: cached, selected: [], paths: [], seen: [],
+    snapshot: { repo: 'u/r', fetchedAt: T, workflowRuns: [], pendingWorkflowRuns: [], pullRequests: [], comments: [], commits: [], issues: [], warnings: [] },
+    coverage: [{ source: 'recent_runs', complete: false, pages: 19, items: 950 }], tasks: [{ kind: 'runs', key: 'recent_runs', path: '/repos/u/r/actions/runs?created=%3E%3D2026-10-28T12%3A00%3A00Z', page: 20 }] };
+  const result = await collectEvidence({ repo: 'u/r' }, { cursor, now: () => Date.parse(T), fetchImpl: async () => response({ total_count: 1000, workflow_runs: rows }) });
+  assert.equal(result.coverage.complete, false); assert.equal(result.cursor, null);
+  assert(result.coverage.sources.some(source => source.source === 'recent_runs' && source.error === 'API_FILTER_CAP_REACHED' && source.providerLimit === 1000));
 });

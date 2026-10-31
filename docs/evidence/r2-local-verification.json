@@ -1,0 +1,293 @@
+{
+  "schema": "pcw.local-verification/1",
+  "verifiedAt": "2026-10-31T20:24:39.971932+00:00",
+  "command": "npm run check",
+  "classification": "Local PGlite/PostgreSQL engine and actual HTTP; GitHub/model transports injected; not hosted end-to-end acceptance",
+  "passed": 264,
+  "failed": 0,
+  "skipped": 0,
+  "build": "passed",
+  "modules": {
+    "legacy-domain": 32,
+    "legacy-personal": 23,
+    "legacy-watch": 39,
+    "github": 28,
+    "analysis": 34,
+    "ui": 22,
+    "personal-verification": 11,
+    "database-tls": 6,
+    "server": 35,
+    "ingress-scheduler": 20,
+    "delivery-recovery": 14
+  },
+  "logSha256": "b50593ac2d378e2c1e4aeef7286e786721d9393cfa67581db7aa82838923e9cf",
+  "sourceFingerprint": "1572815f7948d51cdce81754a128f9be0924389db6ca3ea95688f7e3bda5d107",
+  "sourceFiles": [
+    {
+      "path": ".github/workflows/verify.yml",
+      "sha256": "da1b1cfb272f0f5f4593038d1bccff664464d7b975fb7e78f1b1bc85410d3922"
+    },
+    {
+      "path": "api/index.js",
+      "sha256": "cc2d021fd11070c20d727a3a5d905f470b545697fcbfdfdf82873dc73bcfc302"
+    },
+    {
+      "path": "config/github-app-manifest.json",
+      "sha256": "b18641e52baad0b25efedde3f7a2705d9c5673ac1563f78407a13dff954886ff"
+    },
+    {
+      "path": "db/001_workspace.sql",
+      "sha256": "7a51b3ecceaf311a1fc9175524fa752bb06f05c9eb770872cd347a98fd561eed"
+    },
+    {
+      "path": "db/002_delivery_recovery.sql",
+      "sha256": "165fb979b40136cce5db7768317cd4042b972ce499ff142fb1ad74a92c6b3beb"
+    },
+    {
+      "path": "index.html",
+      "sha256": "0d1153c2b55b4206c083613190081966a51f4c7dd30de9bab4cd886d7772e82b"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "9b627c31ab083b139bbfc3e1df95f2d1c728e02526d5bee0032f3df4d0e19af2"
+    },
+    {
+      "path": "package.json",
+      "sha256": "98186aa2a07728a8f735b89a6834d4ae5d00cc2975cb46ac2fbc8cf322f9bc4a"
+    },
+    {
+      "path": "scripts/build.mjs",
+      "sha256": "3deae4437088469d8f9f40a262c30819d9d3eeb6d2a6bc6e6302cb8474e28469"
+    },
+    {
+      "path": "scripts/compose-watch-data.mjs",
+      "sha256": "25ba4a1daf08950ced2a62d3063d168688496faa220c6f4dc5d50175e0d32816"
+    },
+    {
+      "path": "scripts/dev.mjs",
+      "sha256": "37640e9358fd11bb846f8bf2cf88b8d12ed0ea686518f353de6a82310ab91b91"
+    },
+    {
+      "path": "scripts/r2/check.mjs",
+      "sha256": "cd0dc3ff13415025b10c53d0c0629581cfadc7d3094f624c526de3371f351bb7"
+    },
+    {
+      "path": "scripts/r2/configure-scheduler.mjs",
+      "sha256": "3a4e0e1cbec47f26c6a8db8b3643907ec43aa161f05770e1a185d05d3574f21a"
+    },
+    {
+      "path": "scripts/r2/evaluate-ai.mjs",
+      "sha256": "d405a1228fdf767dde40454c8d6031662eac6b9d43655c9c0112563e13004edb"
+    },
+    {
+      "path": "scripts/r2/migrate.mjs",
+      "sha256": "225b6dd68a0529f1c7b0f405742705e1c97efd3f8ee6857cc3c9d5fde71de1a0"
+    },
+    {
+      "path": "scripts/r2/worker.mjs",
+      "sha256": "106fba141c0d51f8ff4120254fdf1aca9cb74596b4f7e152154e9114eeca8abb"
+    },
+    {
+      "path": "scripts/responsive.html",
+      "sha256": "f36fd9a19a8fc369ba29fa686d751a9cc8fd43a8c10969d8ad2482615107158e"
+    },
+    {
+      "path": "scripts/watch-qa.html",
+      "sha256": "2031e9aab82741cc10e0a3219be4e556eb719433f56b12bfeee43411ef758d67"
+    },
+    {
+      "path": "server/analysis.js",
+      "sha256": "905b28bb2d4aa18b5664221c837b09812d7053129d71c6d7c36c1584df20adf0"
+    },
+    {
+      "path": "server/config.js",
+      "sha256": "4f6283328d93d73479c28a20a601358d7567e965cb8c3c8df1ea9202ea70520b"
+    },
+    {
+      "path": "server/database.js",
+      "sha256": "0563dc510fe8c18068305b77dffcd1059e2956e2f6e01ebd36bb638503be017a"
+    },
+    {
+      "path": "server/github.js",
+      "sha256": "0c51efbba2a176e10c2c0c56b99b02bf80e8b029e7ec9a7c54be898701aedcaf"
+    },
+    {
+      "path": "server/http.js",
+      "sha256": "6b629e5a4e2f131cb5a471a0d8d3e7632cca8efbf14e6db119f6c584614a8270"
+    },
+    {
+      "path": "server/ingress.js",
+      "sha256": "b16401131ffd9b1adddde0ee0fe0a6fd11762cfb7d039f0b5c7fa05d0b9788bf"
+    },
+    {
+      "path": "server/postgres-config.js",
+      "sha256": "a6dbe7635af2e1b961af3bf1b427516bda60c6f664de282c329e416f59091ecb"
+    },
+    {
+      "path": "server/providers.js",
+      "sha256": "36786707839c86b0ef0d2bddb37d2b10253613ce37bbc6375dad75c0b612690f"
+    },
+    {
+      "path": "server/recovery.js",
+      "sha256": "995e3844eb61c44edb4ddf6eb7e42b7acb80f1e09147cc3860b4e52d4de0cd7a"
+    },
+    {
+      "path": "server/security.js",
+      "sha256": "83c50a6e6bd6c60075cdad81a4485644d402db5715cb19f46a48841710ae2d32"
+    },
+    {
+      "path": "server/store.js",
+      "sha256": "3d7074d8d2a765ab8979330eb04f534d577797d2b90fbec5c4a9952c7bbe1805"
+    },
+    {
+      "path": "server/verification.js",
+      "sha256": "8b433b10c9640f8d1da4ba478945e58f48f835f84c4bbabc5426fe2a62d53e7a"
+    },
+    {
+      "path": "server/worker.js",
+      "sha256": "a6e8d89eb1a8cd516ca2badbfae26b185f272e9539a25fdf6dc78fe5b0920f35"
+    },
+    {
+      "path": "src/app.js",
+      "sha256": "fed0118e961b6192725f73a00027d1d1db7496d60ee4c90d601ba6ba72c9999a"
+    },
+    {
+      "path": "src/domain.d.ts",
+      "sha256": "3d22ea3eecb53bf95c69cd06f7c8e86cdb4863c2c5b759cbfa08471d1c627020"
+    },
+    {
+      "path": "src/domain.js",
+      "sha256": "341df29d67e8b26c7f2df3a2f9967ca2ba414f8724a1ea8349d7453b656e9441"
+    },
+    {
+      "path": "src/github-snapshot.js",
+      "sha256": "db516bf52404c66dfe868087c2c7a5f154664555ee5d165654e9819888d5c94f"
+    },
+    {
+      "path": "src/github-sync.js",
+      "sha256": "d0cd0be23fe8ca11d9f0deaee69d6f5f12b4b544e1f04a136c6742b4f6c5eb20"
+    },
+    {
+      "path": "src/personal-domain.js",
+      "sha256": "4c4bf9e8f1e38b123cdf27d7fb2cb2790dfdae963162211e6f21a0f2d2dbd5a0"
+    },
+    {
+      "path": "src/personal.css",
+      "sha256": "a514438e5c29dec8ad3610ffa475095a155ff64f274572e936459a7579b336c3"
+    },
+    {
+      "path": "src/personal.js",
+      "sha256": "28216839e541a0133f069bdad883bc48621e22e66c0cc12ba4a4aaddd06960ec"
+    },
+    {
+      "path": "src/styles.css",
+      "sha256": "5748d49e7da19e6c69219e73eff6ce13fcc8519164baf699d567b78c1e727d18"
+    },
+    {
+      "path": "src/watch-api.js",
+      "sha256": "f120e64c9f936ef4dc215aa53cf4fde0a44026ec6bf01a0668214472fd46a94f"
+    },
+    {
+      "path": "src/watch-data.js",
+      "sha256": "f188d17deff5f880fa44ee5ae77ba77ce34abe0dcc622542e835a014b7a2be5b"
+    },
+    {
+      "path": "src/watch-domain.js",
+      "sha256": "37faae9e3d40588950da48e51fc871562abeac1b345bcabc050e49eb8fdf600c"
+    },
+    {
+      "path": "src/watch-sync.js",
+      "sha256": "271277c54b589053608cee21cbcc38f83fc5478e7ce06918d184d7d830530657"
+    },
+    {
+      "path": "src/watch-v1.js",
+      "sha256": "ab9e6b97119994bbe3af87a83078f1d6ccee2811952e24d901edc18a25e17f91"
+    },
+    {
+      "path": "src/watch.css",
+      "sha256": "c82e5fd34fc8099f9319204e2d8334f46f14c6fc4a31cdc57cd3d41a6c87123f"
+    },
+    {
+      "path": "src/watch.js",
+      "sha256": "ba07a49165eecefc937e32429670726d9225165bd9001f91e7f63f7ac3f05812"
+    },
+    {
+      "path": "supabase/config.toml",
+      "sha256": "518e1211c7a16a5db45352ad08d2b2826c3f43af095d1004bb0600fcccd55c1b"
+    },
+    {
+      "path": "supabase/functions/_shared/cron-forwarder.js",
+      "sha256": "06e8e8148093ffa711392822fa90a299621a9b8a74c2e9dfe5601281d3cfaa4b"
+    },
+    {
+      "path": "supabase/functions/_shared/github-ingress.js",
+      "sha256": "e2329d9378ad1c76570a2b9d596008c1c6185e18d2d28070ae93c037a5cdb7f0"
+    },
+    {
+      "path": "supabase/functions/cron-forwarder/index.ts",
+      "sha256": "b1605c516290d9d40b2072ea7387f26b741eecf771b90c7c6a83c7f060a36314"
+    },
+    {
+      "path": "supabase/functions/github-ingress/index.ts",
+      "sha256": "f8b5ffa26cfc325b6fd3bfd221900c4548b5e63afd12f9a758075fcc0774a24a"
+    },
+    {
+      "path": "tests/domain.test.js",
+      "sha256": "d989d44327f95f69bbec78b55104ef446db9a9a1344966e99600ab65610b2ee5"
+    },
+    {
+      "path": "tests/fixtures/real-project-evidence.json",
+      "sha256": "03e9016a5f0d3c214dce24b4e81dcafb0f6a18764f3454f5db91347facf6390f"
+    },
+    {
+      "path": "tests/personal.test.js",
+      "sha256": "13ec3e57dd3a299b49505ca90431f2a2979978245eff71c3c04b5f1652fb679c"
+    },
+    {
+      "path": "tests/r2-analysis.test.js",
+      "sha256": "2b03b81c388506cccb34cfde1d72ce3bd7a3c301a3dd81a57adb9e71f0e28746"
+    },
+    {
+      "path": "tests/r2-db-config.test.js",
+      "sha256": "b65e73480d9723528c7d7fb0736b66ebd623b7500495f698eb7bf1b879b98190"
+    },
+    {
+      "path": "tests/r2-github.test.js",
+      "sha256": "6cb977d600cd4af8421316de05263d9ad32780edffd2e867016b79382e15c427"
+    },
+    {
+      "path": "tests/r2-ingress.test.js",
+      "sha256": "17c4faee8d6d33688376e2e4dde82f7e525925ee007730c8ffbf587aef2217cb"
+    },
+    {
+      "path": "tests/r2-recovery.test.js",
+      "sha256": "931c41eefc1998e6419cf56b24ca8d1c6bc5682e98b755da570d51579b54a7b2"
+    },
+    {
+      "path": "tests/r2-server.test.js",
+      "sha256": "d5603c231b4f50475a4ecbcc60318bc8f359bd4e0802f2f702225ed92fa67974"
+    },
+    {
+      "path": "tests/r2-ui.test.js",
+      "sha256": "ed5044f0e2b98d89b94d42e54de4ed7e8877aaa34035b7c9def447a1e046ade3"
+    },
+    {
+      "path": "tests/r2-verification.test.js",
+      "sha256": "98d1f38ab4fb65fee0931ab2385bcb11fb55a59f218ed57cfe20bc8e2c18ba64"
+    },
+    {
+      "path": "tests/watch.test.js",
+      "sha256": "0d81c12c9c608e69967dc2bea1c226f0e73a0eeedf7ac24c024da124049b8c0f"
+    },
+    {
+      "path": "vercel.json",
+      "sha256": "301145ac88758c0b900c8bb1d085ac9431b44deaefb31aa9c1d796c5680a51e2"
+    },
+    {
+      "path": "watch-v1.html",
+      "sha256": "4bb7aaf0635f9027bbdcf6f8dc96de3645c30eb68ab818293283c8f8348f6a5f"
+    }
+  ],
+  "realModelCalls": 0,
+  "productAdmission": "NO_GO"
+}

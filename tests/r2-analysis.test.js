@@ -117,6 +117,15 @@ test('CI success, PR merge and deployment never certify product readiness or a c
   }
 });
 
+test('an issue or device receipt cannot be expanded into whole-product daily readiness', () => {
+  for (const scope of ['issue', 'device', 'product']) {
+    const receipt = evidence({ id: 'accepted', kind: 'acceptance', data: { verification: { result: 'passed', scope, environment: 'real-device', sha: SHA, issueIds: ['mount'] } } });
+    const result = validateAnalysis(raw({ stage: claim('stage', '产品已可用', ['accepted']) }), input({ evidence: [evidence(), receipt] }));
+    assert.equal(result.stage.classification, scope === 'product' ? 'fact' : 'unknown');
+    assert.equal(result.stage.pendingReview, scope !== 'product');
+  }
+});
+
 test('complete scope progress is recalculated from current structured plan rather than trusting model arithmetic', () => {
   const plan = evidence({ id: 'plan', kind: 'plan', data: { scopeComplete: true, items: [{ status: 'done' }, { status: 'active' }, { status: 'todo' }] } });
   const result = validateAnalysis(raw({ progress: { scopeComplete: true, percent: 100, done: 3, total: 3, scope: '当前计划', evidenceIds: ['plan'] } }), input({ evidence: [evidence(), plan] }));
@@ -172,6 +181,17 @@ test('omitting a previously unresolved problem carries it forward; new green CI 
   assert.equal(result.resolvedIssues.length, 0); assert.equal(result.pendingVerification[0].id, 'mount'); assert.equal(result.pendingVerification[0].pendingReview, true); assert.equal(result.pendingVerification[0].sources[0].sha, OLD);
 });
 
+test('reclassifying an old issue as completed or a recommendation cannot bypass real issue verification', () => {
+  const old = { id: 'mount', text: 'Project 实机挂载仍阻断', evidenceIds: ['ci'] };
+  for (const field of ['completed', 'nextSteps']) {
+    const result = validateAnalysis(raw({ [field]: [claim('mount', field === 'completed' ? 'CI 已通过，挂载问题已解决' : '建议以后再复查挂载', ['ci'], field === 'completed' ? 'fact' : 'recommendation')] }), input({ unresolved: [old] }));
+    assert(!result[field].some(item => item.id === old.id));
+    assert.equal(result.resolvedIssues.length, 0);
+    assert.equal(result.pendingVerification.find(item => item.id === old.id).text, old.text);
+    assert.equal(result.pendingVerification.find(item => item.id === old.id).pendingReview, true);
+  }
+});
+
 test('same-version real explicit issue verification can resolve the old issue while old history remains separate', () => {
   const old = { id: 'mount', text: 'Project 挂载失败', evidenceIds: ['ci'] };
   const acceptance = evidence({ id: 'acceptance', kind: 'acceptance', data: { verification: { result: 'passed', scope: 'issue', environment: 'real-device', sha: SHA, issueIds: ['mount'] } } });
@@ -185,6 +205,25 @@ test('different verification scope on the same SHA does not erase failed device 
   const failed = evidence({ id: 'device', kind: 'issue_comment', sourceKey: 'comment:1', data: { body: '实机挂载仍 BLOCKED，新候选尚未实测。' } });
   const result = validateAnalysis(raw({ blockers: [claim('device-problem', '实机挂载仍阻断', ['device'])] }), input({ evidence: [evidence(), failed] }));
   assert.equal(result.blockers.length, 1); assert.equal(result.completed.length, 1);
+});
+
+test('verified resolution survives historical failure repetition across later rounds without certifying a new SHA', () => {
+  const old = { id: 'mount', text: '实机挂载失败', evidenceIds: ['device'] };
+  const failed = evidence({ id: 'device', kind: 'issue_comment', sourceKey: 'device:old', data: { body: '实机挂载失败。' } });
+  const accepted = evidence({ id: 'accepted', kind: 'acceptance', occurredAt: LATER, data: { verification: { result: 'passed', scope: 'device', environment: 'real-device', sha: SHA, issueIds: ['mount'] } } });
+  const records = [evidence(), failed, accepted];
+  const second = validateAnalysis(raw({ failed: [claim('mount', '此前实机挂载失败', ['device'])], resolvedIssues: [claim('mount', '同一版本已通过实机验证', ['accepted'])] }), input({ evidence: records, unresolved: [old] }));
+  assert.equal(second.failed.length, 0);
+  assert.equal(second.resolvedIssues[0].resolvedForSha, SHA);
+  const third = validateAnalysis(raw({ failed: [claim('mount', '此前实机挂载失败', ['device'])] }), input({ evidence: records, previous: second, unresolved: [] }));
+  assert.equal(third.failed.length, 0); assert.equal(third.pendingVerification.length, 0);
+  const fourth = validateAnalysis(raw(), input({ evidence: records, previous: third }));
+  assert.equal(fourth.pendingVerification.length, 0);
+  const laterFailure = evidence({ id: 'device-new', kind: 'issue_comment', occurredAt: '2026-10-31T20:00:00Z', data: { body: '同一版本实机挂载再次失败，问题复现。' } });
+  const reopened = validateAnalysis(raw({ failed: [claim('mount', '挂载问题再次复现', ['device-new'])] }), input({ evidence: [...records, laterFailure], previous: second, unresolved: [] }));
+  assert.equal(reopened.failed.length, 1);
+  const changed = validateAnalysis(raw({ failed: [claim('mount', '旧版本的挂载失败需核对', ['device'])] }), input({ project: { repo: 'example/project', owner: 'owner', currentSha: OLD }, evidence: records, previous: second, unresolved: [] }));
+  assert.equal(changed.failed.length, 1); assert.equal(changed.failed[0].pendingReview, true); assert.equal(changed.resolvedIssues.length, 0);
 });
 
 test('bounded evidence discloses omissions and truncation and never upgrades partial facts', () => {
@@ -266,6 +305,18 @@ test('previous assessment retains completed, failed, incomplete, plan progress a
   assert.equal(context.previous.userActions[0].id, 'need-owner');
   assert.equal(context.previous.progress.scope, '完整计划未确认');
   assert(context.unresolved.some(item => item.id === 'previous-incomplete'));
+});
+
+test('latest workspace feedback survives a large context but a checked task never certifies product acceptance', () => {
+  const feedback = evidence({ id: 'feedback', kind: 'workspace_record', sourceKey: 'workspace:tasks', sourceUrl: 'https://workspace.example/api/projects/p/evidence/feedback', occurredAt: AT, data: { type: 'workspace-only', body: '用户记录：上传任务已勾选完成。实机验收尚未进行。', tasks: [{ title: '上传任务', done: true }] } });
+  const activity = Array.from({ length: 300 }, (_, i) => evidence({ id: 'commit-' + i, kind: 'commit', sourceKey: 'commit:' + i, occurredAt: LATER, data: { message: 'unrelated activity' } }));
+  const context = buildAnalysisInput(input({ evidence: [...activity, feedback], unresolved: [{ id: 'device', text: '真实上传仍待验收', evidenceIds: [] }] }));
+  assert(context.evidence.some(item => item.id === feedback.id));
+  const result = validateAnalysis(raw({ stage: claim('stage', '产品已可用', ['feedback']), completed: [], nextSteps: [], changeReason: claim('change', '用户更新任务', ['feedback']), resolvedIssues: [claim('device', '任务已勾选，因此验收通过', ['feedback'])] }), context);
+  assert.equal(result.stage.classification, 'unknown');
+  assert.equal(result.resolvedIssues.length, 0);
+  assert.equal(result.pendingVerification.find(item => item.id === 'device').pendingReview, true);
+  assert.equal(result.progress.percent, null);
 });
 
 test('omitted newer authority cannot make an old request appear current again', () => {

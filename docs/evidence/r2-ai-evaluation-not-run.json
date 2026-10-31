@@ -1,0 +1,47 @@
+{
+  "schema": "pcw.ai-paired-evaluation/1",
+  "generatedAt": "2026-10-31T20:24:39.936Z",
+  "fixtureHash": "61842a4f4f488da5a88a57ea8a925ebce09be4ab1072d7db8a7513ac72055dfc",
+  "status": "NOT_RUN",
+  "paidRequests": 0,
+  "comparison": "same source window / exact same selected revision; direct OpenAI API baseline, not a claim about ChatGPT Pro",
+  "missing": [
+    "PCW_EVAL_ALLOW_PAID",
+    "PCW_EVAL_APP_KEY",
+    "PCW_EVAL_BASELINE_KEY",
+    "PCW_EVAL_APP_MODEL",
+    "PCW_EVAL_BASELINE_MODEL",
+    "PCW_EVAL_APP_INPUT_PRICE",
+    "PCW_EVAL_APP_OUTPUT_PRICE",
+    "PCW_EVAL_BASELINE_INPUT_PRICE",
+    "PCW_EVAL_BASELINE_OUTPUT_PRICE",
+    "PCW_EVAL_ALLOW_PAID=1"
+  ],
+  "cases": [
+    {
+      "repo": "haohongfei2001-png/Riftlet",
+      "sha": "307335f6f1511fc49d57275ab19cf9c55496ba5a",
+      "inputHash": "f4b79475b87f8a39fb41b3e2edb5a811a7f4a3b72178e01e9e8ffdf9c08f36fc",
+      "status": "NOT_RUN"
+    },
+    {
+      "repo": "haohongfei2001-png/Virtual-AI-Workspace-Layer",
+      "sha": "30d4cba74854f1a5dfe1e23e6295047cba602976",
+      "inputHash": "f2a2237d1645633bc13ec3447d531ece2bb7cc2a09c39f7d7365be6c488e29f7",
+      "status": "NOT_RUN"
+    },
+    {
+      "repo": "haohongfei2001-png/paia",
+      "sha": "52c589efa27534cf84b7a7daf8712bc90635c2b4",
+      "inputHash": "6df10f06c69aaf6638027902e6709df8b9bbefa773631eca7d561993d5c8593f",
+      "status": "NOT_RUN"
+    }
+  ],
+  "review": {
+    "status": "NOT_RUN",
+    "scores": null,
+    "userTimeMeasurement": null
+  },
+  "sourceFixture": "tests/fixtures/real-project-evidence.json",
+  "reproduce": "node scripts/r2/evaluate-ai.mjs --out NEW_DIRECTORY"
+}

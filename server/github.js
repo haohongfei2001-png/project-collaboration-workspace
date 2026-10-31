@@ -173,6 +173,9 @@ function runFact(repo, run, at, jobsComplete = false) {
   const attempt = positive(run.run_attempt) || 1;
   return evidence(repo, 'workflow_run', `workflow_run:${run.id}:attempt:${attempt}`, { id: run.id, name: run.name, workflowId: run.workflow_id, headSha: run.head_sha, headBranch: run.head_branch, event: run.event, status: run.status, conclusion: run.conclusion, runAttempt: attempt, createdAt: run.created_at, updatedAt: run.updated_at, runStartedAt: run.run_started_at, jobsComplete }, { sha: run.head_sha, sourceUrl: sourceURL(run.html_url, repo, `${WEB}/${repo}/actions/runs/${run.id}/attempts/${attempt}`), occurredAt: run.updated_at || run.created_at, observedAt: at, complete: jobsComplete, author: run.actor?.login || '' });
 }
+function runSummary(run, jobsComplete = false) {
+  return { id: positive(run.id), name: run.name, headSha: run.head_sha, status: run.status, conclusion: run.conclusion, runAttempt: positive(run.run_attempt) || 1, createdAt: run.created_at, updatedAt: run.updated_at, url: run.html_url, jobsComplete };
+}
 function jobFact(repo, job, at, attempt = job.run_attempt || 1, headSha = job.head_sha) {
   return evidence(repo, 'workflow_job', `workflow_job:${job.id}`, { id: job.id, runId: job.run_id, runAttempt: attempt, name: job.name, status: job.status, conclusion: job.conclusion, startedAt: job.started_at, completedAt: job.completed_at, steps: (job.steps || []).map(s => ({ number: s.number, name: s.name, status: s.status, conclusion: s.conclusion, startedAt: s.started_at, completedAt: s.completed_at })) }, { sha: headSha, sourceUrl: sourceURL(job.html_url, repo, `${WEB}/${repo}/actions/runs/${job.run_id}/job/${job.id}`), occurredAt: job.completed_at || job.started_at, observedAt: at });
 }
@@ -220,19 +223,48 @@ export async function collectEvidence(project, { token, fetchImpl = globalThis.f
     if (cursor.version !== 1 || cursor.repo?.toLowerCase() !== repo.toLowerCase() || !Array.isArray(cursor.tasks) || cursor.tasks.length > 10_000 || !Array.isArray(cursor.coverage)) throw new GitHubError('INVALID_CURSOR', 'Evidence continuation does not match this repository.');
     state = structuredClone(cursor);
     for (const task of state.tasks) { const url = apiURL(task.path); if (!url.pathname.toLowerCase().startsWith(`${base.toLowerCase()}/`) && url.pathname.toLowerCase() !== base.toLowerCase() || !['repository', 'head', 'pulls', 'pull', 'issues', 'comments', 'inline', 'reviews', 'compare', 'commits', 'commit', 'runs', 'run', 'jobs', 'checks', 'statuses', 'deployments', 'deployment_statuses', 'document'].includes(task.kind)) throw new GitHubError('INVALID_CURSOR', 'Evidence continuation contains an invalid task.'); }
+    if (!Array.isArray(state.snapshot?.pendingWorkflowRuns)) {
+      state.legacyPendingSnapshot = true;
+      state.snapshot.pendingWorkflowRuns = [...(state.snapshot.workflowRuns || []), ...state.tasks.filter(task => task.kind === 'jobs' && task.run).map(task => runSummary(task.run))]
+        .filter(run => positive(run.id) && SHA.test(run.headSha || '') && (run.status !== 'completed' || !run.conclusion || run.jobsComplete === false));
+    }
   } else {
     const sinceMs = since ? Date.parse(since) : NaN;
-    state = { version: 1, repo, headSha: null, since: Number.isFinite(sinceMs) ? iso(sinceMs - 5 * 60_000) : null, startedAt: at, tasks: [{ kind: 'repository', path: base, key: 'repository' }], coverage: [], seen: [], selected, paths, snapshot: { repo, fetchedAt: at, pullRequests: [], workflowRuns: [], comments: [], commits: [], issues: [], warnings: [] } };
+    const previousRuns = [...(project.snapshot?.workflowRuns || []), ...(project.snapshot?.pendingWorkflowRuns || [])].filter(run => positive(run.id) && SHA.test(run.headSha || '')).map(run => ({ ...run, id: positive(run.id), runAttempt: positive(run.runAttempt) || 1 }));
+    const incremental = Number.isFinite(sinceMs), overlapSince = incremental ? iso(Math.min(sinceMs, Date.parse(at)) - 5 * 60_000) : null;
+    // Keep a three-day creation overlap in routine polls. After a longer outage,
+    // start at the older successful watermark so newly created runs are not lost.
+    const runsCreatedSince = incremental ? iso(Math.min(Date.parse(overlapSince), Date.parse(at) - 3 * 86400_000)) : null;
+    state = { version: 1, repo, headSha: null, mode: incremental ? 'incremental' : 'backfill', since: overlapSince, runsCreatedSince, previousRuns,
+      legacyPendingSnapshot: incremental && !Array.isArray(project.snapshot?.pendingWorkflowRuns), startedAt: at, tasks: [{ kind: 'repository', path: base, key: 'repository' }], coverage: [], seen: [], selected, paths,
+      snapshot: { repo, fetchedAt: at, pullRequests: [], workflowRuns: [], pendingWorkflowRuns: previousRuns.filter(run => run.status !== 'completed' || !run.conclusion || run.jobsComplete === false), comments: [], commits: [], issues: [], warnings: [] } };
   }
   const out = [], warnings = [], deferred = [], sourcePages = new Map(); let requests = 0, retry = null;
   const cov = (key, patch) => { let c = state.coverage.find(x => x.source === key); if (!c) { c = { source: key, complete: false, items: 0, pages: 0 }; state.coverage.push(c); } Object.assign(c, patch); return c; };
   const enqueue = task => { if (state.tasks.length + deferred.length >= 10_000) throw new GitHubError('COLLECTION_CAPACITY', 'Collection queue limit reached; no success watermark was committed.'); state.tasks.push(task); };
   const list = (kind, path, key, extra = {}) => ({ kind, path, key, page: 1, ...extra });
   const mark = key => { if (state.seen.includes(key)) return false; state.seen.push(key); return true; };
+  const cachedRuns = new Map((state.previousRuns || []).map(run => [`${run.id}:${run.runAttempt || 1}`, run]));
+  const pendingRuns = new Map(), latestRuns = new Map((state.latestRuns || []).map(run => [run.id, run]));
+  const newerRun = (run, old) => !old || (run.runAttempt || 1) > (old.runAttempt || 1) || (run.runAttempt || 1) === (old.runAttempt || 1) && (Date.parse(run.updatedAt) || 0) >= (Date.parse(old.updatedAt) || 0);
+  for (const run of state.snapshot.pendingWorkflowRuns || []) if (newerRun(run, pendingRuns.get(run.id))) pendingRuns.set(run.id, run);
+  function rememberRun(run) {
+    const latest = latestRuns.get(run.id);
+    if (latest && latest.runAttempt === run.runAttempt && latest.updatedAt === run.updatedAt && latest.headSha === run.headSha && latest.status === run.status && latest.conclusion === run.conclusion && latest.jobsComplete) run = { ...run, jobsComplete: true };
+    const index = state.snapshot.workflowRuns.findIndex(old => old.id === run.id && old.runAttempt === run.runAttempt);
+    if (index >= 0) { if (newerRun(run, state.snapshot.workflowRuns[index])) state.snapshot.workflowRuns[index] = run; }
+    else if (state.snapshot.workflowRuns.length < 100) state.snapshot.workflowRuns.push(run);
+    if (newerRun(run, latest) && newerRun(run, pendingRuns.get(run.id))) {
+      latestRuns.set(run.id, run);
+      if (run.status === 'completed' && run.conclusion && run.jobsComplete) pendingRuns.delete(run.id);
+      else pendingRuns.set(run.id, run);
+    }
+    if (pendingRuns.size > 10_000) throw new GitHubError('COLLECTION_CAPACITY', 'Pending workflow tracking exceeded the durable continuation limit.');
+  }
   function documentTasks(sha, line) { for (const path of state.paths) { const key = `document:${line}:${path}`; if (mark(`${key}:${sha}`)) enqueue({ kind: 'document', key, path: `${base}/contents/${path.split('/').map(encodeURIComponent).join('/')}?ref=${sha}`, sha, sourcePath: path, line }); } }
   function validationTasks(sha) {
     if (!SHA.test(sha || '') || !mark(`validation:${sha}`)) return;
-    enqueue(list('runs', `${base}/actions/runs?head_sha=${sha}`, `runs:${sha}`));
+    enqueue(list('runs', `${base}/actions/runs?head_sha=${sha}`, `runs:${sha}`, { fullValidation: true }));
     enqueue(list('checks', `${base}/commits/${sha}/check-runs?filter=all`, `checks:${sha}`, { shape: 'check_runs', sha }));
     enqueue(list('statuses', `${base}/commits/${sha}/statuses`, `statuses:${sha}`, { sha }));
   }
@@ -260,6 +292,19 @@ export async function collectEvidence(project, { token, fetchImpl = globalThis.f
       if (!Array.isArray(items)) throw new GitHubError('INVALID_RESPONSE', 'GitHub collection shape is incomplete.');
       sourcePages.set(task.key, (sourcePages.get(task.key) || 0) + 1);
       const progress = cov(task.key, { error: null, retryAt: null }); progress.pages++; progress.items += items.length;
+      let stopAtWatermark = false, orderUnverified = !!task.orderUnverified;
+      if (task.kind === 'pulls' && state.since && state.mode === 'incremental') {
+        const times = items.map(item => Date.parse(item.updated_at));
+        const ordered = !orderUnverified && times.every((time, index) => Number.isFinite(time) && (index === 0 ? !task.lastUpdatedAt || time <= Date.parse(task.lastUpdatedAt) : time <= times[index - 1]));
+        if (ordered) {
+          stopAtWatermark = times.some(time => time < Date.parse(state.since));
+          if (stopAtWatermark) items = items.filter(item => Date.parse(item.updated_at) >= Date.parse(state.since));
+          cov(task.key, { windowSince: state.since, stoppedAtWatermark: stopAtWatermark, allHistory: false });
+        } else {
+          orderUnverified = true; cov(task.key, { orderUnverified: true });
+          warnings.push({ source: task.key, code: 'PULL_ORDER_UNVERIFIED', message: 'PR updated ordering is incomplete or inconsistent; retained full pagination instead of dropping older entries.' });
+        }
+      }
       const next = /<([^>]+)>;\s*rel="next"/.exec(response.headers?.get?.('link') || '');
       if (next) {
         let nextURL; try { nextURL = new URL(next[1]); } catch { throw new GitHubError('INVALID_PAGINATION', 'GitHub pagination link is invalid.'); }
@@ -269,9 +314,14 @@ export async function collectEvidence(project, { token, fetchImpl = globalThis.f
         // rebuild the original path below and never follow a token-bearing URL.
         const canonicalPath = `/repositories/${state.repositoryId}${url.pathname.slice(base.length)}`;
         if (nextURL.origin !== API || (nextURL.pathname !== url.pathname && nextURL.pathname !== canonicalPath) || page !== task.page + 1) throw new GitHubError('INVALID_PAGINATION', 'GitHub pagination left its source boundary.');
-        enqueue({ ...task, page }); cov(task.key, { complete: false, nextPage: page });
+        if (!stopAtWatermark) { enqueue({ ...task, page, ...(task.kind === 'pulls' ? { orderUnverified, ...(items.length ? { lastUpdatedAt: items.at(-1).updated_at } : {}) } : {}) }); cov(task.key, { complete: false, nextPage: page }); }
+        else cov(task.key, { complete: true, nextPage: null });
       } else cov(task.key, { complete: true, nextPage: null });
       const total = data?.total_count; if (Number.isFinite(total) && total > progress.items && !next) { cov(task.key, { complete: false, error: 'API_TRUNCATED', total }); warnings.push({ source: task.key, code: 'API_TRUNCATED', message: 'GitHub total_count exceeds the returned collection; no complete-history claim is made.' }); }
+      else if (task.kind === 'runs' && !next && progress.items >= 1000 && (url.searchParams.has('created') || url.searchParams.has('head_sha'))) {
+        cov(task.key, { complete: false, error: 'API_FILTER_CAP_REACHED', providerLimit: 1000, total });
+        warnings.push({ source: task.key, code: 'API_FILTER_CAP_REACHED', message: 'The filtered workflow-run listing reached GitHub\'s 1,000-result limit. Complete coverage cannot be confirmed even when total_count is exactly 1,000.' });
+      }
     } else cov(task.key, { complete: true, items: 1, sha: task.sha || null, error: null, retryAt: null });
     if (task.kind === 'repository') {
       if (!data?.id || text(data.full_name).toLowerCase() !== repo.toLowerCase() || project.repositoryId && Number(project.repositoryId) !== data.id) throw new GitHubError('REPOSITORY_IDENTITY_CHANGED', 'GitHub repository identity no longer matches its monitored installation.');
@@ -284,8 +334,12 @@ export async function collectEvidence(project, { token, fetchImpl = globalThis.f
       enqueue(list('comments', `${base}/issues/comments?sort=updated&direction=desc${sinceQuery}`, 'repository_comments'));
       enqueue(list('inline', `${base}/pulls/comments?sort=updated&direction=desc${sinceQuery}`, 'repository_inline_comments'));
       enqueue(list('issues', `${base}/issues?state=all&sort=updated&direction=desc${sinceQuery}`, 'issues'));
-      enqueue(list('runs', `${base}/actions/runs`, 'recent_runs'));
+      enqueue(list('runs', `${base}/actions/runs${state.runsCreatedSince ? `?created=${encodeURIComponent(`>=${state.runsCreatedSince}`)}` : ''}`, 'recent_runs'));
+      cov('recent_runs', { createdSince: state.runsCreatedSince || null, allHistory: !state.runsCreatedSince });
       enqueue(list('deployments', `${base}/deployments`, 'deployments'));
+      // The UI list is capped at 100. Pending runs have a separate durable set so
+      // an old run cannot disappear just because other runs filled the UI list.
+      for (const run of pendingRuns.values()) if (mark(`latest-run:${run.id}`)) enqueue({ kind: 'run', key: `run:${run.id}:latest`, path: `${base}/actions/runs/${run.id}`, latest: true });
     } else if (task.kind === 'head' || task.kind === 'commit') {
       if (!SHA.test(data?.sha || '')) throw new GitHubError('INVALID_RESPONSE', 'GitHub commit is missing its SHA.');
       out.push(commitFact(repo, data, at));
@@ -329,14 +383,21 @@ export async function collectEvidence(project, { token, fetchImpl = globalThis.f
       for (const run of task.kind === 'run' ? [data] : items) {
         if (!positive(run.id) || !SHA.test(run.head_sha || '')) continue;
         const attempt = positive(run.run_attempt) || 1;
-        out.push(runFact(repo, run, at));
-        if (state.snapshot.workflowRuns.length < 100 && !state.snapshot.workflowRuns.some(x => x.id === run.id && x.runAttempt === attempt)) state.snapshot.workflowRuns.push({ id: run.id, name: run.name, headSha: run.head_sha, status: run.status, conclusion: run.conclusion, runAttempt: attempt, updatedAt: run.updated_at, url: run.html_url });
-        if (mark(`jobs:${run.id}:${attempt}`)) enqueue(list('jobs', `${base}/actions/runs/${run.id}/attempts/${attempt}/jobs`, `run:${run.id}:attempt:${attempt}:jobs`, { run: { id: run.id, name: run.name, workflow_id: run.workflow_id, head_sha: run.head_sha, head_branch: run.head_branch, event: run.event, status: run.status, conclusion: run.conclusion, run_attempt: attempt, created_at: run.created_at, updated_at: run.updated_at, run_started_at: run.run_started_at, html_url: run.html_url }, sha: run.head_sha, attempt }));
-        if (task.kind === 'runs') for (let prior = attempt - 1; prior >= 1; prior--) if (mark(`run:${run.id}:${prior}`)) enqueue({ kind: 'run', key: `run:${run.id}:attempt:${prior}`, path: `${base}/actions/runs/${run.id}/attempts/${prior}` });
+        const pinned = !!task.fullValidation || state.seen.includes(`validation:${run.head_sha}`), cached = cachedRuns.get(`${run.id}:${attempt}`);
+        const unchanged = state.mode === 'incremental' && !pinned && run.status === 'completed' && !!run.conclusion && cached?.jobsComplete === true && cached.status === 'completed' && cached.headSha === run.head_sha && cached.updatedAt === run.updated_at && cached.conclusion === run.conclusion;
+        const summary = runSummary(run, unchanged);
+        out.push(runFact(repo, run, at, unchanged)); rememberRun(summary);
+        if (unchanged) cov(`run:${run.id}:attempt:${attempt}:jobs`, { complete: true, reused: true, asOf: cached.updatedAt });
+        else if (mark(`jobs:${run.id}:${attempt}`)) enqueue(list('jobs', `${base}/actions/runs/${run.id}/attempts/${attempt}/jobs`, `run:${run.id}:attempt:${attempt}:jobs`, { run: { id: run.id, name: run.name, workflow_id: run.workflow_id, head_sha: run.head_sha, head_branch: run.head_branch, event: run.event, status: run.status, conclusion: run.conclusion, run_attempt: attempt, created_at: run.created_at, updated_at: run.updated_at, run_started_at: run.run_started_at, html_url: run.html_url }, summary, sha: run.head_sha, attempt }));
+        if (task.kind === 'runs' || task.latest) for (let prior = attempt - 1; prior >= 1; prior--) if (mark(`run:${run.id}:${prior}`)) {
+          const old = cachedRuns.get(`${run.id}:${prior}`);
+          if (state.mode === 'incremental' && !pinned && old?.jobsComplete && old.status === 'completed' && old.conclusion && old.headSha === run.head_sha) { rememberRun(old); cov(`run:${run.id}:attempt:${prior}`, { complete: true, reused: true, asOf: old.updatedAt }); }
+          else enqueue({ kind: 'run', key: `run:${run.id}:attempt:${prior}`, path: `${base}/actions/runs/${run.id}/attempts/${prior}`, fullValidation: pinned });
+        }
       }
     } else if (task.kind === 'jobs') {
       for (const job of items) out.push(jobFact(repo, job, at, task.attempt, task.sha));
-      const progress = state.coverage.find(c => c.source === task.key); if (progress.complete) out.push(runFact(repo, task.run, at, true));
+      const progress = state.coverage.find(c => c.source === task.key); if (progress.complete) { out.push(runFact(repo, task.run, at, true)); rememberRun({ ...(task.summary || runSummary(task.run)), jobsComplete: true }); }
     } else if (task.kind === 'checks' || task.kind === 'statuses') {
       for (const item of items) out.push(evidence(repo, task.kind === 'checks' ? 'check_run' : 'commit_status', `${task.kind === 'checks' ? 'check_run' : 'commit_status'}:${item.id}`, { id: item.id, name: item.name || item.context, status: item.status, conclusion: item.conclusion || null, state: item.state, description: item.description, startedAt: item.started_at, completedAt: item.completed_at, createdAt: item.created_at, updatedAt: item.updated_at, app: item.app ? { id: item.app.id, slug: item.app.slug } : null, output: item.output ? { title: item.output.title, summary: item.output.summary, text: item.output.text } : null }, { sha: item.head_sha || task.sha, sourceUrl: sourceURL(item.html_url || item.target_url, repo, `${WEB}/${repo}/commit/${task.sha}/checks`), occurredAt: item.completed_at || item.updated_at || item.created_at, observedAt: at }));
     } else if (task.kind === 'deployments') {
@@ -355,8 +416,11 @@ export async function collectEvidence(project, { token, fetchImpl = globalThis.f
   state.tasks.push(...deferred);
   // Snapshot is a bounded UI convenience, never the authoritative event/history store.
   for (const source of state.coverage) if (!source.complete && source.error && !warnings.some(w => w.source === source.source && w.code === source.error)) warnings.push({ source: source.source, code: source.error, message: `Source coverage remains incomplete: ${source.source}.`, retryAt: source.retryAt || null });
-  state.snapshot.fetchedAt = at; state.snapshot.warnings = warnings.map(w => w.message);
+  state.snapshot.fetchedAt = at; state.snapshot.warnings = warnings.map(w => w.message); state.snapshot.pendingWorkflowRuns = [...pendingRuns.values()]; state.latestRuns = [...latestRuns.values()];
   const complete = !state.tasks.length && state.coverage.every(c => c.complete);
-  const coverage = { complete, sources: state.coverage, requests, pendingTasks: state.tasks.length, since: state.since, startedAt: state.startedAt, observedAt: at, scope: 'Default-branch activity, selected PR details, repository event collections, and selected version-pinned documents; historical document revisions and unselected PR details are not exhaustively read.', mutableCollections: 'overlapping incremental observations, not a frozen GitHub transaction', allHistory: false };
+  const coverage = { complete, sources: state.coverage, requests, pendingTasks: state.tasks.length, since: state.since, mode: state.mode || 'legacy-continuation', runsCreatedSince: state.runsCreatedSince || null,
+    pendingWorkflowRuns: pendingRuns.size, legacyPendingSnapshot: !!state.legacyPendingSnapshot, deploymentReadMode: 'full-pagination-every-cycle',
+    limitations: ['Filtered workflow-run searches have a provider limit of 1,000 results; reaching that boundary leaves coverage unconfirmed.', 'Completed runs on older, untracked SHAs can be rerun outside the creation overlap; recovery then depends on webhook delivery, whose provider retention is limited. This is not an exhaustive updated-run history.', 'Deployment records and statuses still use full pagination each cycle: no durable terminal-deployment index or explicit ordering guarantee is available.', ...(state.legacyPendingSnapshot ? ['A legacy snapshot may omit pending runs beyond its 100-row UI limit; only the carried pending records, creation window and pinned SHAs can be reconciled.'] : [])],
+    startedAt: state.startedAt, observedAt: at, scope: 'Default-branch activity, selected PR details, repository event collections, and selected version-pinned documents; historical document revisions and unselected PR details are not exhaustively read.', mutableCollections: 'overlapping incremental observations, not a frozen GitHub transaction', allHistory: false };
   return { evidence: [...new Map(out.map(e => [e.id, e])).values()], headSha: state.snapshot.trackedHeadSha || state.headSha, mainSha: state.headSha, sourceConfig: { selectedPrNumbers: state.selected, sourcePaths: state.paths }, coverage, warnings, snapshot: state.snapshot, cursor: state.tasks.length ? state : null, retryAt: retry };
 }

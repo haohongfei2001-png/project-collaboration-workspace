@@ -34,7 +34,7 @@ Sources may be partial, missing, stale or superseded. Preserve uncertainty rathe
 
 const hash = value => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const validTime = value => typeof value === 'string' && Number.isFinite(Date.parse(value)) ? new Date(value).toISOString() : null;
-const fullSha = value => typeof value === 'string' && /^[a-f0-9]{40,64}$/i.test(value) ? value.toLowerCase() : null;
+const fullSha = value => typeof value === 'string' && /^(?:[a-f0-9]{40}|[a-f0-9]{64})$/i.test(value) ? value.toLowerCase() : null;
 const textOf = evidence => typeof evidence?.data?.body === 'string' ? evidence.data.body : typeof evidence?.data?.content === 'string' ? evidence.data.content : '';
 const currentSha = input => fullSha(input.project?.currentSha || input.project?.headSha || input.project?.sourceRef);
 
@@ -88,7 +88,7 @@ export function buildAnalysisInput(input) {
     if (!item || typeof item !== 'object') return null;
     const text = String(item.text || item.title || '');
     if (text.length > 800) compactedPreviousClaimIds.push(String(item.id || 'unknown'));
-    return { id: String(item.id || '').slice(0, 240), text: text.slice(0, 800), classification: CLASSIFICATIONS.includes(item.classification) ? item.classification : 'unknown', evidenceIds: Array.isArray(item.evidenceIds) ? item.evidenceIds.filter(id => typeof id === 'string').slice(0, 24) : [], pendingReview: item.pendingReview === true };
+    return { id: String(item.id || '').slice(0, 240), text: text.slice(0, 800), classification: CLASSIFICATIONS.includes(item.classification) ? item.classification : 'unknown', evidenceIds: Array.isArray(item.evidenceIds) ? item.evidenceIds.filter(id => typeof id === 'string').slice(0, 24) : [], pendingReview: item.pendingReview === true, ...(fullSha(item.resolvedForSha) ? { resolvedForSha: fullSha(item.resolvedForSha), resolvedAt: validTime(item.resolvedAt), issueText: String(item.issueText || '').slice(0, 2000), sources: Array.isArray(item.sources) ? item.sources.slice(0, 24).map(source => ({ id: String(source.id || '').slice(0, 240), url: safeSourceUrl(source.url), sha: fullSha(source.sha), occurredAt: validTime(source.occurredAt), observedAt: validTime(source.observedAt) })) : [] } : {}) };
   };
   const previous = input.previous ? {
     id: input.previous.id || null, inputHash: input.previous.inputHash || null, generatedAt: validTime(input.previous.generatedAt),
@@ -97,9 +97,38 @@ export function buildAnalysisInput(input) {
     ...Object.fromEntries([...CLAIM_LISTS, 'userActions', 'resolvedIssues'].map(key => [key, (Array.isArray(input.previous[key]) ? input.previous[key] : []).map(memoryClaim).filter(Boolean)])),
   } : null;
   const project = { id: String(input.project?.id || '').slice(0, 100), repo: String(input.project?.repo || input.project?.fullName || '').slice(0, 200), name: String(input.project?.name || '').slice(0, 100), owner: String(input.project?.owner || input.project?.repo?.split('/')[0] || '').slice(0, 100), currentSha: currentSha(input), trackedPr: input.project?.trackedPr || null };
-  const requiredIds = new Set(unresolved.flatMap(item => item.evidenceIds));
-  const isDocument = item => /(?:plan|document|file)/.test(item.kind) && item.kind !== 'changed_file';
-  const isKeyDocument = item => item.kind === 'plan' || (isDocument(item) && /(?:plan|计划|status|authority|handoff)/i.test(String(item.data.path || item.data.sourcePath || item.sourceKey)));
+  const requiredIds = new Set([...unresolved.flatMap(item => item.evidenceIds), ...(previous?.resolvedIssues || []).flatMap(item => item.evidenceIds)]);
+  const trackedIssueIds = new Set([...unresolved, ...(previous?.resolvedIssues || [])].map(item => item.id));
+  const latestVerification = new Map(), latestFailedVerification = new Map(), latestProductFailure = new Map();
+  for (const item of raw) {
+    const verification = structuredVerification(item, project);
+    if (!verification) continue;
+    const at = Date.parse(item.occurredAt || item.observedAt);
+    for (const id of verification.issueIds || []) {
+      const key = `${verification.sha}:${id}`, latest = latestVerification.get(key);
+      if (!latest || at >= latest.at) latestVerification.set(key, { at, evidence: item });
+      if (verification.result === 'failed' && (!latestFailedVerification.has(key) || at >= latestFailedVerification.get(key).at)) latestFailedVerification.set(key, { at, evidence: item });
+    }
+    if (verification.result === 'failed' && verification.scope === 'product') latestProductFailure.set(verification.sha, Math.max(latestProductFailure.get(verification.sha) || 0, at));
+  }
+  for (const item of raw) {
+    const verification = structuredVerification(item, project);
+    if (!verification) continue;
+    const at = Date.parse(item.occurredAt || item.observedAt);
+    if (verification.sha === project.currentSha && (verification.issueIds || []).some(id => trackedIssueIds.has(id) && latestVerification.get(`${verification.sha}:${id}`)?.at === at)) requiredIds.add(item.id);
+    if (verification.result === 'passed') {
+      item.verificationSupersededIssueIds = (verification.issueIds || []).filter(id => (latestFailedVerification.get(`${verification.sha}:${id}`)?.at ?? -Infinity) >= at);
+      item.verificationProductSuperseded = (latestProductFailure.get(verification.sha) ?? -Infinity) >= at;
+    }
+  }
+  // Check contradictions before shrinking the context. Omitting a newer failure
+  // must not revive an older passing receipt or a carried historical resolution.
+  for (const prior of previous?.resolvedIssues || []) {
+    const conflict = latestFailedVerification.get(`${prior.resolvedForSha}:${prior.id}`);
+    if (conflict && conflict.at >= Date.parse(prior.resolvedAt)) prior.resolutionConflict = { evidenceId: conflict.evidence.id, occurredAt: validTime(conflict.evidence.occurredAt || conflict.evidence.observedAt) };
+  }
+  const isDocument = item => item.kind === 'workspace_record' || (/(?:plan|document|file)/.test(item.kind) && item.kind !== 'changed_file');
+  const isKeyDocument = item => item.kind === 'plan' || item.kind === 'workspace_record' || (isDocument(item) && /(?:plan|计划|status|authority|handoff)/i.test(String(item.data.path || item.data.sourcePath || item.sourceKey)));
   const latestThreads = new Map();
   const discussionKinds = ['issue_comment', 'pull_request_review', 'review', 'comment', 'user_request', 'author_live_receipt', 'author_handoff'];
   const latestChecks = new Map();
@@ -134,7 +163,7 @@ export function buildAnalysisInput(input) {
   }
   const sourceCoverage = input.sourceCoverage || input.project?.coverage || null;
   const coverageState = { truncated: false };
-  return { project, evidence: chosen, previous, unresolved, coverage: { complete: !omitted.length && chosen.every(item => item.complete) && !compactedPreviousClaimIds.length && sourceCoverage?.complete !== false, exhaustive: sourceCoverage?.exhaustive === true, sourceCoverage: boundedData(sourceCoverage, coverageState), omittedEvidenceIds: omitted, truncatedEvidenceIds: chosen.filter(item => item.truncation).map(item => item.id), compactedPreviousClaimIds, suppliedCount: raw.length, includedCount: chosen.length, selection: 'unresolved citations; plans/status/authority; latest PR/discussion; latest checks; documents; recent evidence' } };
+  return { project, evidence: chosen, previous, unresolved, coverage: { complete: !omitted.length && chosen.every(item => item.complete) && !compactedPreviousClaimIds.length && sourceCoverage?.complete !== false, exhaustive: sourceCoverage?.exhaustive === true, sourceCoverage: boundedData(sourceCoverage, coverageState), omittedEvidenceIds: omitted, truncatedEvidenceIds: chosen.filter(item => item.truncation).map(item => item.id), compactedPreviousClaimIds, suppliedCount: raw.length, includedCount: chosen.length, selection: 'unresolved citations and latest issue verification; plans/status/authority; latest PR/discussion; latest checks; documents; recent evidence' } };
 }
 
 function objectKeys(value, allowed, required = allowed) {
@@ -201,14 +230,22 @@ export function verifyUserAction(action, input) {
   return null;
 }
 
-function verifiedAcceptance(evidence, input, issueId = null) {
-  if (!trustedAuthor(evidence, input.project) || evidence.complete === false) return false;
+function structuredVerification(evidence, project) {
+  if (!trustedAuthor(evidence, project) || evidence.complete === false) return null;
   const verification = evidence.data?.verification;
-  if (!verification || verification.result !== 'passed' || !['product', 'device', 'issue'].includes(verification.scope)) return false;
+  if (!verification || !['passed', 'failed'].includes(verification.result) || !['product', 'device', 'issue'].includes(verification.scope)) return null;
   const sha = fullSha(verification.sha || evidence.sha);
-  if (!sha || (input.project.currentSha && sha !== input.project.currentSha)) return false;
-  if (verification.environment !== 'real' && verification.environment !== 'real-device') return false;
-  if (issueId && !verification.issueIds?.includes(issueId)) return false;
+  if (!sha || (evidence.sha && evidence.sha !== sha) || !Number.isFinite(Date.parse(evidence.occurredAt || evidence.observedAt))) return null;
+  if (verification.environment !== 'real' && verification.environment !== 'real-device') return null;
+  return { ...verification, sha, issueIds: Array.isArray(verification.issueIds) ? verification.issueIds.filter(id => typeof id === 'string' && id.length <= 240) : [] };
+}
+
+function verifiedAcceptance(evidence, input, issueId = null) {
+  const verification = structuredVerification(evidence, input.project);
+  if (!verification || verification.result !== 'passed' || (input.project.currentSha && verification.sha !== input.project.currentSha)) return false;
+  if (issueId && (!verification.issueIds.includes(issueId) || evidence.verificationSupersededIssueIds?.includes(issueId))) return false;
+  // A specific issue or device receipt cannot certify the whole product.
+  if (!issueId && (verification.scope !== 'product' || evidence.verificationProductSuperseded)) return false;
   return true;
 }
 
@@ -275,11 +312,68 @@ export function validateAnalysis(raw, originalInput) {
   result.resolvedIssues = [];
   for (const rawClaim of raw.resolvedIssues) {
     const claim = validateClaim(rawClaim, { allowDuplicate: true });
-    if (input.unresolved.some(item => item.id === claim.id) && claim.evidenceIds.some(id => verifiedAcceptance(map.get(id), input, claim.id))) result.resolvedIssues.push(claim);
+    const verification = claim.evidenceIds.map(id => map.get(id)).filter(item => verifiedAcceptance(item, input, claim.id));
+    const issue = input.unresolved.find(item => item.id === claim.id);
+    if (issue && verification.length) result.resolvedIssues.push({ ...claim, issueText: issue.text, resolvedForSha: input.project.currentSha, resolvedAt: verification.map(item => item.occurredAt || item.observedAt).filter(Boolean).sort().at(-1) || null });
     else warnings.push('旧问题缺少对应真实验证，未确认解决。');
   }
-  const present = new Set(CLAIM_LISTS.flatMap(key => result[key].map(item => item.id)));
   const resolved = new Set(result.resolvedIssues.map(item => item.id));
+  const priorResolved = new Map((input.previous?.resolvedIssues || []).filter(item => item.resolvedForSha && item.resolvedForSha === input.project.currentSha).map(item => [item.id, item]));
+  const reopened = new Set();
+  result.failed = result.failed.filter(claim => {
+    if (resolved.has(claim.id)) return false;
+    const prior = priorResolved.get(claim.id);
+    if (!prior || !prior.resolvedAt) return true;
+    const newerFailure = prior.resolutionConflict || claim.evidenceIds.map(id => map.get(id)).some(item => {
+      // A passed receipt quotes the old failing issue in its body; that wording is
+      // not a fresh failure. Structured result and exact issue identity take precedence.
+      if (item.data?.verification) {
+        const check = structuredVerification(item, input.project);
+        return check?.result === 'failed' && check.sha === input.project.currentSha && check.issueIds.includes(claim.id)
+          && Date.parse(item.occurredAt || item.observedAt) >= Date.parse(prior.resolvedAt);
+      }
+      return Date.parse(item.occurredAt || item.observedAt) > Date.parse(prior.resolvedAt)
+        && (!item.sha || item.sha === input.project.currentSha)
+        && (['failure', 'timed_out', 'action_required'].includes(item.data?.conclusion) || item.data?.blocked === true || (trustedAuthor(item, input.project) && /(?:\bBLOCKED\b|失败|复现|回归|仍未通过|regression|failed)/i.test(textOf(item))));
+    });
+    if (newerFailure) reopened.add(claim.id);
+    if (!newerFailure) warnings.push('已验证解决的旧失败保留在原历史轮次，未重复开启。');
+    return newerFailure;
+  });
+  for (const prior of input.previous?.resolvedIssues || []) {
+    if (resolved.has(prior.id) || !prior.resolvedForSha || !prior.resolvedAt) continue;
+    const conflict = prior.resolutionConflict || reopened.has(prior.id);
+    const sameVersion = prior.resolvedForSha === input.project.currentSha;
+    const previousSources = new Map((prior.sources || []).map(source => [source.id, source]));
+    const refs = prior.evidenceIds || [];
+    const sources = refs.map(id => map.has(id) ? sourceRecord(map.get(id)) : previousSources.get(id)).filter(Boolean);
+    if (sameVersion && !conflict) {
+      result.resolvedIssues.push({ id: prior.id, text: prior.text, issueText: prior.issueText,
+        classification: prior.classification, evidenceIds: refs, sources, pendingReview: false,
+        resolvedForSha: prior.resolvedForSha, resolvedAt: prior.resolvedAt, carriedForward: true });
+      resolved.add(prior.id);
+    } else if (!['failed', 'incomplete', 'blockers', 'pendingVerification'].some(key => result[key].some(item => item.id === prior.id))) {
+      const conflictId = prior.resolutionConflict?.evidenceId;
+      const reviewRefs = conflictId && map.has(conflictId) ? [conflictId] : refs;
+      result.pendingVerification.push({ id: prior.id, text: prior.issueText || `需要复核此前结论：${prior.text}`,
+        classification: 'unknown', evidenceIds: reviewRefs,
+        sources: conflictId && map.has(conflictId) ? [sourceRecord(map.get(conflictId))] : sources,
+        pendingReview: true, carriedForward: true });
+      warnings.push(conflict ? '此问题出现了新的失败验证，旧通过记录不能继续关闭问题。' : '旧版本的验证未继承为当前版本验收，已列入待复核。');
+    }
+  }
+  const unresolvedIds = new Set(input.unresolved.map(item => item.id));
+  // Reusing an old issue id in "completed" or "nextSteps" cannot bypass the
+  // explicit verification gate above and silently make the old issue disappear.
+  for (const key of ['completed', 'nextSteps']) {
+    result[key] = result[key].filter(claim => {
+      if (!unresolvedIds.has(claim.id) || resolved.has(claim.id)) return true;
+      warnings.push('历史问题缺少明确验证，未接受将其改为完成或仅列为建议。');
+      return false;
+    });
+  }
+  for (const key of ['incomplete', 'blockers', 'pendingVerification']) result[key] = result[key].filter(claim => !resolved.has(claim.id));
+  const present = new Set(['incomplete', 'failed', 'blockers', 'pendingVerification'].flatMap(key => result[key].map(item => item.id)));
   for (const old of input.unresolved) {
     if (resolved.has(old.id) || present.has(old.id)) continue;
     const refs = old.evidenceIds.filter(id => map.has(id));

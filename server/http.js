@@ -5,10 +5,16 @@ import { cipher,cookies,cookie,hash,equal,randomToken,HttpError,requireMutation,
 import { createGitHubClient,createOAuthStart,exchangeOAuthCode,verifyWebhookSignature,normalizeWebhook } from './github.js';
 import { validateProviderConfig,estimateReservation,verifyProvider } from './providers.js';
 import { runWorker } from './worker.js';
+import { recoverWebhookDeliveries } from './recovery.js';
 
 const idPattern=/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const dateISO=v=>v?new Date(v).toISOString():null;
 const COOKIE='__Host-pcw_session';
+function monitorState(heartbeats){
+  const worker=heartbeats.find(h=>h.name==='worker'),scheduler=heartbeats.find(h=>h.name==='scheduler'),recovery=heartbeats.find(h=>h.name==='webhook_recovery');
+  const d=recovery?.detail||{},recent=Boolean(d.lastSuccessfulPollAt)&&Date.now()-Date.parse(d.lastSuccessfulPollAt)<15*60000;
+  return {lastWorkerAt:dateISO(worker?.last_at),lastSchedulerAt:dateISO(scheduler?.last_at),schedulerHealthy:!!scheduler&&Date.now()-Date.parse(scheduler.last_at)<15*60000,webhookRecovery:{status:d.status||'not_started',lastSuccessfulPollAt:d.lastSuccessfulPollAt||null,healthy:recent&&d.status==='ok'&&!d.incomplete,pending:Number(d.pending||0),exhausted:Number(d.exhausted||0),unconfirmed:Number(d.unconfirmed||0),retentionGap:d.retentionGap===true,pollIncomplete:d.pollIncomplete!==false,incomplete:d.incomplete!==false,lastError:d.lastError||null,providerRetentionDays:3}};
+}
 export function createHandler({config=configuration(),store:providedStore,fetchImpl,modelFetchImpl,background}={}){
   const secure=new URL(config.origin).protocol==='https:';const sessionName=secure?COOKIE:'pcw_session';
   const oauthCookie=secure?'__Host-pcw_oauth':'pcw_oauth';
@@ -17,7 +23,7 @@ export function createHandler({config=configuration(),store:providedStore,fetchI
   const getStore=()=>providedStore||database(config);
   const json=(res,status,value,headers={})=>{res.writeHead(status,{'Content-Type':'application/json; charset=utf-8','Cache-Control':'no-store','X-Content-Type-Options':'nosniff','Referrer-Policy':'no-referrer',...headers});res.end(JSON.stringify(value));};
   const redirect=(res,url,headers={})=>{res.writeHead(302,{'Location':url,'Cache-Control':'no-store','Referrer-Policy':'no-referrer',...headers});res.end();};
-  const readiness=async()=>{const issues=[...config.setupIssues];let heartbeats=[];if(config.databaseUrl||providedStore){try{heartbeats=await getStore().health();}catch{issues.push({code:'DATABASE_UNAVAILABLE',title:'数据库暂时不可用',detail:'检查连接、迁移及数据库角色。之前的记录不会被清空。'});}}return {issues,heartbeats};};
+  const readiness=async()=>{const issues=[...config.setupIssues];let heartbeats=[];if(config.databaseUrl||providedStore){try{heartbeats=await getStore().health();}catch(error){issues.push(error.code==='DATABASE_MIGRATION_REQUIRED'?{code:'DATABASE_MIGRATION_REQUIRED',title:'完成工作台数据库迁移',detail:'需要按顺序执行全部迁移，包含投递恢复队列；原记录会保留。'}:{code:'DATABASE_UNAVAILABLE',title:'数据库暂时不可用',detail:'检查连接、迁移及数据库角色。之前的记录不会被清空。'});}}return {issues,heartbeats};};
   const requestUser=async(req)=>{const token=cookies(req)[sessionName];return {session:await getStore().session(token),token};};
   const kick=()=>{if(background)background(runWorker({store:getStore(),config,fetchImpl,modelFetchImpl,maxJobs:2,maxMillis:85000}).catch(()=>{}));};
   const installationsForUser=async(session)=>{
@@ -41,9 +47,8 @@ export function createHandler({config=configuration(),store:providedStore,fetchI
       if(path==='/api/health'&&method==='GET'){return json(res,200,{service:'project-collaboration-workspace',version:'r2',configured:config.configured,mode:'server'});}
       if(path==='/api/bootstrap'&&method==='GET'){
         const ready=await readiness();let session=null;try{if(!ready.issues.some(x=>/DATABASE/.test(x.code)))session=(await requestUser(req)).session;}catch{}
-        const worker=ready.heartbeats.find(h=>h.name==='worker'),scheduler=ready.heartbeats.find(h=>h.name==='scheduler');
         const settings=session?await getStore().settings(session.id):null;
-        return json(res,200,{mode:'server',configured:ready.issues.length===0,setupIssues:ready.issues,user:session?{id:session.id,login:session.login}:null,csrf:session?.csrf||null,capabilities:{github:Boolean(config.appId&&config.privateKey),database:!ready.issues.some(x=>/DATABASE/.test(x.code)),ai:settings?.providers.some(p=>p.status==='active')||false},monitor:{lastWorkerAt:dateISO(worker?.last_at),lastSchedulerAt:dateISO(scheduler?.last_at),schedulerHealthy:!!scheduler&&Date.now()-Date.parse(scheduler.last_at)<15*60000},projects:session?await getStore().listProjects(session.id):[]});
+        return json(res,200,{mode:'server',configured:ready.issues.length===0,setupIssues:ready.issues,user:session?{id:session.id,login:session.login}:null,csrf:session?.csrf||null,capabilities:{github:Boolean(config.appId&&config.privateKey),database:!ready.issues.some(x=>/DATABASE/.test(x.code)),ai:settings?.providers.some(p=>p.status==='active')||false},monitor:monitorState(ready.heartbeats),projects:session?await getStore().listProjects(session.id):[]});
       }
       if(path==='/api/webhooks/github'&&method==='POST'){
         if(!config.webhookSecret)throw new HttpError(503,'WEBHOOK_UNCONFIGURED','Webhook 尚未配置');
@@ -56,7 +61,9 @@ export function createHandler({config=configuration(),store:providedStore,fetchI
       }
       if(path==='/api/cron'&&['GET','POST'].includes(method)){
         if(!config.cronSecret||!equal(req.headers.authorization,`Bearer ${config.cronSecret}`))throw new HttpError(401,'SCHEDULER_UNAUTHORIZED','后台调度凭据无效');
-        const store=getStore();const queued=await store.schedule();await store.heartbeat('scheduler',{queued});const result=await runWorker({store,config,fetchImpl,modelFetchImpl,maxJobs:4,maxMillis:110000});return json(res,200,{queued,...result});
+        const store=getStore();const nonce=req.headers['x-pcw-scheduler-nonce'];if(nonce){if(typeof nonce!=='string'||!idPattern.test(nonce))throw new HttpError(400,'SCHEDULER_NONCE_INVALID','调度标识无效');await store.rateLimit(`scheduler:${nonce}`,1,300);}const started=Date.now(),queued=await store.schedule();await store.heartbeat('scheduler',{queued});let recovery;
+        try{recovery=await recoverWebhookDeliveries({store,config,fetchImpl,maxMillis:15000,maxRedeliveries:2});}catch{recovery={status:'error',code:'WEBHOOK_RECOVERY_FAILED'};await store.heartbeat('webhook_recovery',{status:'error',incomplete:true,lastError:'WEBHOOK_RECOVERY_FAILED'});}
+        const result=await runWorker({store,config,fetchImpl,modelFetchImpl,maxJobs:4,maxMillis:Math.max(1000,110000-(Date.now()-started))});return json(res,200,{queued,recovery,...result});
       }
       if(path==='/api/auth/start'&&method==='GET'){
         if(req.headers.host&&req.headers.host!==new URL(config.origin).host)return redirect(res,`${config.origin}/api/auth/start`);
@@ -85,19 +92,20 @@ export function createHandler({config=configuration(),store:providedStore,fetchI
         const id=Number(url.searchParams.get('installation_id'));const installs=await ownedInstallations(session);if(!installs.some(i=>i.id===id))throw new HttpError(403,'INSTALLATION_OWNERSHIP','未找到属于本账户的授权');return redirect(res,`${config.origin}/#/projects`);
       }
       if(path==='/api/github/repos'&&method==='GET')return json(res,200,{repositories:await repoList(session)});
-      if(path==='/api/projects'&&method==='GET'){const hb=await store.health(),w=hb.find(h=>h.name==='worker'),sc=hb.find(h=>h.name==='scheduler');return json(res,200,{projects:await store.listProjects(session.id),monitor:{lastWorkerAt:dateISO(w?.last_at),lastSchedulerAt:dateISO(sc?.last_at),schedulerHealthy:!!sc&&Date.now()-Date.parse(sc.last_at)<15*60000}});} 
+      if(path==='/api/projects'&&method==='GET'){const hb=await store.health();return json(res,200,{projects:await store.listProjects(session.id),monitor:monitorState(hb)});}
       if(path==='/api/projects'&&method==='POST'){
         const input=await data();validateRepo(input.repo);if(!Number.isSafeInteger(Number(input.installationId)))throw new HttpError(400,'INSTALLATION_INVALID','安装 ID 无效');input.installationId=Number(input.installationId);input.planPath=cleanPath(input.planPath);if(input.trackedPr!=null&&(!Number.isInteger(input.trackedPr)||input.trackedPr<1))throw new HttpError(400,'PR_INVALID','PR 编号无效');
         const repos=await repoList(session);const repo=repos.find(r=>r.full_name.toLowerCase()===input.repo.toLowerCase()&&r.installationId===input.installationId);if(!repo)throw new HttpError(403,'REPOSITORY_NOT_AUTHORIZED','仓库不在本次授权范围中');const project=await store.addProject(session.id,repo,input);json(res,201,{project});kick();return;
       }
-      const pm=path.match(/^\/api\/projects\/([^/]+)(?:\/(history|sync|analyze))?$/);
+      const pm=path.match(/^\/api\/projects\/([^/]+)(?:\/(history|sync|analyze|verification))?$/);
       if(pm){const id=pm[1];if(!idPattern.test(id))throw new HttpError(400,'PROJECT_ID_INVALID','项目 ID 无效');const project=await store.project(session.id,id);
         if(pm[2]==='history'&&method==='GET'){const before=url.searchParams.get('before'),analysisBefore=url.searchParams.get('analysisBefore');return json(res,200,await store.history(session.id,id,{before,analysisBefore}));}
+        if(pm[2]==='verification'&&method==='POST'){await store.rateLimit(`verification:${session.id}:${id}`,8,300);const input=parseJSON(await readBody(req,8192));const result=await store.recordVerification(session.id,id,input,{origin:config.origin,actor:{id:session.id,login:session.login},requestId:req.headers['idempotency-key']});json(res,result.duplicate?200:201,result);kick();return;}
         if(pm[2]==='analyze'&&method==='POST'){await store.rateLimit(`reanalyze:${session.id}:${id}`,2,300);const job=await store.enqueue(session.id,id,'analyze',`manual-analysis:${randomUUID()}`,{retryKey:randomUUID()});json(res,202,{queued:true,jobId:job.id,budgetEnforced:true});kick();return;}
         if(pm[2]==='sync'&&method==='POST'){await store.rateLimit(`sync:${session.id}:${id}`,3,60);const job=await store.enqueue(session.id,id,'sync',`manual:${id}:${Math.floor(Date.now()/10000)}`);json(res,202,{queued:true,jobId:job?.id||null});kick();return;}
         if(!pm[2]&&method==='PATCH'){
           const input=await data();const patch={};if('watching'in input){if(typeof input.watching!=='boolean')throw new HttpError(400,'PATCH_INVALID','关注状态无效');patch.watching=input.watching;}if('trackedPr'in input){if(input.trackedPr!=null&&(!Number.isInteger(input.trackedPr)||input.trackedPr<1))throw new HttpError(400,'PR_INVALID','PR 编号无效');patch.trackedPr=input.trackedPr;}if('planPath'in input)patch.planPath=cleanPath(input.planPath);
-          for(const key of ['notes','tasks'])if(key in input){if(!Array.isArray(input[key])||input[key].length>200||JSON.stringify(input[key]).length>60000)throw new HttpError(400,'PATCH_TOO_LARGE','资料超过单次保存范围');patch[key]=input[key];}return json(res,200,{project:await store.patchProject(session.id,id,patch)});
+          for(const key of ['notes','tasks'])if(key in input){if(!Array.isArray(input[key])||input[key].length>200||JSON.stringify(input[key]).length>60000)throw new HttpError(400,'PATCH_TOO_LARGE','资料超过单次保存范围');patch[key]=input[key];}json(res,200,{project:await store.patchProject(session.id,id,patch,{origin:config.origin})});kick();return;
         }
       }
       const em=path.match(/^\/api\/projects\/([^/]+)\/evidence\/([^/]+)$/);if(em&&method==='GET'){if(!idPattern.test(em[1])||!idPattern.test(em[2]))throw new HttpError(400,'EVIDENCE_ID_INVALID','依据 ID 无效');return json(res,200,{evidence:await store.evidenceRecord(session.id,em[1],em[2])});}

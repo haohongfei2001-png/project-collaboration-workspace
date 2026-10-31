@@ -7,18 +7,19 @@ export class WorkspaceApiError extends Error {
 }
 
 export function createWorkspaceClient({fetchImpl = globalThis.fetch, getCsrf = () => '', timeoutMs = 20000} = {}) {
-  return async function request(path, {method = 'GET', body, signal} = {}) {
+  const request = async function(path, {method = 'GET', body, signal, idempotencyKey} = {}) {
     if (typeof path !== 'string' || !/^\/api\/[A-Za-z0-9_/?=&%.-]+$/.test(path) || path.includes('..') || /%2f|%5c/i.test(path)) throw new WorkspaceApiError('无效的工作台请求', {code: 'INVALID_PATH'});
     method = method.toUpperCase();
     if (!['GET', 'POST', 'PATCH', 'DELETE'].includes(method)) throw new WorkspaceApiError('不支持的操作', {code: 'INVALID_METHOD'});
     const mutating = method !== 'GET', csrf = getCsrf();
     if (mutating && !csrf) throw new WorkspaceApiError('登录状态已失效，请重新登录', {status: 401, code: 'AUTH_REQUIRED'});
+    if (idempotencyKey !== undefined && (method !== 'POST' || !/^[a-f\d]{8}-[a-f\d]{4}-[1-8][a-f\d]{3}-[89ab][a-f\d]{3}-[a-f\d]{12}$/i.test(idempotencyKey))) throw new WorkspaceApiError('验证记录的请求标识无效，请重新打开表单', {code:'INVALID_IDEMPOTENCY_KEY'});
     const timeout = new AbortController(), timer = setTimeout(() => timeout.abort(), timeoutMs);
     const abort = () => timeout.abort(); signal?.addEventListener('abort', abort, {once: true});
     if (signal?.aborted) timeout.abort();
     try {
       const response = await fetchImpl(path, {method, credentials: 'same-origin', cache: 'no-store', redirect: 'error', signal: timeout.signal,
-        headers: {'Accept': 'application/json', ...(mutating ? {'Content-Type': 'application/json', 'x-csrf-token': csrf} : {})},
+        headers: {'Accept': 'application/json', ...(mutating ? {'Content-Type': 'application/json', 'x-csrf-token': csrf} : {}), ...(idempotencyKey ? {'Idempotency-Key':idempotencyKey} : {})},
         ...(body !== undefined ? {body: JSON.stringify(body)} : {})});
       const type = response.headers?.get('content-type') || '';
       if (!type.includes('application/json')) throw new WorkspaceApiError('服务暂不可用，请稍后重试', {status: response.status});
@@ -35,6 +36,13 @@ export function createWorkspaceClient({fetchImpl = globalThis.fetch, getCsrf = (
       throw new WorkspaceApiError(timeout.signal.aborted ? '请求已超时，请重试' : '无法连接工作台，保留上次读取结果', {code: timeout.signal.aborted ? 'TIMEOUT' : 'NETWORK_ERROR'});
     } finally { clearTimeout(timer); signal?.removeEventListener('abort', abort); }
   };
+  request.recordVerification = (projectId, payload, {idempotencyKey} = {}) => {
+    const fields = ['issueId','sha','result','environment','environmentDescription','scopeDescription','notes','personallyTested','coversIssue'];
+    if (!payload || typeof payload !== 'object' || Array.isArray(payload) || Object.keys(payload).some(key => !fields.includes(key))) return Promise.reject(new WorkspaceApiError('验证记录含有不支持的字段', {code:'INVALID_VERIFICATION'}));
+    if (!idempotencyKey) return Promise.reject(new WorkspaceApiError('缺少验证记录的请求标识，请重新打开表单', {code:'INVALID_IDEMPOTENCY_KEY'}));
+    return request(`/api/projects/${encodeURIComponent(projectId)}/verification`, {method:'POST',body:payload,idempotencyKey});
+  };
+  return request;
 }
 
 const array = input => Array.isArray(input) ? input : [];
@@ -57,7 +65,7 @@ export function normalizePlan(row) {
 export function evidenceRound(row) {
   if (!row.kind || !row.data) return row;
   const e = normalizeEvidence(row), d = e.data;
-  const names = {pull_request:'PR 更新',commit:'提交',push:'代码推送',workflow_run:'自动检查',workflow_job:'检查任务',check_run:'检查',check_suite:'检查套件',deployment:'部署记录',deployment_status:'部署结果',issue_comment:'开发评论',pull_request_review:'审核记录',pull_request_review_comment:'代码审核评论',document:'来源文件',issue:'事项更新',status:'检查状态'};
+  const names = {pull_request:'PR 更新',commit:'提交',push:'代码推送',workflow_run:'自动检查',workflow_job:'检查任务',check_run:'检查',check_suite:'检查套件',deployment:'部署记录',deployment_status:'部署结果',issue_comment:'开发评论',pull_request_review:'审核记录',pull_request_review_comment:'代码审核评论',document:'来源文件',issue:'事项更新',status:'检查状态',workspace_record:'工作台记录'};
   const label = names[e.kind] || '来源记录';
   const title = d.title || d.name || d.path || d.message?.split('\n')[0] || d.body?.split('\n').find(line=>line.trim())?.replace(/^#+\s*/, '').slice(0,120) || label;
   const failure = ['failure','timed_out','startup_failure','error'].includes(d.conclusion || d.state);
@@ -153,6 +161,8 @@ export function projectHealth(project, {aiConfigured = false} = {}) {
   if (['NETWORK_ERROR','TIMEOUT','API_ERROR','INVALID_RESPONSE','RESPONSE_TOO_LARGE','INVALID_CURSOR','INVALID_PAGINATION','COLLECTION_CAPACITY','REDIRECT_REFUSED','REPOSITORY_IDENTITY_CHANGED'].includes(code)) return issue('GitHub 读取失败', '本次来源读取未完成，保留上次成功保存的记录。可以重试同步，最新状态仍需补齐来源。', 'sync');
   if (raw || status === 'attention') return issue('后台处理需检查', '后台任务未成功完成，已有记录仍保留。请查看错误记录与连接设置。', 'settings');
   if (status === 'awaiting_ai') return issue('等待模型连接', '已保存 GitHub 事实，尚无已验证的可用模型连接。请连接模型并设置预算。', 'settings', 'warning');
+  const pending = Number(project.coverage?.pendingTasks);
+  if (Number.isSafeInteger(pending) && pending > 0) return issue('历史补读中', `还有 ${pending} 项来源待补读。已保存的记录可查看，当前判断只覆盖已读取的证据。`, 'sync', 'waiting', false);
   if (status === 'pending') return issue('等待首次同步', '项目已加入后台队列，尚未完成首次来源读取。', 'sync', 'waiting', false);
   if (status === 'needs_review') return issue('等待分析更新', '新证据已保存，上一版判断需要复核，后台将按预算与事件安排分析。', aiConfigured ? 'retry-analysis' : 'settings', 'waiting', false);
   if (project.coverage?.complete === false) return issue('来源读取不完整', '部分 GitHub 来源尚未完整读取，请展开来源记录查看缺失范围。', 'sync', 'warning');

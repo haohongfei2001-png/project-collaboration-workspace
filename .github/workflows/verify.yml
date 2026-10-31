@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [design/prototype-r1-20261031]
+    branches: [main]
 
 permissions:
   contents: read
@@ -21,6 +21,7 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
@@ -54,12 +55,17 @@ jobs:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
+          ref: ${{ github.event.pull_request.head.sha || github.sha }}
       - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7
         with:
           node-version: 24
           package-manager-cache: false
       - run: npm ci --ignore-scripts
+      - name: Apply all migrations and verify forced RLS and runtime privileges
+        run: npm run db:migrate
+        env:
+          PCW_MIGRATION_DATABASE_URL: postgresql://postgres:synthetic_ci_password@127.0.0.1:5432/workspace_test
       - name: Real PostgreSQL roles, transactions, concurrency and HTTP integration
-        run: node tests/r2-server.test.js
+        run: node tests/r2-server.test.js && node tests/r2-recovery.test.js
         env:
           PCW_TEST_DATABASE_URL: postgresql://postgres:synthetic_ci_password@127.0.0.1:5432/workspace_test

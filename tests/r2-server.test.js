@@ -1,6 +1,6 @@
 import test,{before,after} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
+import {readFile,readdir} from 'node:fs/promises';
 import {randomUUID,randomBytes,createHmac,generateKeyPairSync} from 'node:crypto';
 import http from 'node:http';
 import {PGlite} from '@electric-sql/pglite';
@@ -19,7 +19,7 @@ const encrypt=cipher(cfg).encrypt;
 const A='a'.repeat(40),B='b'.repeat(40),NOW='2026-11-01T00:01:00.000Z',EARLY='2026-10-31T23:00:00.000Z';
 const providerConfig=validateProviderConfig({provider:'openai',model:'test-model',inputPricePerMillion:1,outputPricePerMillion:2,currency:'USD',monthlyBudget:1,maxOutputTokens:128});
 let seq=20;
-before(async()=>{const sql=await readFile(new URL('../db/001_workspace.sql',import.meta.url),'utf8');if(process.env.PCW_TEST_DATABASE_URL){db=new pg.Pool({connectionString:process.env.PCW_TEST_DATABASE_URL,max:6});await db.query(sql);}else{db=new PGlite();await db.exec(sql);}store=new Store(db);});
+before(async()=>{const dir=new URL('../db/',import.meta.url);const files=(await readdir(dir)).filter(x=>/^\d{3}_.*\.sql$/.test(x)).sort();if(process.env.PCW_TEST_DATABASE_URL){db=new pg.Pool({connectionString:process.env.PCW_TEST_DATABASE_URL,max:6});for(const f of files)await db.query(await readFile(new URL(f,dir),'utf8'));}else{db=new PGlite();for(const f of files)await db.exec(await readFile(new URL(f,dir),'utf8'));}store=new Store(db);});
 after(async()=>{if(db.close)await db.close();else await db.end();});
 async function user(){const n=++seq;const token=randomToken();const u=await store.login({id:n,login:`user${n}`},encrypt,'synthetic-user-token',token,`csrf-${n}`);return {...u,token,csrf:`csrf-${n}`,githubId:n};}
 async function project(u){const installationId=++seq;await store.bindInstallation(u.id,{id:installationId,account:{id:u.githubId,login:u.login}});const p=await store.addProject(u.id,{id:++seq,full_name:`${u.login}/repo`,name:'repo',private:true},{installationId});await store.worker(q=>q.query("UPDATE pcw.jobs SET status='succeeded' WHERE project_id=$1",[p.id]));return p;}
@@ -31,7 +31,7 @@ async function serve(options={}){const server=http.createServer(createHandler({s
 function auth(u,extra={}){return {Cookie:`pcw_session=${u.token}`,Origin:cfg.origin,'x-csrf-token':u.csrf,...extra};}
 const rawAnalysis=e=>{const claim=(id,text,classification='fact')=>({id,text,classification,evidenceIds:[e]});return {stage:claim('stage','工程已更新，真实体验待验证'),progress:{scopeComplete:false,percent:null,total:null,done:null,scope:'完整范围未确认',evidenceIds:[]},completed:[claim('done','收到一条开发记录')],incomplete:[],failed:[],blockers:[],pendingVerification:[claim('test','等待真实设备验证','unknown')],userActions:[],nextSteps:[claim('next','继续核对实际使用结果','recommendation')],changeReason:claim('change','新增开发证据'),resolvedIssues:[]};};
 
-test('actual SQL migration enables forced RLS and runtime role cannot bypass it',async()=>{const r=await db.query("SELECT count(*)::integer AS n FROM pg_tables WHERE schemaname='pcw' AND rowsecurity=true");assert.equal(r.rows[0].n,18);const role=await db.query("SELECT rolsuper,rolbypassrls FROM pg_roles WHERE rolname='pcw_app'");assert.equal(role.rows[0].rolsuper,false);assert.equal(role.rows[0].rolbypassrls,false);});
+test('actual SQL migration enables forced RLS and runtime role cannot bypass it',async()=>{const r=await db.query("SELECT count(*)::integer AS n FROM pg_tables WHERE schemaname='pcw' AND rowsecurity=true");assert.equal(r.rows[0].n,22);const role=await db.query("SELECT rolsuper,rolbypassrls FROM pg_roles WHERE rolname='pcw_app'");assert.equal(role.rows[0].rolsuper,false);assert.equal(role.rows[0].rolbypassrls,false);});
 test('user isolation: read/update/ownership transfer and cross-project notes are rejected by actual RLS',async()=>{const u=await user(),v=await user(),p=await project(u);await assert.rejects(store.project(v.id,p.id),e=>e.status===404);await assert.rejects(store.patchProject(v.id,p.id,{notes:[{body:'overwrite'}]}));await assert.rejects(store.tx({userId:u.id},q=>q.query('UPDATE pcw.projects SET user_id=$2 WHERE id=$1',[p.id,v.id])),e=>e.code==='42501');assert.deepEqual((await store.project(u.id,p.id)).notes,[]);});
 test('AES-GCM authenticated encryption binds ciphertext to owner and resource; revoked key disappears',async()=>{const u=await user(),p=await provider(u);assert(!p.key_cipher.includes('synthetic-provider-key'));assert.equal(cipher(cfg).decrypt(p.key_cipher,`provider:${u.id}:${p.id}`),'synthetic-provider-key');assert.throws(()=>cipher(cfg).decrypt(p.key_cipher,`provider:another:${p.id}`));await store.revokeProvider(u.id,p.id);assert.equal((await store.provider(u.id,p.id)).key_cipher,null);assert(!JSON.stringify(await store.settings(u.id)).includes('synthetic-provider-key'));});
 test('OAuth state is bound, expiring and consumed exactly once; session revocation is effective',async()=>{const u=await user(),state=randomToken();await store.putState(state,'install',u.id);assert.equal(await store.consumeState(state,'login'),null);assert(await store.consumeState(state,'install',u.id));assert.equal(await store.consumeState(state,'install',u.id),null);assert(await store.session(u.token));await store.logout(u.token);assert.equal(await store.session(u.token),null);});
@@ -57,10 +57,117 @@ test('local full server chain: persisted real-shaped event → worker → model 
  const latest=await store.project(u.id,p.id);assert.equal(latest.status,'current');await addFacts(p,[fact(p,'newer',{sha:B,occurredAt:'2026-11-01T00:10:00Z'})]);assert.equal((await store.listProjects(u.id))[0].analysisNeedsReview,true);assert.equal((await store.history(u.id,p.id)).analyses.length,1);
 });
 
-test('duplicate analysis jobs reserve at most once per project generation and paid unknown result is never implicitly retried',async()=>{const u=await user(),p=await project(u),pr=await provider(u),j=await jobFor(p,'analyze');const opts={generation:p.generation,jobId:j.id,leaseToken:j.lease_token};const a=await store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',opts);const b=await store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',opts);assert.equal(b.duplicate,true);assert.equal(b.active,true);await store.settle(u.id,a.id,{errorCode:'TIMEOUT',dispatched:true});await store.finish(j,{code:'TIMEOUT'});const c=await store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',opts);assert.equal(c.duplicate,true);assert.equal(c.status,'failed_unknown');assert.equal((await store.settings(u.id)).usage.length,1);const manual=await store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',{...opts,retryKey:'explicit-user-retry'});assert(manual.id);});
+test('duplicate analysis jobs reserve at most once per project generation and paid unknown result is never implicitly retried',async()=>{const u=await user(),p=await project(u),pr=await provider(u),j=await jobFor(p,'analyze');const opts={generation:p.generation,jobId:j.id,leaseToken:j.lease_token};const a=await store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',opts);const b=await store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',opts);assert.equal(b.duplicate,true);assert.equal(b.active,true);await store.settle(u.id,a.id,{errorCode:'TIMEOUT',dispatched:true});await store.finish(j,{code:'TIMEOUT'});await assert.rejects(store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',opts),e=>e.code==='LEASE_LOST');const retried=await jobFor(p,'analyze');opts.jobId=retried.id;opts.leaseToken=retried.lease_token;const c=await store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',opts);assert.equal(c.duplicate,true);assert.equal(c.status,'failed_unknown');assert.equal((await store.settings(u.id)).usage.length,1);const manual=await store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',{...opts,retryKey:'explicit-user-retry'});assert(manual.id);});
 test('provider currency cannot change after any reservation and revoke-before-dispatch sends nothing',async()=>{const u=await user(),pr=await provider(u);const r=await store.reserve(u.id,pr.id,pr.version,1000,null,'verification');await assert.rejects(store.saveProvider(u.id,pr.id,{...providerConfig,currency:'CNY'},encrypt,'new-key-value'),e=>e.code==='CURRENCY_IMMUTABLE');await store.revokeProvider(u.id,pr.id);await assert.rejects(store.authorizeDispatch(u.id,r.id),e=>e.code==='PROVIDER_CHANGED');await store.settle(u.id,r.id,{errorCode:'PROVIDER_CHANGED',dispatched:false});assert.equal((await store.settings(u.id)).usage[0].costMicros,0);});
 test('model credential failure does not revoke GitHub and only invalidates the attempted provider version',async()=>{const u=await user(),p=await project(u);await addFacts(p,[fact(p)]);const pr=await provider(u);await store.worker(q=>q.query("UPDATE pcw.jobs SET status='succeeded' WHERE project_id<>$1 AND status IN('queued','running')",[p.id]));const out=await runWorker({store,config:cfg,modelFetchImpl:async()=>new Response('{"error":{"message":"bad key secret-do-not-log"}}',{status:401,headers:{'Content-Type':'application/json'}}),maxJobs:1});assert.equal(out.outcomes[0].code,'PROVIDER_AUTH_FAILED');assert.notEqual((await store.project(u.id,p.id)).status,'permission_revoked');assert.equal((await store.provider(u.id,pr.id)).status,'unverified');});
 test('source configuration switch fences an older cursor projection while retaining its historical evidence',async()=>{const u=await user(),p=await project(u),j=await jobFor(p);const updated=await store.patchProject(u.id,p.id,{trackedPr:42});await store.syncResult(j,{evidence:[fact(p)],headSha:A,trackingVersion:p.trackingVersion,coverage:{complete:true}},NOW);await store.finish(j);const now=await store.project(u.id,p.id);assert.equal(now.trackedPr,42);assert.equal(now.headSha,null);assert.equal(now.trackingVersion,updated.trackingVersion);assert.equal((await store.history(u.id,p.id)).evidence.length,1);});
 test('late old analysis cannot supersede current analysis; revoked provider result is historical only',async()=>{const u=await user(),p=await project(u);await addFacts(p,[fact(p)]);const pr=await provider(u),job=await jobFor(p,'analyze');const old=await store.analysisContext(job);await addFacts(p,[fact(p,'update',{occurredAt:'2026-11-01T00:30:00Z'})]);const fresh=await store.analysisContext(job);const result={analysis:rawAnalysis(fresh.evidence[0].id),inputHash:hash('fresh')};await store.saveAnalysis(job,fresh,result,null);await store.saveAnalysis(job,old,{analysis:rawAnalysis(old.evidence[0].id),inputHash:hash('old')},null);let out=(await store.listProjects(u.id))[0];assert.equal(out.analysis.generation,fresh.project.generation);assert.equal(out.analysis.status,'current');await store.revokeProvider(u.id,pr.id);await store.saveAnalysis(job,fresh,{...result,inputHash:hash('revoked')},null);out=(await store.listProjects(u.id))[0];assert.equal(out.analysis.status,'current');assert.equal((await store.history(u.id,p.id)).analyses.filter(a=>a.status==='superseded').length,2);await store.finish(job);});
 test('cost settlement and analysis publishing commit together; failure rolls back both',async()=>{const u=await user(),p=await project(u);await addFacts(p,[fact(p)]);const pr=await provider(u),j=await jobFor(p,'analyze'),ctx=await store.analysisContext(j);const reserve=await store.reserve(u.id,pr.id,pr.version,5000,p.id,'analysis',{generation:ctx.project.generation,jobId:j.id,leaseToken:j.lease_token});await assert.rejects(store.saveAnalysis(j,ctx,{analysis:rawAnalysis(ctx.evidence[0].id),inputHash:null,costMicros:200,usage:{complete:true},requestId:'test'},'not-a-uuid'));assert.equal((await store.settings(u.id)).usage[0].status,'reserved');await store.saveAnalysis(j,ctx,{analysis:rawAnalysis(ctx.evidence[0].id),inputHash:hash('good'),costMicros:200,usage:{complete:true},requestId:'test'},reserve.id);assert.equal((await store.settings(u.id)).usage[0].status,'succeeded');assert.equal((await store.history(u.id,p.id)).analyses.length,1);await store.finish(j);});
 test('local handling creates an append-only workspace record, without changing source evidence or GitHub',async()=>{const u=await user(),p=await project(u);await addFacts(p,[fact(p)]);const pr=await provider(u),j=await jobFor(p,'analyze'),ctx=await store.analysisContext(j);const result=rawAnalysis(ctx.evidence[0].id);result.userActions=[{id:'action',requestId:'scoped-request',kind:'test',text:'请用户完成这次实机测试',classification:'fact',evidenceIds:[ctx.evidence[0].id]}];await store.saveAnalysis(j,ctx,{analysis:result,inputHash:hash('actions')},null);const a=(await store.listProjects(u.id))[0].attention[0];await store.resolveAttention(u.id,a.id,{status:'delegated',note:'交给开发者处理'});assert.equal((await store.listProjects(u.id))[0].attention[0].resolution.scope,'workspace-only');assert.equal((await store.history(u.id,p.id)).evidence[0].data.body,fact(p).data.body);await store.finish(j);});
+
+test('workspace notes and tasks retain immutable revisions with exact authenticated record URLs',async()=>{
+  const u=await user(),p=await project(u),origin='https://workspace.example';
+  await store.patchProject(u.id,p.id,{notes:[{id:'n',title:'第一轮反馈',text:'首击仍失败'}]},{origin});
+  await store.patchProject(u.id,p.id,{notes:[{id:'n',title:'第二轮反馈',text:'等待实机重验'}],tasks:[{id:'t',title:'检查首击',done:true}]},{origin});
+  const h=await store.history(u.id,p.id),records=h.evidence.filter(x=>x.kind==='workspace_record');
+  assert.equal(records.length,3);assert(records.some(x=>x.data.body.includes('首击仍失败')));
+  assert(records.every(x=>x.sourceUrl===`${origin}/api/projects/${p.id}/evidence/${x.id}`&&x.data.productAcceptance===false));
+  assert.equal((await store.project(u.id,p.id)).generation,p.generation+2);
+  const j=await jobFor(p,'analyze'),ctx=await store.analysisContext(j);assert(ctx.evidence.some(x=>x.kind==='workspace_record'));
+  assert.equal((await store.evidenceRecord(u.id,p.id,records[0].id)).id,records[0].id);await store.finish(j);
+});
+test('verified issue resolution stays historical and is not reopened just because old failed history remains',async()=>{
+  const u=await user(),p=await project(u);await addFacts(p,[fact(p)]);await provider(u);const j=await jobFor(p,'analyze'),ctx=await store.analysisContext(j),result=rawAnalysis(ctx.evidence[0].id);
+  result.failed=[{id:'closed-issue',text:'旧失败',classification:'fact',evidenceIds:[ctx.evidence[0].id]}];result.resolvedIssues=[{id:'closed-issue',text:'已按同一范围重新验证',classification:'fact',evidenceIds:[ctx.evidence[0].id]}];
+  await store.saveAnalysis(j,ctx,{analysis:result,inputHash:hash('resolved')},null);const next=await store.analysisContext(j);
+  assert(next.previous.failed.some(x=>x.id==='closed-issue'));assert(!next.unresolved.some(x=>x.id==='closed-issue'));assert.equal((await store.history(u.id,p.id)).analyses.length,1);await store.finish(j);
+});
+test('a reserved model request cannot be dispatched after lease expiry or stopping monitoring',async()=>{
+  const u=await user(),p=await project(u),pr=await provider(u),j=await jobFor(p,'analyze');
+  const r=await store.reserve(u.id,pr.id,pr.version,1000,p.id,'analysis',{generation:p.generation,jobId:j.id,leaseToken:j.lease_token});
+  await store.patchProject(u.id,p.id,{watching:false});await assert.rejects(store.authorizeDispatch(u.id,r.id),e=>e.code==='ANALYSIS_SUPERSEDED');
+  await store.patchProject(u.id,p.id,{watching:true});await store.worker(q=>q.query("UPDATE pcw.jobs SET lease_until=now()-interval '1 second' WHERE id=$1",[j.id]));
+  await assert.rejects(store.authorizeDispatch(u.id,r.id),e=>e.code==='LEASE_LOST');const row=await store.worker(q=>q.query('SELECT dispatched_at FROM pcw.usage WHERE id=$1',[r.id]));assert.equal(row.rows[0].dispatched_at,null);
+  await store.settle(u.id,r.id,{errorCode:'LEASE_LOST',dispatched:false});assert.equal((await store.settings(u.id)).usage[0].costMicros,0);
+});
+test('signed scheduler forwarding nonce is accepted once by the persistent backend',async()=>{
+  let schedules=0;const fake={worker:store.worker.bind(store),rateLimit:store.rateLimit.bind(store),schedule:async()=>{schedules++;return 0;},heartbeat:async()=>{},claim:async()=>null};
+  const s=await serve({store:fake,fetchImpl:async()=>new Response('[]',{headers:{'Content-Type':'application/json'}})});try{
+    const headers={Authorization:`Bearer ${cfg.cronSecret}`,'x-pcw-scheduler-nonce':randomUUID()};
+    assert.equal((await fetch(`${s.url}/api/cron`,{method:'POST',headers})).status,200);
+    assert.equal((await fetch(`${s.url}/api/cron`,{method:'POST',headers})).status,429);assert.equal(schedules,1);
+  }finally{await s.close();}
+});
+
+test('long initial backfill permits one partial assessment, retains its cursor and never queues a paid call per page',async()=>{
+  const u=await user(),p=await project(u),cursor={version:1,tasks:[{path:'/remaining'}]};
+  const result={headSha:A,evidence:[fact(p)],coverage:{complete:false,pendingTasks:200,sources:[{source:'document:main:PLAN.md',complete:true}]},cursor};
+  let j=await jobFor(p);await store.syncResult(j,result,NOW);await store.finish(j);j=await jobFor(p);await store.syncResult(j,result,NOW);await store.finish(j);
+  const partial=await store.worker(q=>q.query("SELECT id FROM pcw.jobs WHERE project_id=$1 AND dedupe_key=$2",[p.id,`initial-partial:${p.id}:${p.trackingVersion}`]));assert.equal(partial.rows.length,1);
+  const current=await store.project(u.id,p.id);assert.equal(current.lastSyncedAt,null);assert.equal(current.coverage.complete,false);assert.deepEqual(current.coverage.cursor,cursor);
+});
+test('history bounds nested check output while the complete immutable source remains available on demand',async()=>{
+  const u=await user(),p=await project(u),large='nested-output-'.repeat(20000);await addFacts(p,[fact(p,'large',{kind:'check_run',data:{output:{title:'检查详情',text:large}}})]);
+  const e=(await store.history(u.id,p.id)).evidence[0];assert(e.data._bodyAvailable);assert(e.data._bodyTruncated);assert(JSON.stringify(e.data).length<13000);
+  assert.equal((await store.evidenceRecord(u.id,p.id,e.id)).data.output.text,large);
+});
+
+test('injected end-to-end: signed HTTP event → App token + GitHub collection → durable SQL → model → reopened authenticated workspace',async()=>{
+  const u=await user(),p=await project(u);await provider(u);await store.worker(q=>q.query("UPDATE pcw.jobs SET status='succeeded' WHERE status IN('queued','running')"));
+  const githubCalls=[],modelCalls=[];const response=(data,status=200)=>new Response(JSON.stringify(data),{status,headers:{'Content-Type':'application/json'}});
+  const fetchImpl=async(url,options={})=>{
+    const path=new URL(url).pathname;githubCalls.push({path,method:options.method||'GET'});
+    if(path===`/app/installations/${p.installationId}/access_tokens`)return response({token:'injected-installation-token',expires_at:new Date(Date.now()+3600000).toISOString()});
+    if(path===`/repos/${p.repo}`)return response({id:p.repositoryId,full_name:p.repo,name:'repo',default_branch:'main',private:true,html_url:`https://github.com/${p.repo}`,updated_at:NOW});
+    if(path===`/repos/${p.repo}/commits/main`)return response({sha:A,html_url:`https://github.com/${p.repo}/commit/${A}`,commit:{message:'New implementation',committer:{date:NOW}},files:[],stats:{total:0}});
+    if(path.endsWith('/actions/runs'))return response({total_count:0,workflow_runs:[]});
+    if(path.endsWith('/check-runs'))return response({total_count:0,check_runs:[]});
+    if(path.includes('/contents/'))return response({message:'Not Found'},404);
+    if(['/pulls','/issues/comments','/pulls/comments','/issues','/deployments','/commits','/statuses'].some(end=>path.endsWith(end)))return response([]);
+    throw Error(`Unmapped injected GitHub route ${path}`);
+  };
+  const modelFetchImpl=async(url,options)=>{const request=JSON.parse(options.body),input=JSON.parse(request.messages[1].content);modelCalls.push({url,evidence:input.evidence.length});const item=input.evidence.find(e=>e.kind==='issue_comment');assert(item);return response({id:'injected-complete-chain',choices:[{finish_reason:'stop',message:{content:JSON.stringify(rawAnalysis(item.id))}}],usage:{prompt_tokens:200,completion_tokens:100}});};
+  const payload={action:'created',installation:{id:p.installationId},repository:{id:p.repositoryId,full_name:p.repo},issue:{number:1},comment:{id:901,body:'实现已提交；真实设备验收仍未完成。',html_url:`https://github.com/${p.repo}/issues/1#issuecomment-901`,updated_at:NOW,user:{login:u.login},author_association:'OWNER'}};
+  const body=JSON.stringify(payload),headers={'Content-Type':'application/json','x-github-event':'issue_comment','x-github-delivery':randomUUID(),'x-hub-signature-256':`sha256=${createHmac('sha256',cfg.webhookSecret).update(body).digest('hex')}`};
+  let s=await serve({fetchImpl,modelFetchImpl});assert.equal((await fetch(`${s.url}/api/webhooks/github`,{method:'POST',headers,body})).status,202);await s.close();
+  const result=await runWorker({store,config:cfg,fetchImpl,modelFetchImpl,maxJobs:2});assert.deepEqual(result.outcomes.map(x=>[x.kind,x.status]),[['sync','succeeded'],['analyze','succeeded']]);
+  assert(githubCalls.some(x=>x.path.endsWith('/access_tokens')&&x.method==='POST'));assert(githubCalls.some(x=>x.path.endsWith('/commits/main')));assert.equal(modelCalls.length,1);
+  s=await serve({fetchImpl,modelFetchImpl});try{
+    const reopened=await (await fetch(`${s.url}/api/projects`,{headers:auth(u)})).json();assert.equal(reopened.projects[0].headSha,A);assert.equal(reopened.projects[0].analysis.progress.percent,null);assert.equal(reopened.projects[0].analysis.status,'current');
+    const h=await (await fetch(`${s.url}/api/projects/${p.id}/history`,{headers:auth(u)})).json();assert(h.evidence.some(x=>x.data.body?.includes('真实设备验收')));assert.equal(h.analyses.length,1);
+    assert.equal((await fetch(`${s.url}/api/webhooks/github`,{method:'POST',headers,body})).status,200);assert.equal((await store.settings(u.id)).usage.length,1);
+  }finally{await s.close();}
+});
+
+test('editing personal records cannot clear repository revocation or restart background analysis',async()=>{
+  const u=await user(),p=await project(u);await store.ingestDelivery({id:randomUUID(),event:'installation_repositories',action:'removed',installationId:p.installationId,payload:{repositories_removed:[{id:p.repositoryId}]},bodyHash:hash('scope-removed'),evidence:[]});
+  await store.patchProject(u.id,p.id,{notes:[{id:'n',text:'等待重新授权'}],trackedPr:9});assert.equal((await store.project(u.id,p.id)).status,'permission_revoked');
+  const jobs=await store.worker(q=>q.query("SELECT id FROM pcw.jobs WHERE project_id=$1 AND status IN('queued','running')",[p.id]));assert.equal(jobs.rows.length,0);assert.equal((await store.history(u.id,p.id)).evidence.length,1);
+});
+
+test('missing recovery migration is an explicit setup error instead of a healthy background monitor',async()=>{
+  await store.worker(q=>q.query("DELETE FROM pcw.migrations WHERE version='002_delivery_recovery'"));let s;
+  try{await assert.rejects(store.health(),e=>e.code==='DATABASE_MIGRATION_REQUIRED');s=await serve();const out=await(await fetch(`${s.url}/api/bootstrap`)).json();assert.equal(out.configured,false);assert(out.setupIssues.some(x=>x.code==='DATABASE_MIGRATION_REQUIRED'));}
+  finally{if(s)await s.close();await store.worker(q=>q.query("INSERT INTO pcw.migrations(version) VALUES('002_delivery_recovery') ON CONFLICT DO NOTHING"));}
+});
+
+test('authenticated personal verification is version-scoped, idempotent, immutable and can close exactly its real issue through the AI pipeline',async()=>{
+  const u=await user(),v=await user(),p=await project(u);await addFacts(p,[fact(p)]);await provider(u);
+  await store.worker(q=>q.query("UPDATE pcw.projects SET head_sha=$2,coverage=$3::jsonb WHERE id=$1",[p.id,A,JSON.stringify({complete:true})]));
+  const j=await jobFor(p,'analyze'),context=await store.analysisContext(j);await store.saveAnalysis(j,context,{analysis:rawAnalysis(context.evidence[0].id),inputHash:hash('before-real-test')},null);await store.finish(j);
+  await store.worker(q=>q.query("UPDATE pcw.jobs SET status='succeeded' WHERE status IN('queued','running')"));
+  const input={issueId:'test',sha:A,result:'passed',environment:'real-device',environmentDescription:'macOS 真实笔记本与实际账号',scopeDescription:'关闭应用后重新启动并验证首次点击能否进入工作区',notes:'本人在以上版本冷启动两次，首次点击均进入工作区并完成操作。',personallyTested:true,coversIssue:true};
+  const key=randomUUID(),s=await serve();let evidenceId;
+  try{
+    const path=`${s.url}/api/projects/${p.id}/verification`,headers=auth(u,{'Content-Type':'application/json','Idempotency-Key':key});
+    assert.equal((await fetch(path,{method:'POST',headers:auth(v,{'Content-Type':'application/json','Idempotency-Key':key}),body:JSON.stringify(input)})).status,404);
+    assert.equal((await fetch(path,{method:'POST',headers,body:JSON.stringify({...input,sha:B})})).status,409);
+    const first=await fetch(path,{method:'POST',headers,body:JSON.stringify(input)});assert.equal(first.status,201);evidenceId=(await first.json()).evidenceId;
+    const again=await fetch(path,{method:'POST',headers,body:JSON.stringify(input)});assert.equal(again.status,200);assert.equal((await again.json()).duplicate,true);
+    assert.equal((await fetch(path,{method:'POST',headers,body:JSON.stringify({...input,notes:'此请求标识不能被用于另一次新的验收结果。'})})).status,409);
+    const evidence=(await(await fetch(`${s.url}/api/projects/${p.id}/evidence/${evidenceId}`,{headers:auth(u)})).json()).evidence;assert.equal(evidence.author,u.login);assert.equal(evidence.sha,A);assert.equal(evidence.data.verification.scope,'issue');assert.deepEqual(evidence.data.verification.issueIds,['test']);assert.equal(evidence.data.productAcceptance,false);
+  }finally{await s.close();}
+  const modelFetchImpl=async(_url,options)=>{const input=JSON.parse(JSON.parse(options.body).messages[1].content),record=input.evidence.find(e=>e.id===evidenceId);assert.equal(record.data.verification.scope,'issue');const output=rawAnalysis(evidenceId);output.pendingVerification=[];output.resolvedIssues=[{id:'test',text:'这个问题已由本人在指定版本真实测试通过',classification:'fact',evidenceIds:[evidenceId]}];return new Response(JSON.stringify({id:'injected-personal-verification',choices:[{finish_reason:'stop',message:{content:JSON.stringify(output)}}],usage:{prompt_tokens:200,completion_tokens:100}}),{headers:{'Content-Type':'application/json'}});};
+  const result=await runWorker({store,config:cfg,modelFetchImpl,maxJobs:1});assert.equal(result.outcomes[0].status,'succeeded');const current=(await store.listProjects(u.id))[0];assert(current.analysis.resolvedIssues.some(x=>x.id==='test'));assert.equal(current.analysis.progress.percent,null);
+  const h=await store.history(u.id,p.id);assert.equal(h.analyses.length,2);assert(h.analyses.some(a=>a.result.pendingVerification.some(x=>x.id==='test')));assert.equal(h.evidence.filter(e=>e.kind==='acceptance').length,1);
+});
